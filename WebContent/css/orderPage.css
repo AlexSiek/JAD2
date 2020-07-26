@@ -1,0 +1,36 @@
+.storeViewRow{
+	margin-top:50px;
+}
+
+.generalStatRow {
+	margin-top:50px;
+}
+
+.pendingOrderRow{
+	margin-top:50px;
+}
+
+.inDeliveryOrder{
+	margin-top:50px;
+}
+
+.deliveredOrder{
+	margin-top:50px;
+	margin-bottom:100px;
+}
+
+.infoText{
+	text-align:center;
+	margin-bottom:20px;
+}
+
+.pendingOrders {
+	font-size:30px;
+}
+
+.cellHeading {
+	font-size:20px;
+	font-weight:500;
+	margin-bottom:5px;
+	text-align:center;
+}

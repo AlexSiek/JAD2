@@ -1,0 +1,47 @@
+.container {
+	margin-bottom:100px;
+}
+
+/*
+margin-bottom is to prevent sticky bottom footer from covering listings info 
+*/
+.row {
+	margin: 5vh 0 5vh 0;
+}
+
+.productWrapper {
+	border: 1px;
+	padding: 10px 10px 10px 10px;
+	transition: transform .2s; /* Animation */
+	padding: 1rem;
+	position: relative;
+	background: linear-gradient(to right, orange, rgb(242, 208, 136), rgb(242, 208, 136), yellow);
+	padding: 3px;
+	border-radius:5px;
+}
+
+.productWrapper:hover {
+	transform: scale(1.2);
+	/* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+.descWrapper {
+  margin-top:100px 0;
+}
+
+.productDetails {
+	background:white;
+}
+
+.descWrapper {
+}
+
+/*For category page*/
+.catDescWrapper {
+}
+
+@media only screen and (max-width: 768px) {
+	.catDescWrapper {
+	margin-top:-2em;
+}
+}

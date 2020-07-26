@@ -1,0 +1,36 @@
+.contentRow {
+	margin-bottom:150px;
+}
+
+.productNameWrapper {
+	margin-top:30px;
+}
+
+.priceTag {
+	color:orange;
+}
+
+.cartButton {
+	margin-top:10px;
+}
+
+.contentRow {
+	margin-top:100px;
+}
+
+.editButton {
+	margin-top:10px;
+}
+
+.deleteButton {
+	margin-top:10px;
+	margin-left:20px;
+}
+
+.inputSizing {
+	padding:0;
+}
+
+.atcButton {
+	float:right;
+}

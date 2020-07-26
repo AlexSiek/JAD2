@@ -1,0 +1,17 @@
+.container {
+	margin-top:100px;
+	margin-bottom:100px;
+}
+
+.mainText {
+	text-align:center;
+}
+
+.subText {
+	text-align:center;
+}
+
+.forbiddenImg {
+	width:50%;
+	height:auto;
+}

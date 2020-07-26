@@ -1,0 +1,17 @@
+.storeLogo {
+    height: 10vh;
+    width: auto;
+   	padding-left:0;
+   	margin-left:0;
+}
+
+.cartBtn .cartBtnImg{
+	height: 4vh;
+    width: auto;
+   	padding-left:0;
+   	margin-left:0;
+}
+
+.link-wrapper {
+	width:auto;
+}

@@ -1,0 +1,36 @@
+.checkOutSummary {
+	border-left: 1px solid grey;
+	min-height: 800px;
+}
+
+@media only screen and (max-width: 768px) {
+	.checkOutSummary {
+		border-top: 1px solid grey;
+		border-left: none;
+		min-height: 0;
+		margin-bottom: 100px;
+	}
+}
+
+.totalPrice {
+	float: right;
+}
+
+.checkoutBtn {
+	margin-top: 10px;
+}
+
+a {
+	text-decoration:none;
+}
+
+.trashImg {
+	float:right;
+	width:2vw;
+	height:auto;
+}
+
+.emptyContentWrapper {
+	margin-top:100px;
+	margin-bottom:10px;
+}
