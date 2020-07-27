@@ -1,0 +1,67 @@
+package Model;
+
+public class product {
+	private int id;
+	private int categoryId;
+	private String productName;
+	private String vendor;
+	private String pdtDesc;
+	private int qty;
+	private double buyPrice;
+	private double MSPR;
+	private String imgURL;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getCategoryId() {
+		return categoryId;
+	}
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	public String getVendor() {
+		return vendor;
+	}
+	public void setVendor(String vendor) {
+		this.vendor = vendor;
+	}
+	public String getPdtDesc() {
+		return pdtDesc;
+	}
+	public void setPdtDesc(String pdtDesc) {
+		this.pdtDesc = pdtDesc;
+	}
+	public int getQty() {
+		return qty;
+	}
+	public void setQty(int qty) {
+		this.qty = qty;
+	}
+	public double getBuyPrice() {
+		return buyPrice;
+	}
+	public void setBuyPrice(double buyPrice) {
+		this.buyPrice = buyPrice;
+	}
+	public double getMSPR() {
+		return MSPR;
+	}
+	public void setMSPR(double mSPR) {
+		MSPR = mSPR;
+	}
+	public String getImgURL() {
+		return imgURL;
+	}
+	public void setImgURL(String imgURL) {
+		this.imgURL = imgURL;
+	}
+}
