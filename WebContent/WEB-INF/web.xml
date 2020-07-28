@@ -22,4 +22,12 @@
 		<servlet-name>Jersey Web Application</servlet-name>
 		<url-pattern>/crunchify/*</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>LoginUser</servlet-name>
+		<servlet-class>servlets.userLoginServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoginUser</servlet-name>
+		<url-pattern>/login</url-pattern>
+	</servlet-mapping>
 </web-app>
