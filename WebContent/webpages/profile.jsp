@@ -62,8 +62,8 @@
 				</div>
 				<%=updated%>
 				<h1 class="headerText">Edit Profile</h1>
-				<form class="form-tag" action="../SQLFiles/updateAcc.jsp"
-					method="POST">
+				<form class="form-tag" action="../api/user/updateUser"
+					method="PUT">
 					<div class="form-group">
 						<label for="username">Username</label> <input type="text"
 							class="form-control" id="username" value="<%=username%>"

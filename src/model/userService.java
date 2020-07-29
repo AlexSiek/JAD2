@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.*;
+import java.util.ArrayList;
  
 @Path("/userService")
 public class userService {
@@ -57,26 +58,15 @@ public class userService {
 			pstmt.setInt(1,id);
 			ResultSet rs = pstmt.executeQuery();
 		    if(rs.next()){
-				String type = "",username="",email="",address="",password="";
-				int mobileNumber = 0, postalCode = 0;
 		        id = rs.getInt("id");
-		        mobileNumber = rs.getInt("mobileNumber");
-		        postalCode = rs.getInt("postalCode");
-		        username = rs.getString("username");
-		        type = rs.getString("type");
-		        email = rs.getString("email");
-		        address = rs.getString("address");
-		        password = rs.getString("password");
-
-		        fetchedUser.setType(type);
-		        fetchedUser.setEmail(email);
-		        fetchedUser.setPassword(password);
-		        fetchedUser.setUsername(username);
-		        fetchedUser.setType(type);
-		        fetchedUser.setAddress(address);
+		        fetchedUser.setEmail(rs.getString("email"));
+		        fetchedUser.setPassword(rs.getString("password"));
+		        fetchedUser.setUsername(rs.getString("username"));
+		        fetchedUser.setType(rs.getString("type"));
+		        fetchedUser.setAddress(rs.getString("address"));
 		        fetchedUser.setId(id);
-		        fetchedUser.setMobileNumber(mobileNumber);
-		        fetchedUser.setPostalCode(postalCode);
+		        fetchedUser.setMobileNumber(rs.getInt("mobileNumber"));
+		        fetchedUser.setPostalCode(rs.getInt("postalCode"));
 		        conn.close();
 		    }else{
 		        conn.close();
@@ -87,5 +77,58 @@ public class userService {
 		    return null;
 		}
 		return fetchedUser;
+	}
+	
+	public ArrayList<user> getAllUserDetail() throws JSONException {
+		ArrayList<user> fetchedUsers = new ArrayList<user>();
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+		    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=ubuntu1&serverTimezone=UTC");
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM user WHERE NOT type='Root' AND NOT type='Admin'");
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				user fetchedUser = new user();
+		        fetchedUser.setEmail(rs.getString("email"));  
+		        fetchedUser.setPassword(rs.getString("password"));
+		        fetchedUser.setUsername(rs.getString("username"));
+		        fetchedUser.setType(rs.getString("type"));
+		        fetchedUser.setAddress(rs.getString("address"));
+		        fetchedUser.setId(rs.getInt("id"));
+		        fetchedUser.setMobileNumber(rs.getInt("mobileNumber"));
+		        fetchedUser.setPostalCode(rs.getInt("postalCode"));
+		        fetchedUsers.add(fetchedUser);
+			}
+			conn.close();
+			return fetchedUsers;
+		}catch(Exception e){
+		    System.out.println(e);
+		    return null;
+		}
+	}
+	
+	public String updateUserDetail(String username,String password,String email,String address,int id,int mobileNumber,int postalCode) throws JSONException {
+		String code = "";
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=ubuntu1&serverTimezone=UTC");
+			PreparedStatement ps  = conn.prepareStatement("UPDATE user SET username=? ,password=? ,email=? ,address=? ,mobileNumber=? ,postalCode=? WHERE id=?");
+			ps.setString(1,username);
+			ps.setString(2,password);
+			ps.setString(3,email);
+			ps.setString(4,address);
+			ps.setInt(5,mobileNumber);
+			ps.setInt(6,postalCode);
+			ps.setInt(7,id);
+			try{
+				ps.executeUpdate();
+				ps.close();
+				return code = "success";
+			}catch (java.sql.SQLIntegrityConstraintViolationException a) {
+				ps.close();
+				return code = "dupEntry";
+			}
+		}catch (Exception e) {
+			return code = "internalError";
+		}
 	}
 }
