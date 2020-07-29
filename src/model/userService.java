@@ -15,13 +15,9 @@ import java.sql.*;
 @Path("/userService")
 public class userService {
 	
-//	@Path("/userLogin")
-//	@POST
-//	@Produces("application/json")
-	public user getUserLogin(@PathParam("email") String email,@PathParam("password") String password) {
+	public user getUserLogin(String email, String password) {
 		user newUser = new user();
-		if(email == "" || password == ""){//if any field missing, immediately redirect
-//		    response.sendRedirect("../webpages/login.jsp?err=missingField");
+		if(email == "" || password == ""){
 		    return null;
 		}
 		try{
@@ -52,18 +48,44 @@ public class userService {
 		return newUser;
 	}
  
-	@Path("{c}")
-	@GET
-	@Produces("application/json")
-	public Response convertFtoCfromInput(@PathParam("f") float f) throws JSONException {
-		 
-		JSONObject jsonObject = new JSONObject();
-		float celsius;
-		celsius = (f - 32) * 5 / 9;
-		jsonObject.put("F Value", f);
-		jsonObject.put("C Value", celsius);
- 
-		String result = "@Produces(\"application/json\") Output: \n\nF to C Converter Output: \n\n" + jsonObject;
-		return Response.status(200).entity(result).build();
+	public user getUserDetail(int id) throws JSONException {
+		user fetchedUser = new user();
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+		    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=ubuntu1&serverTimezone=UTC");
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM user WHERE id=?");
+			pstmt.setInt(1,id);
+			ResultSet rs = pstmt.executeQuery();
+		    if(rs.next()){
+				String type = "",username="",email="",address="",password="";
+				int mobileNumber = 0, postalCode = 0;
+		        id = rs.getInt("id");
+		        mobileNumber = rs.getInt("mobileNumber");
+		        postalCode = rs.getInt("postalCode");
+		        username = rs.getString("username");
+		        type = rs.getString("type");
+		        email = rs.getString("email");
+		        address = rs.getString("address");
+		        password = rs.getString("password");
+
+		        fetchedUser.setType(type);
+		        fetchedUser.setEmail(email);
+		        fetchedUser.setPassword(password);
+		        fetchedUser.setUsername(username);
+		        fetchedUser.setType(type);
+		        fetchedUser.setAddress(address);
+		        fetchedUser.setId(id);
+		        fetchedUser.setMobileNumber(mobileNumber);
+		        fetchedUser.setPostalCode(postalCode);
+		        conn.close();
+		    }else{
+		        conn.close();
+			    return null;
+		    }
+		}catch(Exception e){
+		    System.out.println(e);
+		    return null;
+		}
+		return fetchedUser;
 	}
 }

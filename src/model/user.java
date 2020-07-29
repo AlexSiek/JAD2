@@ -5,7 +5,7 @@ public class user {
 	private String username;
 	private String password;
 	private String email;
-	private int mobileNumer;
+	private int mobileNumber;
 	private String type;
 	private String address;
 	private int postalCode;
@@ -33,11 +33,11 @@ public class user {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public int getMobileNumer() {
-		return mobileNumer;
+	public int getMobileNumber() {
+		return mobileNumber;
 	}
-	public void setMobileNumer(int mobileNumer) {
-		this.mobileNumer = mobileNumer;
+	public void setMobileNumber(int mobileNumber) {
+		this.mobileNumber = mobileNumber;
 	}
 	public String getType() {
 		return type;
