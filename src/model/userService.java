@@ -131,4 +131,26 @@ public class userService {
 			return code = "internalError";
 		}
 	}
+	
+	public String updateUserAddress(String address,int id,int postalCode) throws JSONException {
+		String code = "";
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=ubuntu1&serverTimezone=UTC");
+			PreparedStatement ps  = conn.prepareStatement("UPDATE user SET address=? ,postalCode=? WHERE id=?");
+			ps.setString(1,address);
+			ps.setInt(2,postalCode);
+			ps.setInt(3,id);
+			try{
+				ps.executeUpdate();
+				ps.close();
+				return code = "success";
+			}catch (java.sql.SQLIntegrityConstraintViolationException a) {
+				ps.close();
+				return code = "dupEntry";
+			}
+		}catch (Exception e) {
+			return code = "internalError";
+		}
+	}
 }

@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 import model.cart;
 import model.cartService;
 import model.product;
+import model.userService;
 
 /**
  * Servlet implementation class cartDetailsServlet
@@ -55,7 +56,16 @@ public class cartDetailsServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+//		doGet(request, response);
+		HttpSession session = request.getSession();
+		String addressLine1 = request.getParameter("addressLine1");
+		String addressLine2 = request.getParameter("addressLine2");
+		int postalCode = Integer.parseInt(request.getParameter("postalCode"));
+		String rememberMe = request.getParameter("rememberAddress");
+		if(rememberMe != null) {//if checkbox is ticked
+			userService userService = new userService();
+			userService.updateUserAddress(addressLine1 + " " + addressLine2, (int) session.getAttribute("id"), postalCode);
+		}
 	}
 
 }
