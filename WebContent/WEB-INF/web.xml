@@ -35,4 +35,12 @@
 		<servlet-name>LoginUser</servlet-name>
 		<url-pattern>/login</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>userDetails</servlet-name>
+		<servlet-class>servlets.userDetailsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>userDetails</servlet-name>
+		<url-pattern>/userDetails</url-pattern>
+	</servlet-mapping>
 </web-app>
