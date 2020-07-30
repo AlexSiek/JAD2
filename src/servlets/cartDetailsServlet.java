@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.core.Response;
 
 import model.cart;
 import model.cartService;
@@ -39,7 +40,15 @@ public class cartDetailsServlet extends HttpServlet {
 		cartService cartService = new cartService();
 		HttpSession session = request.getSession();
 		Map<ArrayList<product>,ArrayList<cart>> mappedArrList = cartService.getCartDetail((int) session.getAttribute("id"));
-		response.getWriter().append(mappedArrList.toString()).append(request.getContextPath());
+		ArrayList<product> products = new ArrayList<product>();
+		ArrayList<cart> cart = new ArrayList<cart>();
+		for (Map.Entry<ArrayList<product>, ArrayList<cart>> me : mappedArrList.entrySet()) { 
+			products = me.getKey(); 
+			cart = me.getValue(); 
+        } 
+		request.setAttribute("products", products);
+		request.setAttribute("carts", cart);
+		request.getRequestDispatcher("/webpages/checkout.jsp").forward(request, response);
 	}
 
 	/**

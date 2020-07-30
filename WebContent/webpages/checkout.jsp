@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import="model.cart,model.product" %>
+<%@ page import="java.util.ArrayList" %>
+<jsp:useBean id="cart" class="model.cart" />
+<jsp:useBean id="product" class="model.product" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,10 +12,21 @@
 </head>
 <body>
 	<%@ include file="header.jsp"%>
-	<%
-	request.setAttribute("result", "This is the result of the servlet call");
-	request.getRequestDispatcher("/cartDetails").forward(request, response);
-	%>
+	<div>
+	asdkuyhasdfkuyasfgdkujyahsdvkujyahsdgvkuyasdvbkuashdvgbiakshjdgvbaksgdgvkyug
+	</div>
 
+	<%
+	ArrayList<cart> fetchedCarts = (ArrayList<cart>) request.getAttribute("carts");
+	ArrayList<product> fetchedProducts = (ArrayList<product>) request.getAttribute("products");
+	System.out.println(fetchedProducts.size());
+	for(int i = 0; i < fetchedProducts.size(); i++){
+		System.out.println(fetchedProducts.get(i).getProductName());
+		out.println("<div>"+fetchedProducts.get(i).getProductName()+"</div>");
+		System.out.println(fetchedCarts.get(i).getId());
+		out.println("<div>"+fetchedCarts.get(i).getId()+"</div>");
+	}
+	out.println("asdasdas");
+	%>
 </body>
 </html>

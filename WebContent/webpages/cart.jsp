@@ -109,7 +109,7 @@
 					out.println("<br><div><span class=\"font-weight-bold\">Total:</span><span class=\"font-weight-bold totalPrice\">$"
 					+ String.format("%.2f", totalWGST) + "</span></div>");
 					out.println(
-					"<div class=\"checkoutBtn d-flex justify-content-center\"><a href=\"checkout.jsp\" class=\"btn btn-outline-warning btn-lg\">Checkout</a></div>");
+					"<div class=\"checkoutBtn d-flex justify-content-center\"><a href=\"../cartDetails\" class=\"btn btn-outline-warning btn-lg\">Checkout</a></div>");
 					if (errId != null) {
 						try {
 					int pdtErrId = Integer.parseInt(errId);
