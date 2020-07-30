@@ -1,0 +1,8 @@
+.orderHeader {
+	text-decoration:underline;
+}
+
+.productsContent {
+	border-left:1px solid grey;
+	min-height:85vh;
+}
