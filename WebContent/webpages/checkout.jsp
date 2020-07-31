@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="model.cart,model.product"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ page import = "javax.ws.rs.core.Response" %>
 <jsp:useBean id="cart" class="model.cart" />
 <jsp:useBean id="product" class="model.product" />
 <!DOCTYPE html>
@@ -21,6 +22,8 @@
 		if (fetchedProducts.size() == 0 || fetchedCarts.size() == 0) {
 			response.sendRedirect("cart.jsp");
 		}
+		request.getRequestDispatcher("../currencyConversion").include(request, response);
+		Response responseObj = (Response) request.getAttribute("responseObj");
 	%>
 	<div class="container">
 		<div class="row">
@@ -88,9 +91,20 @@
 					<div class="font-weight-normal buyPrice">
 						$<%=String.format("%.2f", totalPrice + count * 5 + totalPrice / 100 * 7)%></div>
 				</div>
+				<div class="usdPrice d-flex justify-content-between">
+					<div class="font-weight-bold">Total(USD):</div>
+					<div class="font-weight-normal buyPrice" id="insertPrice"></div>
+				</div>
 			</div>
 		</div>
 	</div>
 	<%@ include file="footer.html"%>
+<script>
+	var responseObj = <%=responseObj.readEntity(String.class)%>
+	var sgdRate = responseObj.rates.SGD;
+	<%double totaledPrice = (totalPrice + count * 5 + totalPrice / 100 * 7);%>
+	var totalPrice = <%=totaledPrice%>
+	document.getElementById("insertPrice").innerHTML = "$"+Math.round((totalPrice/sgdRate) * 100) / 100;
+</script>
 </body>
 </html>
