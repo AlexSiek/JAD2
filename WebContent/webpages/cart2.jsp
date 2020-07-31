@@ -83,13 +83,6 @@
 			<div class="checkOutSummary col-md-4 col-12">
 			<p class="font-weight-bolder">Your Order Summary</p>
 			<%
-			int cardnumber = 0;
-			try {
-				cardnumber = (int) session.getAttribute("cardnum");
-			} catch (Exception e) {
-				cardnumber = 1;
-				System.out.println(cardnumber);
-			}
 			if(amountOfProduct == 0){
 				out.println("<p class=\"font-weight-light\">Your Cart is Empty</p>");
 				out.println("<a href=\"index.jsp\" class=\"btn btn btn-outline-primary\">Continue Shopping</a>");
@@ -98,7 +91,6 @@
 				out.println("<div><span class=\"font-weight-light\">Shipping Fee($5/Product)</span><span class=\"font-weight-normal totalPrice\">$"+amountOfProduct*5+"</span></div>");
 				double totalWShipping = (double)totalPrice + (amountOfProduct*5);
 				out.println("<br><div><span class=\"font-weight-bold\">Total:</span><span class=\"font-weight-bold totalPrice\">$"+ String.format("%.2f",totalWShipping)+"</span></div>");
-				out.println("<div class=\"checkoutBtn d-flex justify-content-center\"><a href=\"../SQLFiles/creditCardInfo.jsp\" class=\"btn btn-outline-warning btn-lg\">"+cardnumber+"</a></div>");
 				out.println("<div class=\"checkoutBtn d-flex justify-content-center\"><a href=\"../SQLFiles/checkout.jsp\" class=\"btn btn-outline-warning btn-lg\">Checkout</a></div>");
 				if(errId != null){
 					try{

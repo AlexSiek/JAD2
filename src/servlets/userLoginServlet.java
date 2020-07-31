@@ -34,6 +34,8 @@ public class userLoginServlet extends HttpServlet {
 		user loginUser = new user();
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
+		System.out.println(email);
+		System.out.println(password);
 		try {
 			userService userFetchingService = new userService();
 			if (email == "" || password == "") {// if any field missing, immediately redirect

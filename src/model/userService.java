@@ -23,7 +23,7 @@ public class userService {
 		}
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-		    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=ubuntu1&serverTimezone=UTC");
+		    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=1qazxsw2&serverTimezone=UTC");
 		    PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM user WHERE email=? AND password=?");
 			pstmt.setString(1,email);
 			pstmt.setString(2,password);
