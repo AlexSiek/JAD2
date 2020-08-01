@@ -62,7 +62,7 @@
 				</div>
 				<%=updated%>
 				<h1 class="headerText">Edit Profile</h1>
-				<form class="form-tag" action="../userDetails"
+				<form class="form-tag" action="../SQLFiles/updateAcc.jsp "
 					method="POST">
 					<div class="form-group">
 						<label for="username">Username</label> <input type="text"

@@ -1,0 +1,23 @@
+.deliveryHeader {
+	margin-top:2vh;
+	margin-bottom:2vh;
+	font-size:25px;
+	font-weight: 100;
+}
+
+.orderHeader {
+	text-decoration:underline;
+}
+
+.productsContent {
+	border-left:1px solid grey;
+	min-height:85vh;
+}
+
+.form-check-input {
+	padding-left:15px;
+}
+
+#rememberAddress {
+	margin-right:5px;
+}

@@ -44,11 +44,11 @@
 		<url-pattern>/userDetails</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>creditCardDetails</servlet-name>
-		<servlet-class>servlets.userCreditCardDetailsServlet</servlet-class>
+		<servlet-name>cartDetails</servlet-name>
+		<servlet-class>servlets.cartDetailsServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>creditCardDetails</servlet-name>
-		<url-pattern>/addcreditcard</url-pattern>
+		<servlet-name>cartDetails</servlet-name>
+		<url-pattern>/cartDetails</url-pattern>
 	</servlet-mapping>
 </web-app>

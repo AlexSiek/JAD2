@@ -53,7 +53,7 @@ public class userService {
 		user fetchedUser = new user();
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-		    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=ubuntu1&serverTimezone=UTC");
+		    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=1qazxsw2&serverTimezone=UTC");
 		    PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM user WHERE id=?");
 			pstmt.setInt(1,id);
 			ResultSet rs = pstmt.executeQuery();
@@ -83,7 +83,7 @@ public class userService {
 		ArrayList<user> fetchedUsers = new ArrayList<user>();
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-		    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=ubuntu1&serverTimezone=UTC");
+		    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=1qazxsw2&serverTimezone=UTC");
 		    PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM user WHERE NOT type='Root' AND NOT type='Admin'");
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -110,7 +110,7 @@ public class userService {
 		String code = "";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=ubuntu1&serverTimezone=UTC");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=1qazxsw2&serverTimezone=UTC");
 			PreparedStatement ps  = conn.prepareStatement("UPDATE user SET username=? ,password=? ,email=? ,address=? ,mobileNumber=? ,postalCode=? WHERE id=?");
 			ps.setString(1,username);
 			ps.setString(2,password);
@@ -128,6 +128,48 @@ public class userService {
 				return code = "dupEntry";
 			}
 		}catch (Exception e) {
+			return code = "internalError";
+		}
+	}
+	
+	public String updateUserAddress(String address,int id,int postalCode) throws JSONException {
+		String code = "";
+		System.out.println("here2");
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=1qazxsw2&serverTimezone=UTC");
+			PreparedStatement ps  = conn.prepareStatement("UPDATE user SET address=? ,postalCode=? WHERE id=?");
+			ps.setString(1,address);
+			ps.setInt(2,postalCode);
+			ps.setInt(3,id);
+			try{
+				ps.executeUpdate();
+				ps.close();
+				return code = "success";
+			}catch (java.sql.SQLIntegrityConstraintViolationException a) {
+				ps.close();
+				return code = "dupEntry";
+			}
+		}catch (Exception e) {
+			return code = "internalError";
+		}
+	}
+	public String checkCreditCard(long creditCard) {
+		String code ="";
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=1qazxsw2&serverTimezone=UTC");
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM creditcarddetails WHERE cardNumber='"+ creditCard +"'");
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				conn.close();
+				return code = "success";
+			} else {
+				conn.close();
+				return code = "failed";
+			}
+		} catch (Exception e) {
+			System.out.println("exception e");
 			return code = "internalError";
 		}
 	}

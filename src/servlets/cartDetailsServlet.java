@@ -1,0 +1,81 @@
+package servlets;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.ws.rs.core.Response;
+
+import model.cart;
+import model.cartService;
+import model.product;
+import model.userService;
+
+/**
+ * Servlet implementation class cartDetailsServlet
+ */
+@WebServlet("/cartDetailsServlet")
+public class cartDetailsServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public cartDetailsServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {//response with user cart details
+		// TODO Auto-generated method stub
+		cartService cartService = new cartService();
+		HttpSession session = request.getSession();
+		Map<ArrayList<product>,ArrayList<cart>> mappedArrList = cartService.getCartDetail((int) session.getAttribute("id"));
+		ArrayList<product> products = new ArrayList<product>();
+		ArrayList<cart> cart = new ArrayList<cart>();
+		for (Map.Entry<ArrayList<product>, ArrayList<cart>> me : mappedArrList.entrySet()) { 
+			products = me.getKey(); 
+			cart = me.getValue(); 
+			System.out.println(products);
+        } 
+		request.setAttribute("products", products);
+		request.setAttribute("carts", cart);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+//		doGet(request, response);
+		HttpSession session = request.getSession();
+		String addressLine1 = request.getParameter("addressLine1");
+		String addressLine2 = request.getParameter("addressLine2");
+		int postalCode = Integer.parseInt(request.getParameter("postalCode"));
+		String rememberMe = request.getParameter("rememberAddress");
+		long creditCardInfo = Long.parseLong(request.getParameter("creditcard"));
+		if(rememberMe != null) {//if checkbox is ticked
+			userService userService = new userService();
+			userService.updateUserAddress(addressLine1 + " " + addressLine2, (int) session.getAttribute("id"), postalCode);
+		}
+		userService userService = new userService();
+		String creditcardnum = userService.checkCreditCard(creditCardInfo);
+		if (creditcardnum == "success") {
+			System.out.println("success");
+		} else {
+			System.out.println("failed");
+		}
+		response.sendRedirect("webpages/index.jsp");
+	}
+
+}
