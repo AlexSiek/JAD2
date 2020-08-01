@@ -14,3 +14,12 @@
     border-radius: 10px;
     background-color: rgb(235, 235, 235);
 }
+
+.purchaseHeader {
+	font-size:25px;
+	margin:2vh 0;
+}
+
+a:link {
+  text-decoration: none;
+}
