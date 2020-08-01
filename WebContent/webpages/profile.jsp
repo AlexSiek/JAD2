@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.*"%>
+<%@ page import="model.purchaseHistory"%>
+<%@ page import="java.util.ArrayList"%>
+<jsp:useBean id="cart" class="model.purchaseHistory" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,47 +15,47 @@
 	<%@ include file="header.jsp"%>
 	<%
 		//check if there is err code form updateAcc's redirect
-		if(username == null){
-			response.sendRedirect("error.jsp");
+	if (username == null) {
+		response.sendRedirect("error.jsp");
+	}
+	String err = request.getParameter("err");
+	String success = request.getParameter("success");
+	String updated = "", appendedHTML = "";
+	//fetching data for form values
+	String password = "", email = "";
+	int mobileNumber = 0;
+	//user String is in header.jsp
+	try {
+		Class.forName("com.mysql.jdbc.Driver");
+		conn = DriverManager.getConnection(connURL);
+		ResultSet rs = fetchUserProfile(username, conn);
+		if (rs.next()) {
+			session.setAttribute("username", rs.getString("username"));
+			password = (String) rs.getString("password");
+			mobileNumber = (int) rs.getInt("mobileNumber");
+			email = (String) rs.getString("email");
+			conn.close();
+		} else {
+			conn.close();
 		}
-		String err = request.getParameter("err");
-		String success = request.getParameter("success");
-		String updated = "",appendedHTML = "";
-		//fetching data for form values
-		String password = "",email = "";
-		int mobileNumber = 0;
-		//user String is in header.jsp
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(connURL);
-			ResultSet rs = fetchUserProfile(username,conn);
-			if (rs.next()) {
-				session.setAttribute("username", rs.getString("username"));
-				password = (String) rs.getString("password");
-				mobileNumber = (int) rs.getInt("mobileNumber");
-				email = (String) rs.getString("email");
-				conn.close();
-			} else {
-				conn.close();
+	} catch (Exception e) {
+		out.println(e);
+	}
+	if (success == null) {// checks for success or fail codes
+		if (err != null) {
+			if (err.equals("mmPassword")) {
+		appendedHTML = "<p class=\"text-danger\">Passwords Does Not Match</p>";
+			} else if (err.equals("dupEntry")) {
+		appendedHTML = "<p class=\"text-danger\">The Username,Email Or Mobile Number You Are Trying To Set Is Already In Use</p>";
+			} else if (err.equals("moNo")) {
+		appendedHTML = "<p class=\"text-danger\">Invalid Mobile Number</p>";
 			}
-		} catch (Exception e) {
-			out.println(e);
 		}
-		if(success == null){// checks for success or fail codes
-				if (err != null) {
-					if (err.equals("mmPassword")) {
-				appendedHTML = "<p class=\"text-danger\">Passwords Does Not Match</p>";
-					} else if (err.equals("dupEntry")) {
-				appendedHTML = "<p class=\"text-danger\">The Username,Email Or Mobile Number You Are Trying To Set Is Already In Use</p>";
-					}else if(err.equals("moNo")){
-						appendedHTML = "<p class=\"text-danger\">Invalid Mobile Number</p>";
-					}
-				}
-		}else {
-			updated = "<h1 class=\"text-success\" align=\"center\">Successfully Updated</h1>";
-		}
+	} else {
+		updated = "<h1 class=\"text-success\" align=\"center\">Successfully Updated</h1>";
+	}
 	%>
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row justify-content-center">
 			<div class="form-spacing col-md-6 col-10">
 				<div class="buttonWrapper" align="center">
@@ -97,21 +100,47 @@
 					</div>
 				</form>
 			</div>
+			<%
+			//Purchase history
+			request.getRequestDispatcher("../purchaseHistory").include(request, response);
+			ArrayList<purchaseHistory> pastPurchases = (ArrayList<purchaseHistory>) request.getAttribute("purchaseHistory");
+			%>
+			<div class="purchaseHistory col-md-5 col-6">
+			<div class="purchaseHeader d-flex justify-content-center" style="font-size:25px;margin:2vh 0;">Past purchases</div>
+			<%
+			int status = 0;
+			String badge = "";
+			for(int i = 0; i < pastPurchases.size();i++){
+				status = pastPurchases.get(i).getOrderStatus();
+				out.println("<a href='listing.jsp?id="+pastPurchases.get(i).getId()+"'><div class='individualPurchase row'><div class='col-5'><img src='"+pastPurchases.get(i).getImgURL()+"' alt='productImg' class='img-fluid'></div><div class='col-7'>");
+				out.println("<div style='text-decoration: none;color:black;'>"+pastPurchases.get(i).getProductName()+"</div>");
+				out.println("<div style='text-decoration: none;color:black;'>Qty: "+pastPurchases.get(i).getQty()+"</div>");
+				out.println("<div style='text-decoration: none;color:black;'>$"+(pastPurchases.get(i).getBuyPrice()*pastPurchases.get(i).getQty())+"</div>");
+				if (status == 1) {
+					badge = "<span class=\"badge badge-primary\">Processing</span>";
+				} else if (status == 2) {
+					badge = "<span class=\"badge badge-warning\">In Delivery</span>";
+				} else {
+					badge = "<span class=\"badge badge-success\">Delivered</span>";
+				}
+				out.println("<div class='badgeWrapper'>"+badge+"</div>");
+				out.println("</div></div></a>");
+			}
+			%>
+			</div>
 		</div>
 	</div>
 	<%@ include file="footer.html"%>
 </body>
 </html>
-<%! 
-private ResultSet fetchUserProfile(String username, Connection conn){
-	try{
+<%!private ResultSet fetchUserProfile(String username, Connection conn) {
+	try {
 		PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM user WHERE username=?");
-		pstmt.setString(1,username);
+		pstmt.setString(1, username);
 		ResultSet rs = pstmt.executeQuery();
 		return rs;
-	}catch(Exception e){
+	} catch (Exception e) {
 		System.out.println(e);
 	}
 	return null;
-}
-%>
+}%>

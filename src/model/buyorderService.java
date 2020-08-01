@@ -1,5 +1,13 @@
 package model;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -11,30 +19,32 @@ import org.json.JSONObject;
  
 @Path("/ctofservice")
 public class buyorderService {
-	@GET
-	@Produces("application/json")
-	public String getUserDetails(@PathParam("id") int id) {
-		 
-		Double fahrenheit;
-		Double celsius = 36.8;
-		fahrenheit = ((celsius * 9) / 5) + 32;
- 
-		String result = "@Produces(\"application/xml\") Output: \n\nC to F Converter Output: \n\n" + fahrenheit;
-		return "<ctofservice>" + "<celsius>" + celsius + "</celsius>" + "<ctofoutput>" + result + "</ctofoutput>" + "</ctofservice>";
-	}
- 
-	@Path("{c}")
-	@GET
-	@Produces("application/json")
-	public Response convertFtoCfromInput(@PathParam("f") float f) throws JSONException {
-		 
-		JSONObject jsonObject = new JSONObject();
-		float celsius;
-		celsius = (f - 32) * 5 / 9;
-		jsonObject.put("F Value", f);
-		jsonObject.put("C Value", celsius);
- 
-		String result = "@Produces(\"application/json\") Output: \n\nF to C Converter Output: \n\n" + jsonObject;
-		return Response.status(200).entity(result).build();
+	public ArrayList<purchaseHistory> getPurchaseHistory(int id) {
+		ArrayList<purchaseHistory> fetchedPurchases = new ArrayList<purchaseHistory>();
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+		    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=ubuntu1&serverTimezone=UTC");
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT product.id,product.productName,product.buyPrice,product.imgURL,buyorder.id,buyorder.qty,buyorder.createAt,buyorder.orderStatus FROM buyorder INNER JOIN product ON buyorder.productId=product.Id AND buyorder.userId = ?");
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+		    while(rs.next()){
+				purchaseHistory fetchedProduct = new purchaseHistory();
+				fetchedProduct.setQty(rs.getInt("buyorder.qty"));
+		        fetchedProduct.setCreateAt(rs.getString("buyorder.createAt"));
+		        fetchedProduct.setOrderStatus(rs.getInt("buyorder.orderStatus"));
+		        fetchedProduct.setId(rs.getInt("product.id"));
+		        fetchedProduct.setProductName(rs.getString("product.productName"));
+		        fetchedProduct.setBuyPrice(rs.getDouble("product.buyPrice"));
+		        fetchedProduct.setQty(rs.getInt("buyorder.qty"));
+		        fetchedProduct.setBuyPrice(rs.getInt("product.buyPrice"));
+		        fetchedProduct.setImgURL(rs.getString("product.imgURL"));
+		        fetchedPurchases.add(fetchedProduct);
+		    }
+	        conn.close();
+		    return fetchedPurchases;
+		}catch(Exception e){
+		    System.out.println("Error: "+e);
+		    return null;
+		}
 	}
 }

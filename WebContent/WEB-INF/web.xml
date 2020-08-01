@@ -45,4 +45,12 @@
 		<servlet-name>currencyConversion</servlet-name>
 		<url-pattern>/currencyConversion</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>purchaseHistory</servlet-name>
+		<servlet-class>servlets.purchaseHistoryServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>purchaseHistory</servlet-name>
+		<url-pattern>/purchaseHistory</url-pattern>
+	</servlet-mapping>
 </web-app>
