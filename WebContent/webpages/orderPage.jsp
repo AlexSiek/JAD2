@@ -107,6 +107,8 @@ String currentTable = request.getParameter("table");
 								<th scope="col">#</th>
 								<th scope="col">Customer</th>
 								<th scope="col">Email</th>
+								<th scope="col">Address</th>
+								<th scope="col">PostalCode</th>
 								<th scope="col">Product Name</th>
 								<th scope="col">Qty</th>
 								<th scope="col">Action</th>
@@ -116,18 +118,21 @@ String currentTable = request.getParameter("table");
 							<%
 							conn = DriverManager.getConnection(connURL);
 							ResultSet pendingRs = getOrdersByStatus(1, conn, connURL);
-							String username, email, productName;
-							int count = 0, qty, userid, id;
+							String username, email, productName, addressline1,addressline2;
+							int count = 0, qty, userid, id, postalCode;
 							try {
 								while (pendingRs.next()) {
 									id = pendingRs.getInt("buyOrder.id");
 									userid = pendingRs.getInt("buyorder.userid");
 									username = pendingRs.getString("user.username");
 									email = pendingRs.getString("user.email");
+									addressline1 = pendingRs.getString("user.addressline1");
+									addressline2 = pendingRs.getString("user.addressline2");
+									postalCode = pendingRs.getInt("user.postalCode");
 									productName = pendingRs.getString("product.productName");
 									qty = pendingRs.getInt("buyOrder.qty");
 									count++;
-									out.println("<tr><td>" + count + "</td><td>" + username + "</td><td>" + email + "</td><td>" + productName
+									out.println("<tr><td>" + count + "</td><td>" + username + "</td><td>" + email + "</td><td>"+ addressline1+"-"+addressline2  + "</td><td>" + postalCode + "</td><td>" + productName
 									+ "</td><td>" + qty + "</td><td><a href=\"../SQLFiles/shippedOrder.jsp?id=" + id
 									+ "\" class=\"btn btn-outline-success\">Shipped<a></td></tr>");
 								}
@@ -166,6 +171,8 @@ String currentTable = request.getParameter("table");
 								<th scope="col">#</th>
 								<th scope="col">Customer</th>
 								<th scope="col">Email</th>
+								<th scope="col">Address</th>
+								<th scope="col">PostalCode</th>
 								<th scope="col">Product Name</th>
 								<th scope="col">Qty</th>
 								<th scope="col">Action</th>
@@ -176,8 +183,8 @@ String currentTable = request.getParameter("table");
 								conn = DriverManager.getConnection(connURL);
 							ResultSet shippedRs = getOrdersByStatus(2, conn, connURL);
 							//reseting values;
-							String username, email, productName;
-							int count = 0, qty, userid, id;
+							String username, email, productName, addressline1,addressline2;
+							int count = 0, qty, userid, id, postalCode;
 							id = 0;
 							username = "";
 							email = "";
@@ -191,10 +198,13 @@ String currentTable = request.getParameter("table");
 									userid = shippedRs.getInt("buyorder.userid");
 									username = shippedRs.getString("user.username");
 									email = shippedRs.getString("user.email");
+									addressline1 = shippedRs.getString("user.addressline1");
+									addressline2 = shippedRs.getString("user.addressline2");
+									postalCode = shippedRs.getInt("user.postalCode");
 									productName = shippedRs.getString("product.productName");
 									qty = shippedRs.getInt("buyOrder.qty");
 									count++;
-									out.println("<tr><td>" + count + "</td><td>" + username + "</td><td>" + email + "</td><td>" + productName
+									out.println("<tr><td>" + count + "</td><td>" + username + "</td><td>" + email + "</td><td>"+ addressline1+"-"+addressline2  + "</td><td>" + postalCode + "</td><td>" + productName
 									+ "</td><td>" + qty + "</td><td><a href=\"../SQLFiles/deliveredOrder.jsp?id=" + id
 									+ "\" class=\"btn btn-outline-success\">Delivered<a></td></tr>");
 								}
@@ -232,6 +242,8 @@ String currentTable = request.getParameter("table");
 								<th scope="col">#</th>
 								<th scope="col">Customer</th>
 								<th scope="col">Email</th>
+								<th scope="col">Address</th>
+								<th scope="col">PostalCode</th>
 								<th scope="col">Product Name</th>
 								<th scope="col">Qty</th>
 								<th scope="col">Action</th>
@@ -241,8 +253,8 @@ String currentTable = request.getParameter("table");
 							<%
 								conn = DriverManager.getConnection(connURL);
 							ResultSet deliveredRs = getOrdersByStatus(3, conn, connURL);
-							String username, email, productName;
-							int count = 0, qty, userid, id;
+							String username, email, productName, addressline1,addressline2;
+							int count = 0, qty, userid, id, postalCode;
 							//reseting values;
 							id = 0;
 							username = "";
@@ -257,11 +269,13 @@ String currentTable = request.getParameter("table");
 									userid = deliveredRs.getInt("buyorder.userid");
 									username = deliveredRs.getString("user.username");
 									email = deliveredRs.getString("user.email");
+									addressline1 = deliveredRs.getString("user.addressline1");
+									addressline2 = deliveredRs.getString("user.addressline2");
+									postalCode = deliveredRs.getInt("user.postalCode");
 									productName = deliveredRs.getString("product.productName");
 									qty = deliveredRs.getInt("buyOrder.qty");
 									count++;
-									out.println("<tr><td>" + count + "</td><td>" + username + "</td><td>" + email + "</td><td>" + productName
-									+ "</td><td>" + qty + "</td><td><a href=\"#\" class=\"btn btn-outline-success\">Completed<a></td></tr>");
+									out.println("<tr><td>" + count + "</td><td>" + username + "</td><td>" + email+ "</td><td>"+ addressline1+"-"+addressline2  + "</td><td>" + postalCode +  "</td><td>" + productName + "</td><td>" + qty + "</td><td><a href=\"#\" class=\"btn btn-outline-success\">Completed<a></td></tr>");
 								}
 								if (count == 0) {
 									out.println("<tr><td>No Orders Yet</td></tr>");
@@ -319,7 +333,7 @@ String currentTable = request.getParameter("table");
 	private ResultSet getOrdersByStatus(int orderStatus, Connection conn, String connURL) {
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(
-					"SELECT buyOrder.id,buyOrder.userid,buyOrder.productid,buyOrder.qty,user.username,user.email,product.productName FROM buyOrder INNER JOIN user ON buyOrder.userid = user.id INNER JOIN product ON buyOrder.productid = product.id WHERE orderstatus=?");
+					"SELECT buyOrder.id,buyOrder.userid,buyOrder.productid,user.addressline1,user.addressline2,user.postalCode,buyOrder.qty,user.username,user.email,product.productName FROM buyOrder INNER JOIN user ON buyOrder.userid = user.id INNER JOIN product ON buyOrder.productid = product.id WHERE orderstatus=?");
 			pstmt.setInt(1, orderStatus);
 			ResultSet rs = pstmt.executeQuery();
 			return rs;

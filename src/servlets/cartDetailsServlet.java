@@ -66,7 +66,7 @@ public class cartDetailsServlet extends HttpServlet {
 		long creditCardInfo = Long.parseLong(request.getParameter("creditcard"));
 		if(rememberMe != null) {//if checkbox is ticked
 			userService userService = new userService();
-			userService.updateUserAddress(addressLine1 + " " + addressLine2, (int) session.getAttribute("id"), postalCode);
+			userService.updateUserAddress(addressLine1, addressLine2, (int) session.getAttribute("id"), postalCode);
 		}
 		userService userService = new userService();
 		String creditcardnum = userService.checkCreditCard(creditCardInfo);

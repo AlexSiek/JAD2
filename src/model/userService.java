@@ -136,17 +136,18 @@ public class userService {
 		}
 	}
 	
-	public String updateUserAddress(String address,int id,int postalCode) throws JSONException {
+	public String updateUserAddress(String addressline1,String addressline2,int id,int postalCode) throws JSONException {
 		dbAccess dbConnection = new dbAccess();
 		String code = "";
 		System.out.println("here2");
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
-			PreparedStatement ps  = conn.prepareStatement("UPDATE user SET address=? ,postalCode=? WHERE id=?");
-			ps.setString(1,address);
-			ps.setInt(2,postalCode);
-			ps.setInt(3,id);
+			PreparedStatement ps  = conn.prepareStatement("UPDATE user SET addressline1=?,addressline2=? ,postalCode=? WHERE id=?");
+			ps.setString(1,addressline1);
+			ps.setString(2,addressline2);
+			ps.setInt(3,postalCode);
+			ps.setInt(4,id);
 			try{
 				ps.executeUpdate();
 				ps.close();

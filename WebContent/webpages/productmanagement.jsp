@@ -123,7 +123,8 @@ String currentTable = request.getParameter("table");
 				</div>
 			</div>
 			 <%} %>
-			<div class="col-2">
+			<div class="col-2 justify-content-center">
+			<div class="row btnHeader text-center"> Functions </div>
 			<%if(currentTable == null){ %>
 				<div class="btnRow row"><a href="productmanagement.jsp?table=productList" class="btn btn-primary">Product List</a></div>
 			<%}else{ %>
