@@ -130,7 +130,7 @@
 							class="form-control" id="imgURL" name="imgURL"
 							value="<%=imgURL%>" required></input>
 					</div>
-					<button type="submit" class="btn btn-primary">Save</button>
+					<button type="submit" class="btn btn-primary">Save</button> <a class="btn btn-danger deleteButton" href="deletelisting.jsp?id=<%=productId%>">Delete</a>
 				</form>
 			</div>
 		</div>

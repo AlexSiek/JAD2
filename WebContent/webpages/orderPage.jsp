@@ -114,7 +114,7 @@ String currentTable = request.getParameter("table");
 						</thead>
 						<tbody>
 							<%
-								conn = DriverManager.getConnection(connURL);
+							conn = DriverManager.getConnection(connURL);
 							ResultSet pendingRs = getOrdersByStatus(1, conn, connURL);
 							String username, email, productName;
 							int count = 0, qty, userid, id;

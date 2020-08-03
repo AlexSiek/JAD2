@@ -3,6 +3,7 @@ package model;
 public class product {
 	private int id;
 	private int categoryId;
+	private String categoryName;
 	private String productName;
 	private String vendor;
 	private String pdtDesc;
@@ -63,5 +64,11 @@ public class product {
 	}
 	public void setImgURL(String imgURL) {
 		this.imgURL = imgURL;
+	}
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 }

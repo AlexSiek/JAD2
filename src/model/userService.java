@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import java.sql.*;
 import java.util.ArrayList;
  
-@Path("/userService")
+
 public class userService {
 	
 	public user getUserLogin(String email, String password) {

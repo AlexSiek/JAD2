@@ -12,7 +12,7 @@ public class purchaseHistory {
 	private String imgURL;
 	private String createAt;
 	private int orderStatus;
-	private String userId;
+	private String username;
 	public int getId() {
 		return id;
 	}
@@ -24,6 +24,12 @@ public class purchaseHistory {
 	}
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getProductName() {
 		return productName;
@@ -78,11 +84,5 @@ public class purchaseHistory {
 	}
 	public void setOrderStatus(int orderStatus) {
 		this.orderStatus = orderStatus;
-	}
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
 	}
 }

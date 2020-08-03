@@ -11,19 +11,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.buyorderService;
+import model.product;
+import model.productService;
 import model.purchaseHistory;
 
 /**
- * Servlet implementation class purchaseOrdersServlet
+ * Servlet implementation class getProductsServlet
  */
-@WebServlet("/purchaseOrdersServlet")
-public class purchaseOrdersServlet extends HttpServlet {
+@WebServlet("/getProductsServlet")
+public class getProductsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public purchaseOrdersServlet() {
+    public getProductsServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,12 +33,16 @@ public class purchaseOrdersServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		buyorderService buyOrderService = new buyorderService();
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stubbuyorderService buyOrderService = new buyorderService();
 		HttpSession session = request.getSession();
-		ArrayList<purchaseHistory> purchases = buyOrderService.getAllPurchaseHistory();
-		request.setAttribute("purchaseHistory", purchases);
+		if(session.getAttribute("type") == null || !(session.getAttribute("type").equals("Admin") || session.getAttribute("type").equals("Root"))) {
+			response.sendRedirect("/webpages/forbidden.jsp");
+		}else {
+			productService productService = new productService();
+			ArrayList<product> products = productService.getAllProducts();
+			request.setAttribute("products", products);
+		}
 	}
 
 	/**

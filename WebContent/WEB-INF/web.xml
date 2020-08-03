@@ -53,4 +53,20 @@
 		<servlet-name>purchaseHistory</servlet-name>
 		<url-pattern>/purchaseHistory</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>adminPurchases</servlet-name>
+		<servlet-class>servlets.purchaseOrdersServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>adminPurchases</servlet-name>
+		<url-pattern>/purchaseOrders</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>adminProducts</servlet-name>
+		<servlet-class>servlets.getProductsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>adminProducts</servlet-name>
+		<url-pattern>/getAllProducts</url-pattern>
+	</servlet-mapping>
 </web-app>
