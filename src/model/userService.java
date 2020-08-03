@@ -17,13 +17,14 @@ import java.util.ArrayList;
 public class userService {
 	
 	public user getUserLogin(String email, String password) {
+		dbAccess dbConnection = new dbAccess();
 		user newUser = new user();
 		if(email == "" || password == ""){
 		    return null;
 		}
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-		    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=1qazxsw2&serverTimezone=UTC");
+		    Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
 		    PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM user WHERE email=? AND password=?");
 			pstmt.setString(1,email);
 			pstmt.setString(2,password);
@@ -50,10 +51,11 @@ public class userService {
 	}
  
 	public user getUserDetail(int id) throws JSONException {
+		dbAccess dbConnection = new dbAccess();
 		user fetchedUser = new user();
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-		    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=1qazxsw2&serverTimezone=UTC");
+		    Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
 		    PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM user WHERE id=?");
 			pstmt.setInt(1,id);
 			ResultSet rs = pstmt.executeQuery();
@@ -80,10 +82,11 @@ public class userService {
 	}
 	
 	public ArrayList<user> getAllUserDetail() throws JSONException {
+		dbAccess dbConnection = new dbAccess();
 		ArrayList<user> fetchedUsers = new ArrayList<user>();
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-		    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=1qazxsw2&serverTimezone=UTC");
+		    Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
 		    PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM user WHERE NOT type='Root' AND NOT type='Admin'");
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -107,10 +110,11 @@ public class userService {
 	}
 	
 	public String updateUserDetail(String username,String password,String email,String address,int id,int mobileNumber,int postalCode) throws JSONException {
+		dbAccess dbConnection = new dbAccess();
 		String code = "";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=1qazxsw2&serverTimezone=UTC");
+			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
 			PreparedStatement ps  = conn.prepareStatement("UPDATE user SET username=? ,password=? ,email=? ,address=? ,mobileNumber=? ,postalCode=? WHERE id=?");
 			ps.setString(1,username);
 			ps.setString(2,password);
@@ -133,11 +137,12 @@ public class userService {
 	}
 	
 	public String updateUserAddress(String address,int id,int postalCode) throws JSONException {
+		dbAccess dbConnection = new dbAccess();
 		String code = "";
 		System.out.println("here2");
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=1qazxsw2&serverTimezone=UTC");
+			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
 			PreparedStatement ps  = conn.prepareStatement("UPDATE user SET address=? ,postalCode=? WHERE id=?");
 			ps.setString(1,address);
 			ps.setInt(2,postalCode);
@@ -155,10 +160,11 @@ public class userService {
 		}
 	}
 	public String checkCreditCard(long creditCard) {
+		dbAccess dbConnection = new dbAccess();
 		String code ="";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-		    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=1qazxsw2&serverTimezone=UTC");
+		    Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
 		    PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM creditcarddetails WHERE cardNumber='"+ creditCard +"'");
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {

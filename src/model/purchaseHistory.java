@@ -12,6 +12,7 @@ public class purchaseHistory {
 	private String imgURL;
 	private String createAt;
 	private int orderStatus;
+	private String userId;
 	public int getId() {
 		return id;
 	}
@@ -77,5 +78,11 @@ public class purchaseHistory {
 	}
 	public void setOrderStatus(int orderStatus) {
 		this.orderStatus = orderStatus;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 }

@@ -35,10 +35,6 @@ if (username != null) {
 					<%
 					if(type != null){
 						if (type.equals("Admin")) {
-							String button = "<a href=\"createproduct.jsp\" class=\"btn btn-outline-primary\" role=\"button\">Add Product</a>";
-							out.println("<li class=\"nav-item\">"+button+"</li>");
-							String catButton = "<a href=\"createcategory.jsp\" class=\"btn btn-outline-primary\" role=\"button\">Add Category</a>";
-							out.println("<li class=\"nav-item\">"+catButton+"</li>");
 							String orderPageButton = "<a href=\"orderPage.jsp\" class=\"btn btn-outline-warning\" role=\"button\">View Orders</a>";
 							out.println("<li class=\"nav-item viewOrderBtn\">"+orderPageButton+"</li>");
 						}else if(type.equals("Member")){

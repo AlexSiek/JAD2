@@ -14,6 +14,7 @@
 if (type == null || !type.equals("Admin")) {
 	response.sendRedirect("forbidden.jsp");
 }
+String currentTable = request.getParameter("table");
 %>
 </head>
 <body>
@@ -42,12 +43,13 @@ if (type == null || !type.equals("Admin")) {
 	}
 	conn.close();
 	%>
-	<div class="container">
-	<div class="row storeViewRow d-flex justify-content-center">
-	<div class="storeView col-md-4 col-8 d-flex justify-content-center">
-	<a href="index.jsp" class="btn btn-warning storeViewBtn">View Store Page</a>
-	</div>
-	</div>
+	<div class="container-fluid">
+		<div class="row storeViewRow">
+			<div class="storeView col d-flex justify-content-around">
+				<a href="index.jsp" class="btn btn-warning storeViewBtn">View Store Page</a> 
+				<a href="productmanagement.jsp" class="btn btn-warning storeViewBtn">Product Management Page</a> 
+			</div>
+		</div>
 		<div class="row generalStatRow justify-content-center">
 			<div class="tableContent col-md-10 col-12">
 				<h2 class="infoText">General Statistics</h2>
@@ -55,7 +57,7 @@ if (type == null || !type.equals("Admin")) {
 				<div class="row boxesRow">
 					<div class="col-4 d-flex justify-content-center individualCell">
 						<div class="cardWrapper">
-						<span class="font-weight-normal cell">Pending Orders</span>
+							<span class="font-weight-normal cell">Pending Orders</span>
 							<div class="amountWrapper d-flex justify-content-center">
 								<span class="font-weight-normal text-danger pendingOrders"><%=pendingOrders%></span>
 							</div>
@@ -81,6 +83,16 @@ if (type == null || !type.equals("Admin")) {
 				<hr>
 			</div>
 		</div>
+		<div class="row tableButtonRow d-flex justify-content-center">
+			<div class="tableView col-8 d-flex justify-content-between">
+				<a href="orderPage.jsp?table=pendingOrder" class="btn btn-primary storeViewBtn">Pending Orders</a> 
+				<a href="orderPage.jsp?table=inDelivery" class="btn btn-primary storeViewBtn">In Delivery Orders</a> 
+				<a href="orderPage.jsp?table=devliered" class="btn btn-primary storeViewBtn">Delivered Orders</a>
+			</div>
+		</div>
+		<%
+			if (currentTable == null || currentTable.equals("pendingOrder")) {
+		%>
 		<div class="row pendingOrderRow justify-content-center">
 			<div class="col-10">
 				<div class="tableHeader d-flex justify-content-center">
@@ -116,7 +128,8 @@ if (type == null || !type.equals("Admin")) {
 									qty = pendingRs.getInt("buyOrder.qty");
 									count++;
 									out.println("<tr><td>" + count + "</td><td>" + username + "</td><td>" + email + "</td><td>" + productName
-									+ "</td><td>" + qty + "</td><td><a href=\"../SQLFiles/shippedOrder.jsp?id="+ id +"\" class=\"btn btn-outline-success\">Shipped<a></td></tr>");
+									+ "</td><td>" + qty + "</td><td><a href=\"../SQLFiles/shippedOrder.jsp?id=" + id
+									+ "\" class=\"btn btn-outline-success\">Shipped<a></td></tr>");
 								}
 								if (count == 0) {
 									out.println("<tr><td>No Orders Yet</td></tr>");
@@ -130,8 +143,15 @@ if (type == null || !type.equals("Admin")) {
 				</div>
 			</div>
 		</div>
-
-
+		<%
+			}
+		%>
+		<%
+			if (currentTable != null) {
+		%>
+		<%
+			if (currentTable.equals("inDelivery")) {
+		%>
 		<div class="row inDeliveryOrder justify-content-center">
 			<div class="col-10">
 				<div class="tableHeader d-flex justify-content-center">
@@ -156,6 +176,8 @@ if (type == null || !type.equals("Admin")) {
 								conn = DriverManager.getConnection(connURL);
 							ResultSet shippedRs = getOrdersByStatus(2, conn, connURL);
 							//reseting values;
+							String username, email, productName;
+							int count = 0, qty, userid, id;
 							id = 0;
 							username = "";
 							email = "";
@@ -173,7 +195,8 @@ if (type == null || !type.equals("Admin")) {
 									qty = shippedRs.getInt("buyOrder.qty");
 									count++;
 									out.println("<tr><td>" + count + "</td><td>" + username + "</td><td>" + email + "</td><td>" + productName
-									+ "</td><td>" + qty + "</td><td><a href=\"../SQLFiles/deliveredOrder.jsp?id="+ id +"\" class=\"btn btn-outline-success\">Delivered<a></td></tr>");
+									+ "</td><td>" + qty + "</td><td><a href=\"../SQLFiles/deliveredOrder.jsp?id=" + id
+									+ "\" class=\"btn btn-outline-success\">Delivered<a></td></tr>");
 								}
 								if (count == 0) {
 									out.println("<tr><td>No Orders Yet</td></tr>");
@@ -187,8 +210,14 @@ if (type == null || !type.equals("Admin")) {
 				</div>
 			</div>
 		</div>
+		<%
+			}
+		%>
 
 
+		<%
+			if (currentTable.equals("devliered")) {
+		%>
 		<div class="row deliveredOrder justify-content-center">
 			<div class="col-10">
 				<div class="tableHeader d-flex justify-content-center">
@@ -212,6 +241,8 @@ if (type == null || !type.equals("Admin")) {
 							<%
 								conn = DriverManager.getConnection(connURL);
 							ResultSet deliveredRs = getOrdersByStatus(3, conn, connURL);
+							String username, email, productName;
+							int count = 0, qty, userid, id;
 							//reseting values;
 							id = 0;
 							username = "";
@@ -230,7 +261,7 @@ if (type == null || !type.equals("Admin")) {
 									qty = deliveredRs.getInt("buyOrder.qty");
 									count++;
 									out.println("<tr><td>" + count + "</td><td>" + username + "</td><td>" + email + "</td><td>" + productName
-									+ "</td><td>" + qty + "</td><td><a href=\"../SQLFiles/clearOrder.jsp?id="+ id +"\" class=\"btn btn-outline-success\">Clear<a></td></tr>");
+									+ "</td><td>" + qty + "</td><td><a href=\"#\" class=\"btn btn-outline-success\">Completed<a></td></tr>");
 								}
 								if (count == 0) {
 									out.println("<tr><td>No Orders Yet</td></tr>");
@@ -245,6 +276,12 @@ if (type == null || !type.equals("Admin")) {
 			</div>
 		</div>
 	</div>
+	<%
+		}
+	%>
+	<%
+		}
+	%>
 </body>
 </html>
 <%!private ResultSet getOrders(Connection conn) {

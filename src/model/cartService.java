@@ -11,12 +11,13 @@ import java.util.Map;
 public class cartService {
 	
 	public Map<ArrayList<product>,ArrayList<cart>> getCartDetail(int id) {
+		dbAccess dbConnection = new dbAccess();
 		ArrayList<cart> fetchedCarts = new ArrayList<cart>();
 		ArrayList<product> fetchedProducts = new ArrayList<product>();
 		
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-		    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/j2ee?user=root&password=1qazxsw2&serverTimezone=UTC");
+		    Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
 		    PreparedStatement pstmt = conn.prepareStatement("SELECT product.id,product.productName,product.qty,product.buyPrice,product.imgURL,cart.id,cart.qty FROM cart INNER JOIN product ON cart.productId=product.Id AND cart.userId = ?");
 			pstmt.setInt(1, id);
 			ResultSet rs = pstmt.executeQuery();
