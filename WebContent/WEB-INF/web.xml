@@ -69,4 +69,12 @@
 		<servlet-name>adminProducts</servlet-name>
 		<url-pattern>/getAllProducts</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>rootCustomerView</servlet-name>
+		<servlet-class>servlets.getAllCustomerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>rootCustomerView</servlet-name>
+		<url-pattern>/getAllCustomer</url-pattern>
+	</servlet-mapping>
 </web-app>

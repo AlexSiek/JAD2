@@ -7,7 +7,8 @@ public class user {
 	private String email;
 	private int mobileNumber;
 	private String type;
-	private String address;
+	private String addressline1;
+	private String addressline2;
 	private int postalCode;
 	public int getId() {
 		return id;
@@ -45,16 +46,22 @@ public class user {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
 	public int getPostalCode() {
 		return postalCode;
 	}
 	public void setPostalCode(int postalCode) {
 		this.postalCode = postalCode;
+	}
+	public String getAddressline1() {
+		return addressline1;
+	}
+	public void setAddressline1(String addressline1) {
+		this.addressline1 = addressline1;
+	}
+	public String getAddressline2() {
+		return addressline2;
+	}
+	public void setAddressline2(String addressline2) {
+		this.addressline2 = addressline2;
 	}
 }

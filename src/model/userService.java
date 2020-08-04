@@ -65,7 +65,8 @@ public class userService {
 		        fetchedUser.setPassword(rs.getString("password"));
 		        fetchedUser.setUsername(rs.getString("username"));
 		        fetchedUser.setType(rs.getString("type"));
-		        fetchedUser.setAddress(rs.getString("address"));
+		        fetchedUser.setAddressline1(rs.getString("addressline1"));
+		        fetchedUser.setAddressline1(rs.getString("addressline2"));
 		        fetchedUser.setId(id);
 		        fetchedUser.setMobileNumber(rs.getInt("mobileNumber"));
 		        fetchedUser.setPostalCode(rs.getInt("postalCode"));
@@ -95,7 +96,8 @@ public class userService {
 		        fetchedUser.setPassword(rs.getString("password"));
 		        fetchedUser.setUsername(rs.getString("username"));
 		        fetchedUser.setType(rs.getString("type"));
-		        fetchedUser.setAddress(rs.getString("address"));
+		        fetchedUser.setAddressline1(rs.getString("addressline1"));
+		        fetchedUser.setAddressline2(rs.getString("addressline2"));
 		        fetchedUser.setId(rs.getInt("id"));
 		        fetchedUser.setMobileNumber(rs.getInt("mobileNumber"));
 		        fetchedUser.setPostalCode(rs.getInt("postalCode"));
