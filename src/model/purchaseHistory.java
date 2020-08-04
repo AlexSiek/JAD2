@@ -13,6 +13,7 @@ public class purchaseHistory {
 	private String createAt;
 	private int orderStatus;
 	private String username;
+	private int pastPurchases;// Stores weekly purchase count
 	public int getId() {
 		return id;
 	}
@@ -84,5 +85,11 @@ public class purchaseHistory {
 	}
 	public void setOrderStatus(int orderStatus) {
 		this.orderStatus = orderStatus;
+	}
+	public int getPastPurchases() {
+		return pastPurchases;
+	}
+	public void setPastPurchases(int pastPurchases) {
+		this.pastPurchases = pastPurchases;
 	}
 }

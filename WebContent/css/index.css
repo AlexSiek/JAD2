@@ -9,6 +9,20 @@ margin-bottom is to prevent sticky bottom footer from covering listings info
 	margin: 5vh 0 5vh 0;
 }
 
+.titleRow {
+	font-size:25px;
+	text-align:center;
+}
+
+.numberSold {
+	
+}
+
+.numberSold img {
+	width:10%;
+	height:auto;
+}
+
 .productWrapper {
 	border: 1px;
 	padding: 10px 10px 10px 10px;

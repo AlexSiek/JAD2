@@ -64,8 +64,33 @@ public class buyorderService {
 		        fetchedProduct.setCreateAt(rs.getString("buyorder.createAt"));
 		        fetchedProduct.setId(rs.getInt("buyOrder.productid"));
 		        fetchedProduct.setProductName(rs.getString("product.productName"));
-		        fetchedProduct.setQty(rs.getInt("buyorder.qty"));
 		        fetchedProduct.setBuyPrice(rs.getInt("product.buyPrice"));
+		        fetchedPurchases.add(fetchedProduct);
+		    }
+	        conn.close();
+		    return fetchedPurchases;
+		}catch(Exception e){
+		    System.out.println("Error: "+e);
+		    return null;
+		}
+	}
+	
+	public ArrayList<purchaseHistory> getTopPurchased() {
+		dbAccess dbConnection = new dbAccess();
+		ArrayList<purchaseHistory> fetchedPurchases = new ArrayList<purchaseHistory>();
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+		    Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT p.qty,p.id,p.productName,p.categoryId,p.buyPrice,p.imgURL, SUM(b.qty) Total from buyorder b INNER JOIN product p ON b.productId = p.id WHERE b.createAt > date_sub(now(), interval 1 week) group by b.productId order by Total desc");
+			ResultSet rs = pstmt.executeQuery();
+		    while(rs.next()){
+				purchaseHistory fetchedProduct = new purchaseHistory();
+				fetchedProduct.setPastPurchases(rs.getInt("Total"));
+		        fetchedProduct.setId(rs.getInt("p.id"));
+		        fetchedProduct.setProductName(rs.getString("p.productName"));
+		        fetchedProduct.setBuyPrice(rs.getInt("p.buyPrice"));
+		        fetchedProduct.setCategoryId(rs.getInt("p.categoryId"));
+		        fetchedProduct.setImgURL(rs.getString("p.imgURL"));
 		        fetchedPurchases.add(fetchedProduct);
 		    }
 	        conn.close();

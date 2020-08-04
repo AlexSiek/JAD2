@@ -77,4 +77,12 @@
 		<servlet-name>rootCustomerView</servlet-name>
 		<url-pattern>/getAllCustomer</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>getTopPurchases</servlet-name>
+		<servlet-class>servlets.getTopWeekilyPurchases</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>getTopPurchases</servlet-name>
+		<url-pattern>/topPurchases</url-pattern>
+	</servlet-mapping>
 </web-app>
