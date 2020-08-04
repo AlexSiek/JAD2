@@ -24,15 +24,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/alexs/.m2/repository/jakarta/ws/rs/jakarta.ws.rs-api/2.1.6/jakarta.ws.rs-api-2.1.6.jar" sourcepath="C:/Users/alexs/.m2/repository/jakarta/ws/rs/jakarta.ws.rs-api/2.1.6/jakarta.ws.rs-api-2.1.6-sources.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="org.eclipse.jst.component.archivename" value="jakarta.ws.rs-api-2.1.6.jar"/>
-			<attribute name="maven.groupId" value="jakarta.ws.rs"/>
-			<attribute name="maven.artifactId" value="jakarta.ws.rs-api"/>
-			<attribute name="maven.version" value="2.1.6"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

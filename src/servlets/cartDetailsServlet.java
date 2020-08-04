@@ -58,24 +58,25 @@ public class cartDetailsServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		doGet(request, response);
-		HttpSession session = request.getSession();
-		String addressLine1 = request.getParameter("addressLine1");
-		String addressLine2 = request.getParameter("addressLine2");
-		int postalCode = Integer.parseInt(request.getParameter("postalCode"));
-		String rememberMe = request.getParameter("rememberAddress");
-		long creditCardInfo = Long.parseLong(request.getParameter("creditcard"));
-		if(rememberMe != null) {//if checkbox is ticked
+			HttpSession session = request.getSession();
+			String addressLine1 = request.getParameter("addressLine1");
+			String addressLine2 = request.getParameter("addressLine2");
+			int postalCode = Integer.parseInt(request.getParameter("postalCode"));
+			String rememberMe = request.getParameter("rememberAddress");
+			long creditCardInfo = Long.parseLong(request.getParameter("creditcard"));
+			if(rememberMe != null) {//if checkbox is ticked
+				userService userService = new userService();
+				userService.updateUserAddress(addressLine1, addressLine2, (int) session.getAttribute("id"), postalCode);
+			}
 			userService userService = new userService();
-			userService.updateUserAddress(addressLine1, addressLine2, (int) session.getAttribute("id"), postalCode);
-		}
-		userService userService = new userService();
-		String creditcardnum = userService.checkCreditCard(creditCardInfo);
-		if (creditcardnum == "success") {
-			System.out.println("success");
-		} else {
-			System.out.println("failed");
-		}
-		response.sendRedirect("webpages/index.jsp");
+			String creditcardnum = userService.checkCreditCard(creditCardInfo);
+			if (creditcardnum == "success") {
+				response.sendRedirect("webpages/success.jsp");
+				System.out.println("success");
+			} else {
+				response.sendRedirect("webpages/error.jsp"); //i want to make smth like the login, where if credit is not found itll bring back to checkout
+				System.out.println("failed");
+			}
 	}
 
 }

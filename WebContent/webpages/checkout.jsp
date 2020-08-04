@@ -47,9 +47,12 @@
 							<small id="checkboxLabel" class="form-text text-muted">
 								<input type="checkbox" class=" align-center" id="rememberAddress" name="rememberAddress" value="remember">RememberAddress
 							</small>
+							<!--<button onclick="Hide()">Add Debit Or Credit Card</button>
+							<div id="creditCard">   -->
 							<label for="creditcard">Credit Card</label> <input 
 								type="number" class="form-control" id="creditcard" name="creditcard"
 								aria-describedby="creditcard" placeholder="1111222233334444" max="9999999999999999" required>
+							<!--</div>  -->
 						</div>
 						<div align="center">
 							<button type="submit" class="btn btn-primary">Place Order</button>
@@ -103,6 +106,15 @@
 	</div>
 	<%@ include file="footer.html"%>
 <script>
+	//function Hide() {
+	//  var x = document.getElementById("creditCard");
+	//  if (x.style.display === "none") {
+	//    x.style.display = "block";
+	//  } else {
+	//    x.style.display = "none";
+	//  }
+	//}
+	
 	var responseObj = <%=responseObj.readEntity(String.class)%>
 	var sgdRate = responseObj.rates.SGD;
 	<%double totaledPrice = (totalPrice + count * 5 + totalPrice / 100 * 7);%>

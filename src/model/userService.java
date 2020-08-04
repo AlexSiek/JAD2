@@ -168,7 +168,7 @@ public class userService {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		    Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
-		    PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM creditcarddetails WHERE cardNumber='"+ creditCard +"'");
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM creditcards WHERE cardNumber='"+ creditCard +"'");
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				conn.close();
@@ -178,7 +178,6 @@ public class userService {
 				return code = "failed";
 			}
 		} catch (Exception e) {
-			System.out.println("exception e");
 			return code = "internalError";
 		}
 	}
