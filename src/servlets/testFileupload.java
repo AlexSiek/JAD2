@@ -19,7 +19,6 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 public class testFileupload extends HttpServlet {
 	private static final long serialVersionUID = 1L;	
-	private final String UPLOAD_DIRECTORY = "/uploads";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -45,7 +44,6 @@ public class testFileupload extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		this.getServletContext().getRealPath("WEB-INF/uploads");
 		if (ServletFileUpload.isMultipartContent(request)) {
 			try {
 				List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
