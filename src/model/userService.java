@@ -141,7 +141,6 @@ public class userService {
 	public String updateUserAddress(String addressline1,String addressline2,int id,int postalCode) throws JSONException {
 		dbAccess dbConnection = new dbAccess();
 		String code = "";
-		System.out.println("here2");
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
@@ -178,6 +177,27 @@ public class userService {
 				return code = "failed";
 			}
 		} catch (Exception e) {
+			return code = "internalError";
+		}
+	}
+	public String addCreditCard(String cardType, long cardNumber) {
+		dbAccess dbConnection = new dbAccess();
+		String code ="";
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		    Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+		    String sqlStr = "INSERT INTO creditcards (id,'" + cardType + "','" + cardNumber + "') VALUES (0,?,?)";
+		    PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				conn.close();
+				return code = "success";
+			} else {
+				conn.close();
+				return code = "failed";
+			}
+		} catch (Exception e) {
+			System.out.println("exception e");
 			return code = "internalError";
 		}
 	}

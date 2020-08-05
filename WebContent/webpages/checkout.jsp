@@ -47,12 +47,15 @@
 							<small id="checkboxLabel" class="form-text text-muted">
 								<input type="checkbox" class=" align-center" id="rememberAddress" name="rememberAddress" value="remember">RememberAddress
 							</small>
-							<!--<button onclick="Hide()">Add Debit Or Credit Card</button>
-							<div id="creditCard">   -->
+							<label for="cardType">Choose a card type:</label>
+							  <select name="cardType" id="cardType">
+							    <option value="American Express">American Express</option>
+							    <option value="MasterCard">MasterCard</option>
+							    <option value="Visa">Visa</option>
+							  </select>
 							<label for="creditcard">Credit Card</label> <input 
 								type="number" class="form-control" id="creditcard" name="creditcard"
 								aria-describedby="creditcard" placeholder="1111222233334444" max="9999999999999999" required>
-							<!--</div>  -->
 						</div>
 						<div align="center">
 							<button type="submit" class="btn btn-primary">Place Order</button>

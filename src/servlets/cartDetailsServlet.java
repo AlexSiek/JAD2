@@ -63,20 +63,48 @@ public class cartDetailsServlet extends HttpServlet {
 			String addressLine2 = request.getParameter("addressLine2");
 			int postalCode = Integer.parseInt(request.getParameter("postalCode"));
 			String rememberMe = request.getParameter("rememberAddress");
+			String cardType = request.getParameter("cardType");
 			long creditCardInfo = Long.parseLong(request.getParameter("creditcard"));
 			if(rememberMe != null) {//if checkbox is ticked
 				userService userService = new userService();
 				userService.updateUserAddress(addressLine1, addressLine2, (int) session.getAttribute("id"), postalCode);
 			}
-			userService userService = new userService();
-			String creditcardnum = userService.checkCreditCard(creditCardInfo);
-			if (creditcardnum == "success") {
-				response.sendRedirect("webpages/success.jsp");
-				System.out.println("success");
-			} else {
-				response.sendRedirect("webpages/error.jsp"); //i want to make smth like the login, where if credit is not found itll bring back to checkout
-				System.out.println("failed");
+			System.out.println("here0");
+			//this checks if credit is in db, if not it'll add
+			if (cardType == "American Express") { //amex is 15 digits
+				System.out.println("here1");
+				if ((request.getParameter("creditcard").length()) == 15) {
+					System.out.println("here2");
+					userService userService = new userService();
+					String creditcardnum = userService.checkCreditCard(creditCardInfo);
+					System.out.println("here3");
+					if (creditcardnum == "success") { //card is in db
+						response.sendRedirect("webpages/success.jsp");
+						System.out.println("success");
+					} else {
+						userService.addCreditCard(cardType, creditCardInfo);
+						System.out.println("added card");
+					}
+				} else {
+					System.out.println("card needs to be 15 digits long");
+					response.sendRedirect("webpages/error.jsp");
+				}
+			} else if (cardType == "MasterCard" || cardType == "Visa") { //mastercard n visa are 16 digits
+				if ((request.getParameter("creditcard").length()) == 16) {
+					userService userService = new userService();
+					String creditcardnum = userService.checkCreditCard(creditCardInfo);
+					if (creditcardnum == "success") { //card is in db
+						response.sendRedirect("webpages/success.jsp");
+						System.out.println("success");
+					} else {
+						userService.addCreditCard(cardType, creditCardInfo);
+						System.out.println("added card");
+					}
+				} else {
+					System.out.println("card needs to be 16 digits long");
+					System.out.println(request.getParameter("creditcard").length());
+					response.sendRedirect("webpages/error.jsp");
+				}
 			}
 	}
-
 }
