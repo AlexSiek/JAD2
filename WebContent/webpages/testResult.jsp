@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ page import = "javax.ws.rs.core.Response" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,12 +8,8 @@
     </head>
   
     <body> 
-        <div>
-            <h3> Choose File to Upload in Server </h3>
-            <form action="../testUpload" method="post" enctype="multipart/form-data">
-                <input type="file" name="file" />
-                <input type="submit" value="upload" />
-            </form>          
+        <div id="result">
+            <h3>${requestScope["message"]}</h3>
         </div>
        
     </body>

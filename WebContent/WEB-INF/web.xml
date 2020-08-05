@@ -85,4 +85,12 @@
 		<servlet-name>getTopPurchases</servlet-name>
 		<url-pattern>/topPurchases</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>testUpload</servlet-name>
+		<servlet-class>servlets.testFileupload</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>testUpload</servlet-name>
+		<url-pattern>/testUpload</url-pattern>
+	</servlet-mapping>
 </web-app>
