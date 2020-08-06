@@ -37,4 +37,30 @@ public class productService {
 		}
 		return products;
 	}
+	
+	public int addProduct(int categoryId, String productName, String vendor, String pdtDesc, int qty, double price, double MSRP,String imgURL) {
+		dbAccess dbConnection = new dbAccess();
+		ArrayList<product> products = new ArrayList<product>();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO product (categoryId,productName,vendor,pdtDesc,qty,buyPrice,MSRP,imgURL) VALUES (?,?,?,?,?,?,?,?)");
+			pstmt.setInt(1, categoryId);
+			pstmt.setString(2, productName);
+			pstmt.setString(3, vendor);
+			pstmt.setString(4, pdtDesc);
+			pstmt.setInt(5,qty);
+			pstmt.setDouble(6,price);
+			pstmt.setDouble(7,MSRP);
+			pstmt.setString(8,imgURL);
+			pstmt.executeUpdate();
+			conn.close();
+		}	catch (java.sql.SQLIntegrityConstraintViolationException a) {
+			return -2;
+		} catch (Exception e) {
+			System.out.println(e);
+			return -1;
+		}
+		return 0;
+	}
 }

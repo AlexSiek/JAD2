@@ -93,4 +93,12 @@
 		<servlet-name>testUpload</servlet-name>
 		<url-pattern>/testUpload</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>createProduct</servlet-name>
+		<servlet-class>servlets.createProductServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>createProduct</servlet-name>
+		<url-pattern>/addProduct</url-pattern>
+	</servlet-mapping>
 </web-app>

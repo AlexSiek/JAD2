@@ -34,8 +34,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="spacing col-md-3 col-1"></div>
-			<form action="../SQLFiles/createProductSQL.jsp"
-				class="form-tag col-md-6 col-10" method="POST">
+			<form action="../addProduct"
+				class="form-tag col-md-6 col-10" method="POST" enctype="multipart/form-data">
 				<h1 class="welcomeText" align="center">Adding Products</h1>
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
@@ -90,8 +90,8 @@
 						placeholder="SGD" required></input>
 				</div>
 				<div class="form-group">
-					<label for="imgURLLabel">Image</label> <input
-						type="text" class="form-control" id="imgURL" name="imgURL" required></input>
+					<label for="imgURLLabel">Image</label> <br>
+					<input type="file" name="pdtImg" required accept=".jpg,.png,.jpeg" />
 				</div>
 				<%= appendedHTML %>
 				<button type="submit" class="btn btn-primary">Create</button>

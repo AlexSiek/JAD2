@@ -121,42 +121,5 @@ public class cartDetailsServlet extends HttpServlet {
 		} else {
 			response.sendRedirect("webpages/error.jsp");
 		}
-//			System.out.println("here0");
-//			//this checks if credit is in db, if not it'll add
-//			if (cardType == "American Express") { //amex is 15 digits
-//				System.out.println("here1");
-//				if ((request.getParameter("creditcard").length()) == 15) {
-//					System.out.println("here2");
-//					userService userService = new userService();
-//					String creditcardnum = userService.checkCreditCard(creditCardInfo);
-//					System.out.println("here3");
-//					if (creditcardnum == "success") { //card is in db
-//						response.sendRedirect("webpages/success.jsp");
-//						System.out.println("success");
-//					} else {
-//						userService.addCreditCard(cardType, creditCardInfo);
-//						System.out.println("added card");
-//					}
-//				} else {
-//					System.out.println("card needs to be 15 digits long");
-//					response.sendRedirect("webpages/error.jsp");
-//				}
-//			} else if (cardType == "MasterCard" || cardType == "Visa") { //mastercard n visa are 16 digits
-//				if ((request.getParameter("creditcard").length()) == 16) {
-//					userService userService = new userService();
-//					String creditcardnum = userService.checkCreditCard(creditCardInfo);
-//					if (creditcardnum == "success") { //card is in db
-//						response.sendRedirect("webpages/success.jsp");
-//						System.out.println("success");
-//					} else {
-//						userService.addCreditCard(cardType, creditCardInfo);
-//						System.out.println("added card");
-//					}
-//				} else {
-//					System.out.println("card needs to be 16 digits long");
-//					System.out.println(request.getParameter("creditcard").length());
-//					response.sendRedirect("webpages/error.jsp");
-//				}
-//			}
 	}
 }
