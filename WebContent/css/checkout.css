@@ -21,3 +21,7 @@
 #rememberAddress {
 	margin-right:5px;
 }
+
+.errorCode {
+	color:red;
+}

@@ -88,7 +88,6 @@
 			</div>
 			<!-- CHECKOUT SUMMARY -->
 			<div class="checkOutSummary col-md-4 col-12">
-			<p class="font-weight-bolder">Your Order Summary</p>
 					
 				<p class="font-weight-bolder">Your Order Summary</p>
 				<%
