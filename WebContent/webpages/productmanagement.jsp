@@ -71,7 +71,7 @@ String currentTable = request.getParameter("table");
 					</table>
 				</div>
 			</div>
-			 <%}else{ %>
+			 <%}else if(currentTable.equals("productList")){ %>
 			 <%
 				//Fetched all past purchases
 			request.getRequestDispatcher("../getAllProducts").include(request, response);
@@ -115,8 +115,42 @@ String currentTable = request.getParameter("table");
 								out.println("<tr><td>" + count + "</td><td>" + productName + "</td><td>" + categoryName + "</td><td>"+ buyPrice + "</td>"+ "</td><td>" + tag + "</td><td><a class=\"btn btn-outline-success\" href=\"editlisting.jsp?id="+productId+"\">Edit</a></td></tr>");
 							}
 							if (count == 0) {
-								out.println("<tr><td>No Orders Yet</td></tr>");
+								out.println("<tr><td>No Products Yet</td></tr>");
 							}
+							%>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			 <%}else if(currentTable.equals("categoryList")){ %>
+			 <%
+				//Fetched all past purchases
+			//request.getRequestDispatcher("../getAllProducts").include(request, response);
+			//ArrayList<product> productsFetched = (ArrayList<product>) request.getAttribute("products");
+			%>
+			 <div class="tableHeader d-flex justify-content-center">
+					<h2>Category Listing</h2>
+				</div>
+				<div class="tableWrapper">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Name</th>
+								<th scope="col">Desc</th>
+								<th scope="col">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+						<%
+							String catName, catDesc;
+							int count = 0;
+							//for(){
+								
+							//}
+							//if (count == 0) {
+								//out.println("<tr><td>No Description Yet</td></tr>");
+							//}
 							%>
 						</tbody>
 					</table>

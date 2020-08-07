@@ -101,12 +101,20 @@
 		<servlet-name>createProduct</servlet-name>
 		<url-pattern>/addProduct</url-pattern>
 	</servlet-mapping>
-		<servlet>
+	<servlet>
 		<servlet-name>updateProduct</servlet-name>
 		<servlet-class>servlets.editProductServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>updateProduct</servlet-name>
 		<url-pattern>/editProduct</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>createCategory</servlet-name>
+		<servlet-class>servlets.createCategoryServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>createCategory</servlet-name>
+		<url-pattern>/addCategory</url-pattern>
 	</servlet-mapping>
 </web-app>

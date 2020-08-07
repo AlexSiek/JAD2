@@ -34,8 +34,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="spacing col-md-3 col-1"></div>
-			<form action="../addProduct"
-				class="form-tag col-md-6 col-10" method="POST" enctype="multipart/form-data">
+			<form action="../addProduct" class="form-tag col-md-6 col-10" method="POST" enctype="multipart/form-data">
 				<h1 class="welcomeText" align="center">Adding Products</h1>
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">

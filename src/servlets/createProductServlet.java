@@ -97,38 +97,38 @@ public class createProductServlet extends HttpServlet {
 								}
 							}
 						}
-						if(productName == "" || vendor == "" ||vendor == "" ||pdtDesc == ""||imgURL == "" ||categoryId == 0) {
-							response.sendRedirect("/webpages/createproduct.jsp?err=mField");
+						if(productName.equals("") || vendor.equals("") ||pdtDesc.equals("")||imgURL.equals("") ||categoryId == 0) {
+							response.sendRedirect("webpages/createproduct.jsp?err=mField");
 						}else if(qty <= 0){
-							response.sendRedirect("/webpages/createproduct.jsp?err=invalidQty");
+							response.sendRedirect("webpages/createproduct.jsp?err=invalidQty");
 						}else if(price <= 0){
-							response.sendRedirect("/webpages/createproduct.jsp?err=invalidPrice");
+							response.sendRedirect("webpages/createproduct.jsp?err=invalidPrice");
 						}else if(MSRP <= 0){
-							response.sendRedirect("/webpages/createproduct.jsp?err=invalidMSRP");
+							response.sendRedirect("webpages/createproduct.jsp?err=invalidMSRP");
 						}else {
 							productService productService = new productService();
 							int code = productService.addProduct(categoryId, productName, vendor, pdtDesc, qty, price, MSRP,
 									imgURL);
 							if (code == -1) {
-								response.sendRedirect("/webpages/error.jsp");
+								response.sendRedirect("webpages/error.jsp");
 							} else if (code == -2) {
-								response.sendRedirect("/webpages/createproduct.jsp?err=dupEntry");
+								response.sendRedirect("webpages/createproduct.jsp?err=dupEntry");
 							} else {
-								response.sendRedirect("/webpages/productmanagement.jsp");
+								response.sendRedirect("webpages/productmanagement.jsp");
 							}
 						}
 						//ERROR DIRECTION
 					} catch (Exception ex) {
 						System.out.println("Error: " +ex);
-						response.sendRedirect("/webpages/error.jsp");
+						response.sendRedirect("webpages/error.jsp");
 					}
 				} catch (Exception e) {
 					System.out.println("Error: " +e);
-					response.sendRedirect("/webpages/error.jsp");
+					response.sendRedirect("webpages/error.jsp");
 				}
 			}
 		} else {
-			response.sendRedirect("/webpages/error.jsp");
+			response.sendRedirect("webpages/error.jsp");
 		}
 	}
 

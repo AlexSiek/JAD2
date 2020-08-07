@@ -40,7 +40,6 @@ public class productService {
 	
 	public int addProduct(int categoryId, String productName, String vendor, String pdtDesc, int qty, double price, double MSRP,String imgURL) {
 		dbAccess dbConnection = new dbAccess();
-		ArrayList<product> products = new ArrayList<product>();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
@@ -66,7 +65,6 @@ public class productService {
 	
 	public int updateProduct(int productId,int categoryId, String productName, String vendor, String pdtDesc, int qty, double price, double MSRP,String imgURL) {
 		dbAccess dbConnection = new dbAccess();
-		ArrayList<product> products = new ArrayList<product>();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());

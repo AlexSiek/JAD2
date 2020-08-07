@@ -103,7 +103,7 @@ public class editProductServlet extends HttpServlet {
 								}
 							}
 						}
-						if (productName == "" || vendor == "" || vendor == "" || pdtDesc == "" || imgURL == ""
+						if (productName.equals("") || vendor.equals("") || vendor.equals("") || pdtDesc.equals("") || imgURL.equals("")
 								|| categoryId == 0 || productId == 0) {
 							response.sendRedirect("webpages/createproduct.jsp?err=mField");
 						} else if (qty <= 0) {

@@ -28,21 +28,21 @@
 	<div class="container">
 		<div class="row">
 			<div class="spacing col-md-3 col-1"></div>
-			<form action="../SQLFiles/createCategorySQL.jsp"
+			<form action="../addCategory" enctype="multipart/form-data"
 				class="form-tag col-md-6 col-10" method="POST">
 				<h1 class="welcomeText" align="center">Adding Category</h1>
 				<div class="form-group">
 					<label for="productNameLabel">Name Of Category</label> <input
-						type="text" class="form-control" id="productName"
+						type="text" class="form-control" id="categoryName"
 						name="catName" required>
 				</div>
 				<div class="form-group">
 					<label for="pdtDescLabel">Category Description</label>
-					<textarea class="form-control" id="pdtDesc" name="catDesc" rows=8 required></textarea>
+					<textarea class="form-control" id="catDesc" name="catDesc" rows=8 required></textarea>
 				</div>
 				<div class="form-group">
-					<label for="imgURLLabel">Image</label> <input
-						type="text" class="form-control" id="imgURL" name="imgURL" required></input>
+					<label for="imgURLLabel">Image</label> <br>
+					<input type="file" name="catImg" required accept=".jpg,.png,.jpeg" />
 				</div>
 				<%= appendedHTML %>
 				<button type="submit" class="btn btn-primary">Create</button>
