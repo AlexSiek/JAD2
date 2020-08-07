@@ -119,10 +119,9 @@ public class editProductServlet extends HttpServlet {
 							if (code == -1) {
 								response.sendRedirect("webpages/error.jsp");
 							} else if (code == -2) {
-								response.sendRedirect("webpages/createproduct.jsp?err=dupEntry");
+								response.sendRedirect("webpages/editlisting.jsp?err=dupEntry");
 							} else {
-								System.out.println(productId + " " + categoryId + " " + productName + " " + vendor + " " + pdtDesc + " " + qty + " " + price + " " + MSRP + " " + imgURL);
-//								response.sendRedirect("webpages/productmanagement.jsp");
+								response.sendRedirect("webpages/productmanagement.jsp");
 							}
 						}
 						// ERROR DIRECTION

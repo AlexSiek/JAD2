@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -15,20 +16,21 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import model.category;
 import model.categoryService;
 import model.productService;
 
 /**
- * Servlet implementation class createCategoryServlet
+ * Servlet implementation class editCategoryServlet
  */
-@WebServlet("/createCategoryServlet")
-public class createCategoryServlet extends HttpServlet {
+@WebServlet("/editCategoryServlet")
+public class editCategoryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public createCategoryServlet() {
+    public editCategoryServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,13 +40,24 @@ public class createCategoryServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		HttpSession session = request.getSession();
+		System.out.println(request.getParameter("id"));
+		if(session.getAttribute("type") == null || !session.getAttribute("type").equals("Admin")) {
+			response.sendRedirect("webpages/forbidden.jsp");
+		}else if(request.getParameter("id") == null){
+			response.sendRedirect("webpages/error.jsp");
+		}else{
+			categoryService categoryService = new categoryService();
+			category fetchedCategory = categoryService.getCategory(Integer.parseInt(request.getParameter("id")));
+			request.setAttribute("category", fetchedCategory);
+		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		if (ServletFileUpload.isMultipartContent(request)) {
 			HttpSession session = request.getSession();
 			String type = (String) session.getAttribute("type");
@@ -52,8 +65,9 @@ public class createCategoryServlet extends HttpServlet {
 				response.sendRedirect("/webpages/forbidden.jsp");
 			} else {
 				try {
-					String catName = "", catDesc = "", imgURL = "";
-					
+					String categoryName = "",categoryDesc = "", imgURL = "";
+					int categoryId = 0;
+
 					try {
 						List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory())
 								.parseRequest(request);
@@ -61,40 +75,44 @@ public class createCategoryServlet extends HttpServlet {
 						for (FileItem item : multiparts) {
 							if (!item.isFormField()) {
 								String name = new File(item.getName()).getName();
-								item.write(new File(this.getServletContext().getRealPath("images/")
+								item.write(new File(this.getServletContext().getRealPath("images/products")
 										+ File.separator + name));
-								imgURL = "../images/" + name;
-							}else {
-								switch(item.getFieldName()){
-								case "catName":
-									catName = item.getString();
+								imgURL = "../images/products/" + name;
+								System.out.println(name);
+							} else {
+								switch (item.getFieldName()) {
+								case "categoryName":
+									categoryName = item.getString();
 									break;
-								case "catDesc":
-									catDesc = item.getString();
+								case "categoryDesc":
+									categoryDesc = item.getString();
+									break;
+								case "id":
+									categoryId = Integer.parseInt(item.getString());
 									break;
 								}
 							}
 						}
-						if (catName.equals("") || catDesc.equals("") || imgURL.equals("")) {
+						if (categoryName.equals("") || categoryDesc.equals("") || imgURL.equals("") || categoryId == 0) {
 							response.sendRedirect("webpages/createproduct.jsp?err=mField");
 						} else {
 							categoryService categoryService = new categoryService();
-							int code = categoryService.addCategory(catName, catDesc, imgURL);
+							int code = categoryService.updateCategory(categoryId, categoryName, categoryDesc, imgURL);
 							if (code == -1) {
 								response.sendRedirect("webpages/error.jsp");
 							} else if (code == -2) {
-								response.sendRedirect("webpages/createcategory.jsp?err=dupEntry");
+								response.sendRedirect("webpages/editcategory.jsp?err=dupEntry");
 							} else {
 								response.sendRedirect("webpages/productmanagement.jsp");
 							}
 						}
-						//ERROR DIRECTION
+						// ERROR DIRECTION
 					} catch (Exception ex) {
-						System.out.println("Error: " +ex);
+						System.out.println("Error: " + ex);
 						response.sendRedirect("webpages/error.jsp");
 					}
 				} catch (Exception e) {
-					System.out.println("Error: " +e);
+					System.out.println("Error: " + e);
 					response.sendRedirect("webpages/error.jsp");
 				}
 			}

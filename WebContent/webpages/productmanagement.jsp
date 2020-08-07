@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="model.purchaseHistory,model.product"%>
+<%@ page import="model.purchaseHistory,model.product,model.category"%>
 <%@ page import="java.util.ArrayList"%>
 <jsp:useBean id="purchases" class="model.purchaseHistory" />
-<jsp:useBean id="products" class="model.purchaseHistory" />
+<jsp:useBean id="products" class="model.product" />
+<jsp:useBean id="categories" class="model.category" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +33,7 @@ String currentTable = request.getParameter("table");
 			<div class="col-10">
 			<%if(currentTable == null){  %>
 			<%
-				//Fetched all past purchases
+			//Fetched all past purchases
 			request.getRequestDispatcher("../purchaseOrders").include(request, response);
 			ArrayList<purchaseHistory> pastPurchases = (ArrayList<purchaseHistory>) request.getAttribute("purchaseHistory");
 			%>
@@ -125,8 +126,8 @@ String currentTable = request.getParameter("table");
 			 <%}else if(currentTable.equals("categoryList")){ %>
 			 <%
 				//Fetched all past purchases
-			//request.getRequestDispatcher("../getAllProducts").include(request, response);
-			//ArrayList<product> productsFetched = (ArrayList<product>) request.getAttribute("products");
+			request.getRequestDispatcher("../getAllCategories").include(request, response);
+			ArrayList<category> categoriesFetched = (ArrayList<category>) request.getAttribute("categories");
 			%>
 			 <div class="tableHeader d-flex justify-content-center">
 					<h2>Category Listing</h2>
@@ -144,13 +145,17 @@ String currentTable = request.getParameter("table");
 						<tbody>
 						<%
 							String catName, catDesc;
-							int count = 0;
-							//for(){
-								
-							//}
-							//if (count == 0) {
-								//out.println("<tr><td>No Description Yet</td></tr>");
-							//}
+							int count = 0, id = 0;
+							for(int i = 0; i < categoriesFetched.size() ; i++){
+								count++;
+								catName = categoriesFetched.get(i).getCategoryName();
+								catDesc = categoriesFetched.get(i).getCategoryDesc();
+								id = categoriesFetched.get(i).getId();
+								out.println("<tr><td>" + count + "</td><td>" + catName + "</td><td>" + catDesc + "</td><td><a class=\"btn btn-outline-success\" href=\"editcategory.jsp?id="+id+"\">Edit</a></td></tr>");
+							}
+							if (count == 0) {
+								out.println("<tr><td>No Categories Yet</td></tr>");
+							}
 							%>
 						</tbody>
 					</table>
@@ -161,7 +166,12 @@ String currentTable = request.getParameter("table");
 			<div class="row btnHeader text-center"> Functions </div>
 			<%if(currentTable == null){ %>
 				<div class="btnRow row"><a href="productmanagement.jsp?table=productList" class="btn btn-primary">Product List</a></div>
-			<%}else{ %>
+				<div class="btnRow row"><a href="productmanagement.jsp?table=categoryList" class="btn btn-primary">Category List</a></div>
+			<%}else if(currentTable.equals("productList")){ %>
+				<div class="btnRow row"><a href="productmanagement.jsp" class="btn btn-primary">Recent Purchases</a></div>
+				<div class="btnRow row"><a href="productmanagement.jsp?table=categoryList" class="btn btn-primary">Category List</a></div>
+			<%}else if(currentTable.equals("categoryList")){ %>
+				<div class="btnRow row"><a href="productmanagement.jsp?table=productList" class="btn btn-primary">Product List</a></div>
 				<div class="btnRow row"><a href="productmanagement.jsp" class="btn btn-primary">Recent Purchases</a></div>
 			<%}%>
 				<div class="btnRow row"><a href="createproduct.jsp" target="_blank" class="btn btn-primary">Add Product</a></div>
