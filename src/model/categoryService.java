@@ -56,6 +56,24 @@ public class categoryService {
 			return null;
 		}
 	}
+	
+	public int deleteCategory(int id) {
+		dbAccess dbConnection = new dbAccess();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+			String insertStr = "DELETE FROM category WHERE id=?";
+			PreparedStatement pstmt = conn.prepareStatement(insertStr);
+			pstmt.setInt(1, id);
+			pstmt.executeUpdate();
+			return 0;
+			// if name in session is not reset, change updating name, form will not fetch
+			// correct data
+		} catch (Exception e) {
+			System.out.println("Error: " + e);
+			return -1;
+		}
+	}
 
 	public category getCategory(int id) {
 		dbAccess dbConnection = new dbAccess();

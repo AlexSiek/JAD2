@@ -56,7 +56,7 @@
 					<label for="imgURLLabel">Image</label> <br>
 					<input type="file" name="categoryImg" required accept=".jpg,.png,.jpeg" />
 				</div>
-					<button type="submit" class="btn btn-primary">Save</button> <a class="btn btn-danger deleteButton" href="deletelisting.jsp?id=">Delete</a>
+					<button type="submit" class="btn btn-primary">Save</button> <a class="btn btn-danger deleteButton" href="deletecategory.jsp?id=<%=categoryFetched.getId()%>">Delete</a>
 				</form>
 			</div>
 		</div>
