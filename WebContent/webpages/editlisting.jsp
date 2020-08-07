@@ -63,9 +63,10 @@
 			</div>
 			<br>
 			<div class="productForm col-md-10 col-12">
-				<form action="../SQLFiles/editProductSQL.jsp?id=<%=productId%>"
-					class="form-tag" method="POST">
+				<form action="../editProduct"
+					class="form-tag" method="POST" enctype="multipart/form-data">
 					<%=appendedHTML%>
+					<input type="number" value="<%=productId%>" name="id" hidden>
 					<div class="input-group mb-3">
 						<div class="input-group-prepend">
 							<label class="input-group-text" for="inputGroupSelect01">Categories</label>
@@ -126,10 +127,9 @@
 							min="0.01" step="0.01" value="<%=MSRP%>" required></input>
 					</div>
 					<div class="form-group">
-						<label for="imgURLLabel">Image</label> <input type="text"
-							class="form-control" id="imgURL" name="imgURL"
-							value="<%=imgURL%>" required></input>
-					</div>
+					<label for="imgURLLabel">Image</label> <br>
+					<input type="file" name="pdtImg" required accept=".jpg,.png,.jpeg" />
+				</div>
 					<button type="submit" class="btn btn-primary">Save</button> <a class="btn btn-danger deleteButton" href="deletelisting.jsp?id=<%=productId%>">Delete</a>
 				</form>
 			</div>
