@@ -28,4 +28,24 @@ public class categoryService {
 		return 0;
 	}
 	
+	public ArrayList<category> getAllCategory(String catName, String catDesc,String imgURL) {
+		dbAccess dbConnection = new dbAccess();
+		ArrayList<category> fetchedCategory = new ArrayList<category>();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+			String insertStr = "SELECT * FROM category";
+			PreparedStatement pstmt = conn.prepareStatement(insertStr);
+			pstmt.setString(1, catName);
+			pstmt.setString(2, catDesc);
+			pstmt.setString(3, imgURL);
+			int count = pstmt.executeUpdate();
+			return fetchedCategory;
+			// if name in session is not reset, change updating name, form will not fetch correct data
+		}catch (Exception e) {
+			System.out.println("Error: " + e);
+			return null;
+		}
+	}
+	
 }
