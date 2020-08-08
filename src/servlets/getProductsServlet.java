@@ -40,7 +40,17 @@ public class getProductsServlet extends HttpServlet {
 			response.sendRedirect("/webpages/forbidden.jsp");
 		}else {
 			productService productService = new productService();
-			ArrayList<product> products = productService.getAllProducts();
+			ArrayList<product> products = new ArrayList<product>();
+			try {
+				if(request.getParameter("sortby") == null) {
+					products = productService.getAllProducts(0);
+				}else {
+					int sortbyCode = Integer.parseInt(request.getParameter("sortby"));
+					products = productService.getAllProducts(sortbyCode);
+				}
+			}catch(Exception e){
+				System.out.println("Error: " + e);
+			}
 			request.setAttribute("products", products);
 		}
 	}

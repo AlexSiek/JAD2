@@ -7,14 +7,35 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class productService {
-	public ArrayList<product> getAllProducts() {
+	public ArrayList<product> getAllProducts(int sortBy) {
 		dbAccess dbConnection = new dbAccess();
 		ArrayList<product> products = new ArrayList<product>();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+			String sortby = "";
+			switch(sortBy) {
+			case 1:
+				sortby = " ORDER BY product.productName;";
+				break;
+			case 2:
+				sortby = " ORDER BY product.vendor;";
+				break;
+			case 3:
+				sortby = " ORDER BY product.qty;";
+				break;
+			case 4:
+				sortby = " ORDER BY product.buyPrice;";
+				break;
+			case 5:
+				sortby = " ORDER BY category.categoryName;";
+				break;
+			default:
+				sortby =";";
+				break;
+			}
 			PreparedStatement pstmt = conn
-					.prepareStatement("SELECT * FROM product INNER JOIN category ON product.categoryId = category.id;");
+					.prepareStatement("SELECT * FROM product INNER JOIN category ON product.categoryId = category.id" + sortby);
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()) {
 				product tempProduct = new product();
