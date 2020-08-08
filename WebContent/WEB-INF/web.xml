@@ -128,7 +128,8 @@
   <servlet-mapping>
     <servlet-name>updateCategory</servlet-name>
     <url-pattern>/editCategory</url-pattern>
-  </servlet-mapping> <servlet>
+  </servlet-mapping> 
+  <servlet>
     <servlet-name>deleteCategory</servlet-name>
     <servlet-class>servlets.deleteCategoryServlet</servlet-class>
   </servlet>
@@ -136,5 +137,20 @@
     <servlet-name>deleteCategory</servlet-name>
     <url-pattern>/deleteCategory</url-pattern>
   </servlet-mapping>
-  
+  <servlet>
+    <servlet-name>fetchTopSpenders</servlet-name>
+    <servlet-class>servlets.getTopUserPurchasesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>fetchTopSpenders</servlet-name>
+    <url-pattern>/getTopSpenders</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>getDeliverOrders</servlet-name>
+    <servlet-class>servlets.getDeliveryOrdersServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getDeliverOrders</servlet-name>
+    <url-pattern>/getOrders</url-pattern>
+  </servlet-mapping>
 </web-app>

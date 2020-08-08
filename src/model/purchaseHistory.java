@@ -1,8 +1,9 @@
 package model;
 
-public class purchaseHistory {
+public class purchaseHistory {//merge between product user and buy order
 	private int id;
 	private int categoryId;
+	private int buyOrderId;
 	private String productName;
 	private String vendor;
 	private String pdtDesc;
@@ -13,7 +14,12 @@ public class purchaseHistory {
 	private String createAt;
 	private int orderStatus;
 	private String username;
+	private String email;
+	private String addressline1;
+	private String addressline2;
+	private int postalCode;
 	private int pastPurchases;// Stores weekly purchase count
+	private double totalPurchases;//used to store total purchase of a customer
 	public int getId() {
 		return id;
 	}
@@ -91,5 +97,41 @@ public class purchaseHistory {
 	}
 	public void setPastPurchases(int pastPurchases) {
 		this.pastPurchases = pastPurchases;
+	}
+	public double getTotalPurchases() {
+		return totalPurchases;
+	}
+	public void setTotalPurchases(double totalPurchases) {
+		this.totalPurchases = totalPurchases;
+	}
+	public String getAddressline1() {
+		return addressline1;
+	}
+	public void setAddressline1(String addressline1) {
+		this.addressline1 = addressline1;
+	}
+	public String getAddressline2() {
+		return addressline2;
+	}
+	public void setAddressline2(String addressline2) {
+		this.addressline2 = addressline2;
+	}
+	public int getPostalCode() {
+		return postalCode;
+	}
+	public void setPostalCode(int postalCode) {
+		this.postalCode = postalCode;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public int getBuyOrderId() {
+		return buyOrderId;
+	}
+	public void setBuyOrderId(int buyOrderId) {
+		this.buyOrderId = buyOrderId;
 	}
 }

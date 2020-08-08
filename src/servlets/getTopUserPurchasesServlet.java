@@ -10,22 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.product;
-import model.productService;
-import model.user;
-import model.userService;
+import model.buyorderService;
+import model.purchaseHistory;
 
 /**
- * Servlet implementation class getAllCustomers
+ * Servlet implementation class getTopUserPurchases
  */
-@WebServlet("/getAllCustomers")
-public class getAllCustomers extends HttpServlet {
+@WebServlet("/getTopUserPurchases")
+public class getTopUserPurchasesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public getAllCustomers() {
+    public getTopUserPurchasesServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,12 +34,12 @@ public class getAllCustomers extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		if(session.getAttribute("type") == null || !session.getAttribute("type").equals("Root")) {
+		if(session.getAttribute("type") == null || !session.getAttribute("type").equals("Admin")) {
 			response.sendRedirect("webpages/forbidden.jsp");
 		}else {
-			userService userService = new userService();
-			ArrayList<user> fetchedUsers = userService.getAllUserDetail();
-			request.setAttribute("customers", fetchedUsers);
+		buyorderService buyorderService = new buyorderService();
+		ArrayList<purchaseHistory> fetchedUsers = buyorderService.getTopUserSpending();
+		request.setAttribute("topUsers", fetchedUsers);
 		}
 	}
 

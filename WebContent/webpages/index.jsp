@@ -19,18 +19,17 @@
 			class="storeBanner img-fluid">
 	</div>
 	<div class="productArea container">
-		<div class="row titleRow">
-		Top Weekly Sellers
-		</div>
+		<div class="row titleRow">Top Weekly Sellers</div>
 		<div class="row">
 			<%
 				request.getRequestDispatcher("../topPurchases").include(request, response);
 			ArrayList<purchaseHistory> fetchedTopProducts = (ArrayList<purchaseHistory>) request.getAttribute("topProducts");
 			int limit = 4;
-			if (fetchedTopProducts.size() < 4) {
-				limit = fetchedTopProducts.size();
-			}
-			for (int i = 0; i < limit; i++) {
+			if (fetchedTopProducts != null) {
+				if (fetchedTopProducts.size() < 4) {
+					limit = fetchedTopProducts.size();
+				}
+				for (int i = 0; i < limit; i++) {
 			%>
 			<div class="gridSeperater col-md-3 col-6">
 				<div class="productWrapper">
@@ -38,20 +37,22 @@
 						src="<%=fetchedTopProducts.get(i).getImgURL()%>"
 						alt="<%=fetchedTopProducts.get(i).getImgURL()%>"
 						class="productPicture img-fluid">
-					<div class="productDetails">
+						<div class="productDetails">
 							<p class="text-body text-truncate"><%=fetchedTopProducts.get(i).getProductName()%></p>
-							<div class="numberSold"><img alt="fireIcon" src="../images/topSeller.png"><%=fetchedTopProducts.get(i).getPastPurchases()%> Sold</div>
+							<div class="numberSold">
+								<img alt="fireIcon" src="../images/topSeller.png"><%=fetchedTopProducts.get(i).getPastPurchases()%>
+								Sold
+							</div>
 							<span class="badge badge-pill badge-info">SGD<%=fetchedTopProducts.get(i).getBuyPrice()%></span>
 						</div></a>
 				</div>
 			</div>
 			<%
 				}
+			}
 			%>
 		</div>
-		<div class="row titleRow">
-		Other Products
-		</div>
+		<div class="row titleRow">Other Products</div>
 		<%
 			Class.forName("com.mysql.jdbc.Driver");
 		try {

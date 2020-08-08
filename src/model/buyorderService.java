@@ -17,7 +17,6 @@ import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
  
-@Path("/ctofservice")
 public class buyorderService {
 	public ArrayList<purchaseHistory> getPurchaseHistory(int id) {
 		dbAccess dbConnection = new dbAccess();
@@ -95,6 +94,117 @@ public class buyorderService {
 		    }
 	        conn.close();
 		    return fetchedPurchases;
+		}catch(Exception e){
+		    System.out.println("Error: "+e);
+		    return null;
+		}
+	}
+	
+	public ArrayList<purchaseHistory> getTopUserSpending() {
+		dbAccess dbConnection = new dbAccess();
+		ArrayList<purchaseHistory> fetchedUsers = new ArrayList<purchaseHistory>();
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+		    Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT u.id,u.username,SUM(p.buyPrice * b.qty) totalSpending FROM buyorder b INNER JOIN product p  INNER JOIN user u WHERE b.productId = p.id AND b.userId = u.id group by b.userId ORDER BY totalSpending Desc;");
+			ResultSet rs = pstmt.executeQuery();
+		    while(rs.next()){
+				purchaseHistory fetchedUser = new purchaseHistory();
+				fetchedUser.setId(rs.getInt("u.id"));
+				fetchedUser.setTotalPurchases(rs.getDouble("totalSpending"));
+				fetchedUser.setUsername(rs.getString("u.username"));
+		        fetchedUsers.add(fetchedUser);
+		        System.out.println(rs.getString("u.username"));
+		    }
+	        conn.close();
+		    return fetchedUsers;
+		}catch(Exception e){
+		    System.out.println("Error: "+e);
+		    return null;
+		}
+	}
+	
+	public ArrayList<purchaseHistory> getPendingOrders() {
+		dbAccess dbConnection = new dbAccess();
+		ArrayList<purchaseHistory> fetchedOrders = new ArrayList<purchaseHistory>();
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+		    Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT u.username,u.id,u.email,b.addressline1,b.addressline2,b.postalCode,b.qty,b.id,p.productName FROM buyorder b INNER JOIN user u INNER JOIN product p WHERE b.userId = u.id AND p.id = b.productId AND b.orderStatus = 1;");
+			ResultSet rs = pstmt.executeQuery();
+		    while(rs.next()){
+				purchaseHistory fetchedOrder = new purchaseHistory();
+				fetchedOrder.setId(rs.getInt("u.id"));
+				fetchedOrder.setBuyOrderId(rs.getInt("b.id"));
+				fetchedOrder.setQty(rs.getInt("b.qty"));
+				fetchedOrder.setPostalCode(rs.getInt("b.postalCode"));
+				fetchedOrder.setAddressline1(rs.getString("b.addressline1"));
+				fetchedOrder.setAddressline2(rs.getString("b.addressline2"));
+				fetchedOrder.setProductName(rs.getString("p.productName"));
+				fetchedOrder.setUsername(rs.getString("u.username"));
+				fetchedOrder.setEmail(rs.getString("u.email"));
+				fetchedOrders.add(fetchedOrder);
+		    }
+	        conn.close();
+		    return fetchedOrders;
+		}catch(Exception e){
+		    System.out.println("Error: "+e);
+		    return null;
+		}
+	}
+	
+	public ArrayList<purchaseHistory> getOnDeliveryOrders() {
+		dbAccess dbConnection = new dbAccess();
+		ArrayList<purchaseHistory> fetchedOrders = new ArrayList<purchaseHistory>();
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+		    Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT u.username,u.id,u.email,b.addressline1,b.addressline2,b.postalCode,b.qty,b.id,p.productName FROM buyorder b INNER JOIN user u INNER JOIN product p WHERE b.userId = u.id AND p.id = b.productId AND b.orderStatus = 2;");
+			ResultSet rs = pstmt.executeQuery();
+		    while(rs.next()){
+				purchaseHistory fetchedOrder = new purchaseHistory();
+				fetchedOrder.setId(rs.getInt("u.id"));
+				fetchedOrder.setBuyOrderId(rs.getInt("b.id"));
+				fetchedOrder.setQty(rs.getInt("b.qty"));
+				fetchedOrder.setPostalCode(rs.getInt("b.postalCode"));
+				fetchedOrder.setAddressline1(rs.getString("b.addressline1"));
+				fetchedOrder.setAddressline2(rs.getString("b.addressline2"));
+				fetchedOrder.setProductName(rs.getString("p.productName"));
+				fetchedOrder.setUsername(rs.getString("u.username"));
+				fetchedOrder.setEmail(rs.getString("u.email"));
+				fetchedOrders.add(fetchedOrder);
+		    }
+	        conn.close();
+		    return fetchedOrders;
+		}catch(Exception e){
+		    System.out.println("Error: "+e);
+		    return null;
+		}
+	}
+	
+	public ArrayList<purchaseHistory> getDeliveredOrders() {
+		dbAccess dbConnection = new dbAccess();
+		ArrayList<purchaseHistory> fetchedOrders = new ArrayList<purchaseHistory>();
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+		    Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT u.username,u.id,u.email,b.addressline1,b.addressline2,b.postalCode,b.qty,b.id,p.productName FROM buyorder b INNER JOIN user u INNER JOIN product p WHERE b.userId = u.id AND p.id = b.productId AND b.orderStatus = 3;");
+			ResultSet rs = pstmt.executeQuery();
+		    while(rs.next()){
+				purchaseHistory fetchedOrder = new purchaseHistory();
+				fetchedOrder.setId(rs.getInt("u.id"));
+				fetchedOrder.setBuyOrderId(rs.getInt("b.id"));
+				fetchedOrder.setQty(rs.getInt("b.qty"));
+				fetchedOrder.setPostalCode(rs.getInt("b.postalCode"));
+				fetchedOrder.setAddressline1(rs.getString("b.addressline1"));
+				fetchedOrder.setAddressline2(rs.getString("b.addressline2"));
+				fetchedOrder.setProductName(rs.getString("p.productName"));
+				fetchedOrder.setUsername(rs.getString("u.username"));
+				fetchedOrder.setEmail(rs.getString("u.email"));
+				fetchedOrders.add(fetchedOrder);
+		    }
+	        conn.close();
+		    return fetchedOrders;
 		}catch(Exception e){
 		    System.out.println("Error: "+e);
 		    return null;

@@ -10,22 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.product;
-import model.productService;
-import model.user;
-import model.userService;
+import model.buyorderService;
+import model.purchaseHistory;
 
 /**
- * Servlet implementation class getAllCustomers
+ * Servlet implementation class getDeliveryOrdersServlet
  */
-@WebServlet("/getAllCustomers")
-public class getAllCustomers extends HttpServlet {
+@WebServlet("/getDeliveryOrdersServlet")
+public class getDeliveryOrdersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public getAllCustomers() {
+    public getDeliveryOrdersServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,12 +34,29 @@ public class getAllCustomers extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		if(session.getAttribute("type") == null || !session.getAttribute("type").equals("Root")) {
+		if(session.getAttribute("type") == null || !session.getAttribute("type").equals("Admin")) {
 			response.sendRedirect("webpages/forbidden.jsp");
+			System.out.println("ran here");
 		}else {
-			userService userService = new userService();
-			ArrayList<user> fetchedUsers = userService.getAllUserDetail();
-			request.setAttribute("customers", fetchedUsers);
+			if(request.getParameter("orderStatus") == null) {
+				response.sendRedirect("webpages/error.jsp");
+			}else {
+				try {
+					int orderStatus = Integer.parseInt(request.getParameter("orderStatus"));
+					buyorderService orderRequest = new buyorderService();
+					ArrayList<purchaseHistory> orders = new ArrayList<purchaseHistory>();
+					if(orderStatus == 1) {
+						orders = orderRequest.getPendingOrders();
+					}else if(orderStatus == 2) {
+						orders = orderRequest.getOnDeliveryOrders();
+					}else {
+						orders = orderRequest.getDeliveredOrders();
+					}
+					request.setAttribute("requestedOrders", orders);
+				}catch(Exception e) {
+					response.sendRedirect("webpages/error.jsp");
+				}
+			}
 		}
 	}
 
