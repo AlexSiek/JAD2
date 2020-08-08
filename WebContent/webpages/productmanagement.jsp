@@ -36,12 +36,27 @@
 				%>
 				<%
 					//Fetched all past purchases
-						request.getRequestDispatcher("../purchaseOrders").include(request, response);
+				String sortbyExt = "";
+				if(request.getParameter("sortby") != null && Integer.parseInt(request.getParameter("sortby")) < 6 && Integer.parseInt(request.getParameter("sortby")) >  0){
+					sortbyExt = "?sortby="+Integer.parseInt(request.getParameter("sortby"));
+				}
+						request.getRequestDispatcher("../purchaseOrders"+sortbyExt).include(request, response);
 						ArrayList<purchaseHistory> pastPurchases = (ArrayList<purchaseHistory>) request
 								.getAttribute("purchaseHistory");
 				%>
 				<div class="tableHeader d-flex justify-content-center">
 					<h2>Recent Purchases</h2>
+				</div>
+				<div class="sortByDropdown">
+					<div class="form-group">
+						<select class="form-control" id="selectFormControl"  onchange="location = this.value;">
+							<option <%if(request.getParameter("sortby") == null || Integer.parseInt(request.getParameter("sortby")) > 5 || Integer.parseInt(request.getParameter("sortby")) < 1)out.println("selected"); %> disabled>Sort by...</option>
+							<option value="productmanagement.jsp?sortby=1" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("1"))out.println("selected"); %>>Customer Name</option>
+							<option value="productmanagement.jsp?sortby=2" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("2"))out.println("selected"); %>>Product</option>
+							<option value="productmanagement.jsp?sortby=3" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("3"))out.println("selected"); %>>Quantity</option>
+							<option value="productmanagement.jsp?sortby=4" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("4"))out.println("selected"); %>>Time</option>
+						</select>
+					</div>
 				</div>
 				<div class="tableWrapper">
 					<table class="table table-striped">
@@ -91,7 +106,6 @@
 				<h2>Product Listing</h2>
 			</div>
 			<div class="sortByDropdown">
-			<form action="productmanagement.jsp?table=productList" method="GET">
 				<div class="form-group">
 					<select class="form-control" id="selectFormControl"  onchange="location = this.value;">
 						<option <%if(request.getParameter("sortby") == null || Integer.parseInt(request.getParameter("sortby")) > 5 || Integer.parseInt(request.getParameter("sortby")) < 1)out.println("selected"); %> disabled>Sort by...</option>
@@ -102,7 +116,6 @@
 						<option value="productmanagement.jsp?table=productList&sortby=5" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("5"))out.println("selected"); %>>Category Name</option>
 					</select>
 				</div>
-			</form>
 			</div>
 			<div class="tableWrapper">
 				<table class="table table-striped">

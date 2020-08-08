@@ -35,7 +35,17 @@ public class purchaseOrdersServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		buyorderService buyOrderService = new buyorderService();
 		HttpSession session = request.getSession();
-		ArrayList<purchaseHistory> purchases = buyOrderService.getAllPurchaseHistory();
+		ArrayList<purchaseHistory> purchases = new ArrayList<purchaseHistory>();
+		try {
+			if(request.getParameter("sortby") == null) {
+				 purchases = buyOrderService.getAllPurchaseHistory(0);
+			}else {
+				int sortbyCode = Integer.parseInt(request.getParameter("sortby"));
+				 purchases = buyOrderService.getAllPurchaseHistory(sortbyCode);
+			}
+		}catch(Exception e){
+			System.out.println("Error: " + e);
+		}
 		request.setAttribute("purchaseHistory", purchases);
 	}
 

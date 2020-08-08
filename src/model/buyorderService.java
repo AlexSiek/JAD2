@@ -48,13 +48,31 @@ public class buyorderService {
 		}
 	}
 	
-	public ArrayList<purchaseHistory> getAllPurchaseHistory() {
+	public ArrayList<purchaseHistory> getAllPurchaseHistory(int sortBy) {
 		dbAccess dbConnection = new dbAccess();
 		ArrayList<purchaseHistory> fetchedPurchases = new ArrayList<purchaseHistory>();
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 		    Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
-		    PreparedStatement pstmt = conn.prepareStatement("SELECT buyOrder.id,buyOrder.createAt,buyOrder.userid,buyorder.qty,buyOrder.productid,buyOrder.qty,user.username,user.email,product.productName,product.buyPrice FROM buyOrder INNER JOIN user ON buyOrder.userid = user.id INNER JOIN product ON buyOrder.productid = product.id");
+		    String sortby = "";
+			switch(sortBy) {
+			case 1:
+				sortby = " ORDER BY user.username;";
+				break;
+			case 2:
+				sortby = " ORDER BY product.productName;";
+				break;
+			case 3:
+				sortby = " ORDER BY buyOrder.qty;";
+				break;
+			case 4:
+				sortby = " ORDER BY buyOrder.createAt;";
+				break;
+			default:
+				sortby =";";
+				break;
+			}
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT buyOrder.id,buyOrder.createAt,buyOrder.userid,buyorder.qty,buyOrder.productid,buyOrder.qty,user.username,user.email,product.productName,product.buyPrice FROM buyOrder INNER JOIN user ON buyOrder.userid = user.id INNER JOIN product ON buyOrder.productid = product.id"+sortby);
 			ResultSet rs = pstmt.executeQuery();
 		    while(rs.next()){
 				purchaseHistory fetchedProduct = new purchaseHistory();
