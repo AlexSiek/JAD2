@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -17,6 +18,9 @@ import javax.ws.rs.client.WebTarget;
 //import javax.ws.rs.client.Invocation;
 //import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+
+import model.user;
+import model.userService;
 
 
 /**
@@ -38,35 +42,29 @@ public class userDetailsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		HttpSession session = request.getSession();
+		String type = (String) session.getAttribute("type");
+		if (type == null) {
+			response.sendRedirect("webpages/forbidden.jsp");
+		}else if( !type.equals("Root") && !type.equals("Admin")){
+			response.sendRedirect("webpages/forbidden.jsp");
+		}else {
+			try {
+				int id = Integer.parseInt(request.getParameter("userId"));
+			userService userService = new userService();
+			user fetchedUser = userService.getUserDetail(id);
+			request.setAttribute("userDetails",fetchedUser);
+			}catch(Exception e) {
+				System.out.println("Error: " + e);
+			}
+		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Client client = ClientBuilder.newClient();
-        WebTarget target = client
-                .target("http://localhost:8080/JADCA2/api/user")
-                .path("updateUser")
-                .queryParam("username", request.getParameter("username"))
-                .queryParam("email", request.getParameter("email"))
-                .queryParam("address", request.getParameter("address"))
-                .queryParam("password1", request.getParameter("password1"))
-                .queryParam("password2", request.getParameter("password2"))
-                .queryParam("mobileNumber", request.getParameter("mobileNumber"))
-                .queryParam("postalCode", request.getParameter("postalCode")); 
-        Invocation.Builder invocationBuilder = target.request();
-
-        Response response1 = invocationBuilder.put(Entity.entity("", "application/json"));
-        System.out.println("status: " + response1.getStatus());
-
-        if (response1.getStatus() == Response.Status.CREATED.getStatusCode()) {
-            System.out.println("success");
-        } else {
-            System.out.println("failed");
-        }
-
+		
 	}
 
 }
