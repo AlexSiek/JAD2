@@ -199,7 +199,7 @@ String currentTable = request.getParameter("table");
 						%>
 						<tr>
 							<td><%=count%></td>
-							<td><%=orderFetched.get(i).getUsername()%></td>
+							<td><a href="profileinquiry.jsp?id=<%=orderFetched.get(i).getId()%>"><%=orderFetched.get(i).getUsername()%></a></td>
 							<td><%=orderFetched.get(i).getEmail()%></td>
 							<td><%=orderFetched.get(i).getAddressline1() + " - " + orderFetched.get(i).getAddressline2()%></td>
 							<td><%=orderFetched.get(i).getPostalCode()%></td>
@@ -261,7 +261,7 @@ String currentTable = request.getParameter("table");
 						%>
 						<tr>
 							<td><%=count%></td>
-							<td><%=orderFetched.get(i).getUsername()%></td>
+							<td><a href="profileinquiry.jsp?id=<%=orderFetched.get(i).getId()%>"><%=orderFetched.get(i).getUsername()%></a></td>
 							<td><%=orderFetched.get(i).getEmail()%></td>
 							<td><%=orderFetched.get(i).getAddressline1() + " - " + orderFetched.get(i).getAddressline2()%></td>
 							<td><%=orderFetched.get(i).getPostalCode()%></td>
@@ -322,7 +322,7 @@ String currentTable = request.getParameter("table");
 						%>
 						<tr>
 							<td><%=count%></td>
-							<td><%=orderFetched.get(i).getUsername()%></td>
+							<td><a href="profileinquiry.jsp?id=<%=orderFetched.get(i).getId()%>"><%=orderFetched.get(i).getUsername()%></a></td>
 							<td><%=orderFetched.get(i).getEmail()%></td>
 							<td><%=orderFetched.get(i).getAddressline1() + " - " + orderFetched.get(i).getAddressline2()%></td>
 							<td><%=orderFetched.get(i).getPostalCode()%></td>

@@ -72,14 +72,15 @@
 						<tbody>
 							<%
 								String username, productName, timeStamp;
-									int count = 0, qty;
+									int count = 0, qty,userId;
 									for (int i = 0; i < pastPurchases.size(); i++) {
 										username = pastPurchases.get(i).getUsername();
 										productName = pastPurchases.get(i).getProductName();
 										qty = pastPurchases.get(i).getQty();
 										timeStamp = pastPurchases.get(i).getCreateAt();
+										userId = pastPurchases.get(i).getId();
 										count++;
-										out.println("<tr><td>" + count + "</td><td>" + username + "</td><td>" + productName + "</td><td>"
+										out.println("<tr><td>" + count + "</td><td><a href=profileinquiry.jsp?id="+userId+">" + username + "</a></td><td>" + productName + "</td><td>"
 												+ qty + "</td><td>" + timeStamp + "</td>");
 									}
 									if (count == 0) {
