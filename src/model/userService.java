@@ -66,10 +66,13 @@ public class userService {
 		        fetchedUser.setUsername(rs.getString("username"));
 		        fetchedUser.setType(rs.getString("type"));
 		        fetchedUser.setAddressline1(rs.getString("addressline1"));
-		        fetchedUser.setAddressline1(rs.getString("addressline2"));
+		        fetchedUser.setAddressline2(rs.getString("addressline2"));
 		        fetchedUser.setId(id);
 		        fetchedUser.setMobileNumber(rs.getInt("mobileNumber"));
 		        fetchedUser.setPostalCode(rs.getInt("postalCode"));
+		        fetchedUser.setCreditCardNumber(rs.getLong("creditCardNumber"));
+		        fetchedUser.setCsv(rs.getInt("csv"));
+		        fetchedUser.setExpDate(rs.getInt("expDate"));
 		        conn.close();
 		    }else{
 		        conn.close();
@@ -101,6 +104,9 @@ public class userService {
 		        fetchedUser.setId(rs.getInt("id"));
 		        fetchedUser.setMobileNumber(rs.getInt("mobileNumber"));
 		        fetchedUser.setPostalCode(rs.getInt("postalCode"));
+		        fetchedUser.setCreditCardNumber(rs.getLong("creditCardNumber"));
+		        fetchedUser.setCsv(rs.getInt("csv"));
+		        fetchedUser.setExpDate(rs.getInt("expDate"));
 		        fetchedUsers.add(fetchedUser);
 			}
 			conn.close();
@@ -111,34 +117,32 @@ public class userService {
 		}
 	}
 	
-	public String updateUserDetail(String username,String password,String email,String address,int id,int mobileNumber,int postalCode) throws JSONException {
+	public int updateUserDetail(String username,String password,String email,int id,int mobileNumber) throws JSONException {
 		dbAccess dbConnection = new dbAccess();
 		String code = "";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
-			PreparedStatement ps  = conn.prepareStatement("UPDATE user SET username=? ,password=? ,email=? ,address=? ,mobileNumber=? ,postalCode=? WHERE id=?");
+			PreparedStatement ps  = conn.prepareStatement("UPDATE user SET username=? ,password=? ,email=? ,mobileNumber=? WHERE id=?");
 			ps.setString(1,username);
 			ps.setString(2,password);
 			ps.setString(3,email);
-			ps.setString(4,address);
-			ps.setInt(5,mobileNumber);
-			ps.setInt(6,postalCode);
-			ps.setInt(7,id);
+			ps.setInt(4,mobileNumber);
+			ps.setInt(5,id);
 			try{
 				ps.executeUpdate();
 				ps.close();
-				return code = "success";
+				return 0;
 			}catch (java.sql.SQLIntegrityConstraintViolationException a) {
 				ps.close();
-				return code = "dupEntry";
+				return -1;
 			}
 		}catch (Exception e) {
-			return code = "internalError";
+			return -2;
 		}
 	}
 	
-	public String updateUserAddress(String addressline1,String addressline2,int id,int postalCode) throws JSONException {
+	public int updateUserAddress(String addressline1,String addressline2,int id,int postalCode) throws JSONException {
 		dbAccess dbConnection = new dbAccess();
 		String code = "";
 		try {
@@ -152,17 +156,17 @@ public class userService {
 			try{
 				ps.executeUpdate();
 				ps.close();
-				return code = "success";
+				return 0;
 			}catch (java.sql.SQLIntegrityConstraintViolationException a) {
 				ps.close();
-				return code = "dupEntry";
+				return -1;
 			}
 		}catch (Exception e) {
-			return code = "internalError";
+			return -2;
 		}
 	}
 	
-	public String updateUserCard(Long creditCardNumber,int csv,int id,int expDate) throws JSONException {
+	public int updateUserCard(Long creditCardNumber,int csv,int id,int expDate) throws JSONException {
 		dbAccess dbConnection = new dbAccess();
 		String code = "";
 		try {
@@ -176,13 +180,13 @@ public class userService {
 			try{
 				ps.executeUpdate();
 				ps.close();
-				return code = "success";
+				return 0;
 			}catch (java.sql.SQLIntegrityConstraintViolationException a) {
 				ps.close();
-				return code = "dupEntry";
+				return -1;
 			}
 		}catch (Exception e) {
-			return code = "internalError";
+			return -2;
 		}
 	}
 	public String checkCreditCard(long creditCard) {

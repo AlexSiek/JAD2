@@ -153,4 +153,12 @@
     <servlet-name>getDeliverOrders</servlet-name>
     <url-pattern>/getOrders</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>getUserDetailsById</servlet-name>
+    <servlet-class>servlets.getUserBySessionServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getUserDetailsById</servlet-name>
+    <url-pattern>/getUserBySessionId</url-pattern>
+  </servlet-mapping>
 </web-app>

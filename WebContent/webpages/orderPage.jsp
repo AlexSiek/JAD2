@@ -136,7 +136,7 @@ String currentTable = request.getParameter("table");
 							%>
 							<tr>
 							<td scope="col"><%=i+1%></th>
-							<td scope="col"><%=topCustomers.get(i).getUsername()%></th>
+							<td scope="col"><a href="profileinquiry.jsp?id=<%=topCustomers.get(i).getId()%>"><%=topCustomers.get(i).getUsername()%></a></th>
 							<td scope="col">$<%=topCustomers.get(i).getTotalPurchases()%></th>
 							</tr>
 							<%

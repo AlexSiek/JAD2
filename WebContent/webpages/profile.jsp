@@ -3,6 +3,8 @@
 <%@page import="java.sql.*"%>
 <%@ page import="model.purchaseHistory"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="model.user"%>
+<jsp:useBean id="user" class="model.user" />
 <jsp:useBean id="cart" class="model.purchaseHistory" />
 <!DOCTYPE html>
 <html>
@@ -15,9 +17,6 @@
 	<%@ include file="header.jsp"%>
 	<%
 		//check if there is err code form updateAcc's redirect
-	if (username == null) {
-		response.sendRedirect("error.jsp");
-	}
 	String err = request.getParameter("err");
 	String success = request.getParameter("success");
 	String updated = "", appendedHTML = "";
@@ -55,6 +54,10 @@
 		updated = "<h1 class=\"text-success\" align=\"center\">Successfully Updated</h1>";
 	}
 	%>
+	<%
+	request.getRequestDispatcher("../getUserBySessionId").include(request, response);
+	user fetchedUser = (user) request.getAttribute("userDetails");
+	%>
 	<div class="container-fluid">
 		<div class="row justify-content-center">
 			<div class="form-spacing col-md-6 col-10">
@@ -69,32 +72,60 @@
 					method="POST">
 					<div class="form-group">
 						<label for="username">Username</label> <input type="text"
-							class="form-control" id="username" value="<%=username%>"
+							class="form-control" id="username" value="<%=fetchedUser.getUsername()%>"
 							name="username" required>
 					</div>
 					<div class="form-group">
 						<label for="email">Email address</label> <input type="email"
 							class="form-control" id="email" aria-describedby="emailHelp"
-							placeholder="Enter email" value="<%=email%>" name="email"
+							placeholder="Enter email" value="<%=fetchedUser.getEmail()%>" name="email"
 							required>
 					</div>
 					<div class="form-group">
 						<label for="password1">New Password</label> <input type="password"
 							class="form-control" id="password1" placeholder="Password"
-							value="<%=password%>" name="password1" required>
+							value="<%=fetchedUser.getPassword()%>" name="password1" required>
 					</div>
 					<div class="form-group">
 						<label for="password2">Confirm Password</label> <input
 							type="password" class="form-control" id="password2"
-							placeholder="Password" value="<%=password%>" name="password2"
+							placeholder="Password" value="<%=fetchedUser.getPassword()%>" name="password2"
 							required>
 					</div>
 					<div class="form-group">
 						<label for="mobileNo">Phone Number</label> <input type="number"
 							class="form-control" id="mobileNo" placeholder="+65"
-							value="<%=mobileNumber%>" name="mobileNumber" required>
+							value="<%=fetchedUser.getMobileNumber()%>" name="mobileNumber" required>
 					</div>
 					<%=appendedHTML%>
+					<div class="addressHeader text-center"><h3>Default Address</h3></div>
+					<div class="form-group">
+					<label for="addressline1">Address Line 1</label> <input type="text"
+							class="form-control" id="addressline1" value="<%=fetchedUser.getAddressline1()%>" name="addressline1">
+					</div>
+					<div class="form-group">
+					<label for="addressline2">Address Line 2</label> <input type="text"
+							class="form-control" id="addressline2" value="<%=fetchedUser.getAddressline2()%>" name="addressline2">
+					</div>  
+					<div class="form-group">
+					<label for="postalCode">Postal Code</label> <input type="number"
+							class="form-control" id="postalCode" value="<%=fetchedUser.getPostalCode()%>" name="postalCode">
+					</div>  
+					<div class="cardHeader text-center"><h3>Default Card Details</h3></div>
+					<div class="form-group">
+					<label for="creditCardNum">Credit Card Number</label> <input type="number"
+							class="form-control" id="creditCardNum" value="<%=fetchedUser.getCreditCardNumber()%>" name="creditCardNum">
+					</div> 
+					<div class="row">
+					<div class="form-group col">
+					<label for="csv">CSV</label> <input type="number"
+							class="form-control" id="csv" value="<%=fetchedUser.getCsv()%>" name="csv">
+					</div> 
+					<div class="form-group col">
+					<label for="expDate">Expiry Date</label> <input type="number"
+							class="form-control" id="expDate" value="<%=fetchedUser.getExpDate()%>" name="expDate">
+					</div> 
+					</div>
 					<div align="center">
 						<button type="submit" class="btn btn-primary">Submit</button>
 					</div>
