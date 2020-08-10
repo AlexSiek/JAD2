@@ -161,4 +161,12 @@
     <servlet-name>getUserDetailsById</servlet-name>
     <url-pattern>/getUserBySessionId</url-pattern>
   </servlet-mapping>
+    <servlet>
+    <servlet-name>updateUserById</servlet-name>
+    <servlet-class>servlets.editUserServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>updateUserById</servlet-name>
+    <url-pattern>/editUserDetail</url-pattern>
+  </servlet-mapping>
 </web-app>

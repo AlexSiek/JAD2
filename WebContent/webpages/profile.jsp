@@ -48,6 +48,16 @@
 		appendedHTML = "<p class=\"text-danger\">The Username,Email Or Mobile Number You Are Trying To Set Is Already In Use</p>";
 			} else if (err.equals("moNo")) {
 		appendedHTML = "<p class=\"text-danger\">Invalid Mobile Number</p>";
+			}	else if (err.equals("invalidPostal")) {
+		appendedHTML = "<p class=\"text-danger\">Invalid Postal Code</p>";
+			} else if (err.equals("missAddress")) {
+		appendedHTML = "<p class=\"text-danger\">Please Fill In All Address Details Or Leave It Empty</p>";
+			}	else if (err.equals("invalidExpDate")) {
+		appendedHTML = "<p class=\"text-danger\">Invalid Expiry Date</p>";
+			} else if (err.equals("invalidCardNum")) {
+		appendedHTML = "<p class=\"text-danger\">Invalid Card Number</p>";
+			} else if (err.equals("invalidCsv")) {
+		appendedHTML = "<p class=\"text-danger\">Invalid CSV</p>";
 			}
 		}
 	} else {
@@ -68,8 +78,9 @@
 				</div>
 				<%=updated%>
 				<h1 class="headerText">Edit Profile</h1>
-				<form class="form-tag" action="../SQLFiles/updateAcc.jsp "
+				<form class="form-tag" action="../editUserDetail"
 					method="POST">
+					<%=appendedHTML%>
 					<div class="form-group">
 						<label for="username">Username</label> <input type="text"
 							class="form-control" id="username" value="<%=fetchedUser.getUsername()%>"
@@ -97,7 +108,6 @@
 							class="form-control" id="mobileNo" placeholder="+65"
 							value="<%=fetchedUser.getMobileNumber()%>" name="mobileNumber" required>
 					</div>
-					<%=appendedHTML%>
 					<div class="addressHeader text-center"><h3>Default Address</h3></div>
 					<div class="form-group">
 					<label for="addressline1">Address Line 1</label> <input type="text"
