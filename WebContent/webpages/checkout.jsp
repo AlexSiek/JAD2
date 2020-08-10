@@ -3,6 +3,8 @@
 <%@ page import="model.cart,model.product"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="javax.ws.rs.core.Response"%>
+<%@ page import="model.user"%>
+<jsp:useBean id="user" class="model.user" />
 <jsp:useBean id="cart" class="model.cart" />
 <jsp:useBean id="product" class="model.product" />
 <!DOCTYPE html>
@@ -25,6 +27,8 @@
 	String errCode = request.getParameter("errCode");
 	request.getRequestDispatcher("../currencyConversion").include(request, response);
 	Response responseObj = (Response) request.getAttribute("responseObj");
+	request.getRequestDispatcher("../getUserBySessionId").include(request, response);
+	user currentUser = (user) request.getAttribute("userDetails");
 	%>
 	<div class="container">
 		<div class="row">
@@ -37,15 +41,15 @@
 							<label for="addressLine1">Address Line 1</label> <input
 								type="text" class="form-control" id="addressLine1"
 								aria-describedby="addressLine"
-								placeholder="Enter Address Line 1" name="addressLine1" required>
+								placeholder="Enter Address Line 1" name="addressLine1" value="<%=currentUser.getAddressline1() %>" required>
 							<label for="addressLine2">Address Line 2</label> <input
 								type="text" class="form-control" id="addressLine2"
 								name="addressLine2" aria-describedby="addressLine"
-								placeholder="Enter Address Line 2" required> <label
+								placeholder="Enter Address Line 2" value="<%=currentUser.getAddressline2() %>" required> <label
 								for="postalCode">Postal Code</label> <input type="number"
 								class="form-control" id="postalCode" name="postalCode"
 								aria-describedby="postalCode" placeholder="Postal Code"
-								max="999999" required> <small id="checkboxLabel"
+								max="999999" value="<%=currentUser.getPostalCode() %>" required> <small id="checkboxLabel"
 								class="form-text text-muted"> <input type="checkbox"
 								class=" align-center" id="rememberAddress"
 								name="rememberAddress" value="remember">Remember Address
@@ -59,19 +63,19 @@
 							<label for="creditcard">Credit Card</label> <input type="number"
 								class="form-control" id="creditcard" name="creditcard"
 								aria-describedby="creditcard" placeholder="1111222233334444"
-								max="9999999999999999" min="1000000000000000" required>
+								max="9999999999999999" min="1000000000000000" value="<%=currentUser.getCreditCardNumber() %>" required>
 							<div class="row">
 								<div class="col">
 									<label for="creditcard">CSV</label> <input type="number"
 										class="form-control" id="csv" name="csv"
 										aria-describedby="creditcard" placeholder="999" max="999"
-										min="100" required>
+										min="100" value="<%=currentUser.getCsv() %>" required>
 								</div>
 								<div class="col">
 									<label for="creditcard">Exp</label> <input type="number"
 										class="form-control" id="expDate" name="expDate"
 										aria-describedby="creditcard" placeholder="MM/YY" max="9999"
-										min="1000" required>
+										min="1000" value="<%=currentUser.getExpDate() %>" required>
 								</div>
 							</div>
 							<small id="checkboxLabel" class="form-text text-muted">
@@ -141,15 +145,6 @@
 	</div>
 	<%@ include file="footer.html"%>
 	<script>
-	//function Hide() {
-	//  var x = document.getElementById("creditCard");
-	//  if (x.style.display === "none") {
-	//    x.style.display = "block";
-	//  } else {
-	//    x.style.display = "none";
-	//  }
-	//}
-	
 	var responseObj = <%=responseObj.readEntity(String.class)%>
 	var sgdRate = responseObj.rates.SGD;
 	<%double totaledPrice = (totalPrice + count * 5 + totalPrice / 100 * 7);%>

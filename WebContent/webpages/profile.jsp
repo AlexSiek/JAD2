@@ -142,6 +142,7 @@
 				</form>
 			</div>
 			<%
+			if(type.equals("Member")){
 			//Purchase history
 			request.getRequestDispatcher("../purchaseHistory").include(request, response);
 			ArrayList<purchaseHistory> pastPurchases = (ArrayList<purchaseHistory>) request.getAttribute("purchaseHistory");
@@ -169,6 +170,7 @@
 			}
 			%>
 			</div>
+			<%} %>
 		</div>
 	</div>
 	<%@ include file="footer.html"%>
