@@ -41,15 +41,15 @@
 							<label for="addressLine1">Address Line 1</label> <input
 								type="text" class="form-control" id="addressLine1"
 								aria-describedby="addressLine"
-								placeholder="Enter Address Line 1" name="addressLine1" value="<%=currentUser.getAddressline1() %>" required>
+								placeholder="Enter Address Line 1" name="addressLine1" value="<% String s = null; if (currentUser.getAddressline1() == null) {s = "";} else {s = currentUser.getAddressline1();}%><%=s%>" required>
 							<label for="addressLine2">Address Line 2</label> <input
 								type="text" class="form-control" id="addressLine2"
 								name="addressLine2" aria-describedby="addressLine"
-								placeholder="Enter Address Line 2" value="<%=currentUser.getAddressline2() %>" required> <label
+								placeholder="Enter Address Line 2" value="<% if (currentUser.getAddressline2() == null) {s = "";} else {s = currentUser.getAddressline2();}%><%=s%>" required> <label
 								for="postalCode">Postal Code</label> <input type="number"
 								class="form-control" id="postalCode" name="postalCode"
 								aria-describedby="postalCode" placeholder="Postal Code"
-								max="999999" value="<%=currentUser.getPostalCode() %>" required> <small id="checkboxLabel"
+								max="999999" value="<% if (currentUser.getPostalCode() == 0) {s = "";} else {s = String.valueOf(currentUser.getPostalCode());}%><%=s%>" required> <small id="checkboxLabel"
 								class="form-text text-muted"> <input type="checkbox"
 								class=" align-center" id="rememberAddress"
 								name="rememberAddress" value="remember">Remember Address
@@ -63,19 +63,19 @@
 							<label for="creditcard">Credit Card</label> <input type="number"
 								class="form-control" id="creditcard" name="creditcard"
 								aria-describedby="creditcard" placeholder="1111222233334444"
-								max="9999999999999999" min="1000000000000000" value="<%=currentUser.getCreditCardNumber() %>" required>
+								max="9999999999999999" min="1000000000000000" value="<% if (currentUser.getCreditCardNumber() == 0) {s = "";} else {s = String.valueOf(currentUser.getCreditCardNumber());}%><%=s%>" required>
 							<div class="row">
 								<div class="col">
 									<label for="creditcard">CSV</label> <input type="number"
 										class="form-control" id="csv" name="csv"
 										aria-describedby="creditcard" placeholder="999" max="999"
-										min="100" value="<%=currentUser.getCsv() %>" required>
+										min="100" value="<% if (currentUser.getCsv() == 0) {s = "";} else {s = String.valueOf(currentUser.getCsv());}%><%=s%>" required>
 								</div>
 								<div class="col">
 									<label for="creditcard">Expiry Date</label> <input type="number"
 										class="form-control" id="expDate" name="expDate"
 										aria-describedby="creditcard" placeholder="MM/YY" max="9999"
-										min="1000" value="<%=currentUser.getExpDate() %>" required>
+										min="1000" value="<% if (currentUser.getExpDate() == 0) {s = "";} else {s = String.valueOf(currentUser.getExpDate());}%><%=s%>" required>
 								</div>
 							</div>
 							<small id="checkboxLabel" class="form-text text-muted">
