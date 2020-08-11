@@ -193,4 +193,12 @@
     <servlet-name>createNewAdmin</servlet-name>
     <url-pattern>/createAdmin</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>addToCart</servlet-name>
+    <servlet-class>servlets.addToCartServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>addToCart</servlet-name>
+    <url-pattern>/addingToCart</url-pattern>
+  </servlet-mapping>
 </web-app>

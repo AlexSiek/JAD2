@@ -11,6 +11,52 @@ import java.util.Map;
 
 public class cartService {
 	
+	public int addToCart (int userId,int qty,int productId) {
+		dbAccess dbConnection = new dbAccess();
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+				try {
+					Statement stmt = conn.createStatement();
+					String sqlStr = "SELECT id,qty FROM cart WHERE productId ="+productId+" AND userId="+userId;//ensure that user does not insert multiple individual row for same product
+					ResultSet rs = stmt.executeQuery(sqlStr);
+					if(rs.next()){//if there is existing item in cart, update to increase amount
+						int id = rs.getInt("id");
+						int cartQty = rs.getInt("qty");
+						int newQty = qty+cartQty;
+						
+						String updateStr = "UPDATE cart SET qty="+newQty+" WHERE id="+id;
+						Connection conn2 = DriverManager.getConnection(dbConnection.getConnURL());
+						Statement stmt2 = conn2.createStatement();
+						stmt2.executeUpdate(updateStr);
+						conn2.close();
+						return 1;
+					}else{//if no existing item in cart, insert new ones
+						String insertStr = "INSERT INTO cart (userId,productId,qty) VALUES (?,?,?)";
+						Connection conn2 = DriverManager.getConnection(dbConnection.getConnURL());
+						try {
+							PreparedStatement pstmt = conn2.prepareStatement(insertStr);
+							pstmt.setInt(1, userId);
+							pstmt.setInt(2, productId);
+							pstmt.setInt(3, qty);
+							int count = pstmt.executeUpdate();
+							conn2.close();
+							return 1;
+						}catch (Exception e) {
+							System.out.println(e);
+							return 0;
+						}
+					}
+				}catch (Exception e) {
+					System.out.println(e);
+					return 0;
+				}
+			}catch (Exception e) {
+				System.out.println(e);
+				return 0;
+			}
+	}
+	
 	public Map<ArrayList<product>,ArrayList<cart>> getCartDetail(int id) {
 		dbAccess dbConnection = new dbAccess();
 		ArrayList<cart> fetchedCarts = new ArrayList<cart>();

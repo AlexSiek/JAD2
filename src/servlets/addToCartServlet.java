@@ -8,20 +8,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.user;
+import model.cartService;
 import model.userService;
 
 /**
- * Servlet implementation class getUserBySessionServlet
+ * Servlet implementation class addToCartServlet
  */
-@WebServlet("/getUserBySessionServlet")
-public class getUserBySessionServlet extends HttpServlet {
+@WebServlet("/addToCartServlet")
+public class addToCartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public getUserBySessionServlet() {
+    public addToCartServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,16 +30,8 @@ public class getUserBySessionServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		try {
-			int userId = (int) session.getAttribute("id");
-			userService userService = new userService();
-			user fetchedUser = userService.getUserDetail(userId);
-			request.setAttribute("userDetails",fetchedUser);
-		}catch(Exception e) {
-			System.out.println("Error: " + e);
-			response.sendRedirect("webpages/error.jsp");
-		}
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -47,6 +39,23 @@ public class getUserBySessionServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		HttpSession session = request.getSession();
+		cartService cartService = new cartService();
+		try {
+			int userId = (int) session.getAttribute("id");
+			int qty = Integer.parseInt(request.getParameter("qty"));
+			int productId = Integer.parseInt(request.getParameter("productId"));
+			int returnCode = cartService.addToCart(userId, qty, productId);
+			if(returnCode == 1) {
+				response.sendRedirect("webpages/cart.jsp");
+			}else {
+				response.sendRedirect("webpages/error.jsp");
+			}
+		}catch(Exception e) {
+			System.out.println("Error: "+e);
+			response.sendRedirect("webpages/error.jsp");
+			
+		}
 		doGet(request, response);
 	}
 

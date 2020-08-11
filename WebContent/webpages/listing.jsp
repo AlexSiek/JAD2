@@ -102,7 +102,7 @@
 						appendedButton = "<a class=\"btn btn-danger editButton\" href=\"#"
 								+ "\">Out Of Stock</a>";
 					} else{
-						appendedButton = "<form method=\"POST\" action=\"../SQLFiles/addToCart.jsp?productId=" + productId
+						appendedButton = "<form method=\"POST\" action=\"../addingToCart?productId=" + productId
 						+ "\" class=\"\"><div class=\"row\"><div class=\"col\"><input type=\"number\" class=\"form-control\" id=\"orderQty\"  min=\"1\" value=\"1\" name=\"qty\" required> </div> <div class=\"col\"><button type=\"submit\" class=\"btn btn-warning atcButton\">Add To Cart</button></form></div></div>";
 					}
 				} else {
