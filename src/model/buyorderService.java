@@ -48,13 +48,28 @@ public class buyorderService {
 		}
 	}
 	
-	public ArrayList<purchaseHistory> getAllPurchaseHistory(int sortBy) {
+	public ArrayList<purchaseHistory> getAllPurchaseHistory(int sortBy,int filterBy) {
 		dbAccess dbConnection = new dbAccess();
 		ArrayList<purchaseHistory> fetchedPurchases = new ArrayList<purchaseHistory>();
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 		    Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
 		    String sortby = "";
+		    String filterby = "";
+		    switch(filterBy) {
+			case 1:
+				filterby = " WHERE buyOrder.createAt > date_sub(now(), interval 1 day)";
+				break;
+			case 2:
+				filterby = " WHERE buyOrder.createAt > date_sub(now(), interval 1 week)";
+				break;
+			case 3:
+				filterby = " WHERE buyOrder.createAt > date_sub(now(), interval 1 month)";
+				break;
+			default:
+				filterby ="";
+				break;
+			}
 			switch(sortBy) {
 			case 1:
 				sortby = " ORDER BY user.username;";
@@ -72,7 +87,7 @@ public class buyorderService {
 				sortby =";";
 				break;
 			}
-		    PreparedStatement pstmt = conn.prepareStatement("SELECT buyOrder.id,buyOrder.createAt,buyOrder.userid,buyorder.qty,buyOrder.productid,buyOrder.qty,user.username,user.email,product.productName,product.buyPrice FROM buyOrder INNER JOIN user ON buyOrder.userid = user.id INNER JOIN product ON buyOrder.productid = product.id"+sortby);
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT buyOrder.id,buyOrder.createAt,buyOrder.userid,buyorder.qty,buyOrder.productid,buyOrder.qty,user.username,user.email,product.productName,product.buyPrice FROM buyOrder INNER JOIN user ON buyOrder.userid = user.id INNER JOIN product ON buyOrder.productid = product.id"+filterby+sortby);
 			ResultSet rs = pstmt.executeQuery();
 		    while(rs.next()){
 				purchaseHistory fetchedProduct = new purchaseHistory();

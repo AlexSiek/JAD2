@@ -36,12 +36,23 @@ public class purchaseOrdersServlet extends HttpServlet {
 		buyorderService buyOrderService = new buyorderService();
 		HttpSession session = request.getSession();
 		ArrayList<purchaseHistory> purchases = new ArrayList<purchaseHistory>();
+		String sortby = request.getParameter("sortby");
+		String filterby = request.getParameter("filterby");
+		System.out.println("SortBy: " + sortby);
+		System.out.println("filterby: " + filterby);
 		try {
-			if(request.getParameter("sortby") == null) {
-				 purchases = buyOrderService.getAllPurchaseHistory(0);
-			}else {
-				int sortbyCode = Integer.parseInt(request.getParameter("sortby"));
-				 purchases = buyOrderService.getAllPurchaseHistory(sortbyCode);
+			if(sortby == null && filterby == null) {
+				 purchases = buyOrderService.getAllPurchaseHistory(0,0);
+			}else if(sortby == null  && filterby != null){
+				int filterbyCode = Integer.parseInt(filterby);
+				 purchases = buyOrderService.getAllPurchaseHistory(0,filterbyCode);
+			}else if(sortby != null  && filterby == null) {
+				int sortbyCode = Integer.parseInt(sortby);
+				 purchases = buyOrderService.getAllPurchaseHistory(sortbyCode,0);
+			}else if(sortby != null  && filterby != null) {
+				int sortbyCode = Integer.parseInt(sortby);
+				int filterbyCode = Integer.parseInt(filterby);
+				 purchases = buyOrderService.getAllPurchaseHistory(sortbyCode,filterbyCode);
 			}
 		}catch(Exception e){
 			System.out.println("Error: " + e);

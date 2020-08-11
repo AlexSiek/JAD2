@@ -20,6 +20,47 @@
 	String currentTable = request.getParameter("table");
 %>
 </head>
+<script>
+	function changeLocationFilters(keyword,value){
+		var currentLocation = location.href;
+		if(location.href.includes("?")){
+			var firstSplitArr = currentLocation.split("?");
+			var secondSplitArr = firstSplitArr[1].split("&");
+			var urlExtension = "";
+			for(let i = 0; i < secondSplitArr.length;i++){
+				console.log(secondSplitArr[i]);
+				if(!urlExtension == "" && secondSplitArr[i] != null && secondSplitArr[i] != ""){
+					urlExtension += "&"
+				}
+				if(secondSplitArr[i].includes(keyword)){
+					if(value != 0){
+						if(!urlExtension.includes("?")){
+							urlExtension += "?" + keyword+"="+value
+						}else{
+							urlExtension += keyword+"="+value
+						}
+					}
+				}else{
+					if(!urlExtension.includes("?")){
+						urlExtension += "?" + secondSplitArr[i]
+					}else if(secondSplitArr[i] != null){
+						urlExtension += secondSplitArr[i]
+					}
+				}
+			}
+			if(value != 0){
+				if(!urlExtension.includes(keyword) && urlExtension.includes("?")){
+					urlExtension += "&" + keyword +"=" +value;
+				}else if(!urlExtension.includes(keyword)){
+					urlExtension += "?" + keyword +"=" +value;
+				}
+			}
+			location = firstSplitArr[0] + urlExtension;
+		}else{
+			location=location.href+"?"+keyword+"="+value;
+		}
+	}
+</script>
 <body>
 	<div class="container">
 		<div class="row storeViewRow">
@@ -37,24 +78,46 @@
 				<%
 					//Fetched all past purchases
 				String sortbyExt = "";
-				if(request.getParameter("sortby") != null && Integer.parseInt(request.getParameter("sortby")) < 6 && Integer.parseInt(request.getParameter("sortby")) >  0){
-					sortbyExt = "?sortby="+Integer.parseInt(request.getParameter("sortby"));
+				String filterbyExt = "";
+				if(request.getParameter("sortby") != null && Integer.parseInt(request.getParameter("sortby")) < 5 && Integer.parseInt(request.getParameter("sortby")) >  0){
+					sortbyExt = "sortby="+Integer.parseInt(request.getParameter("sortby"));
 				}
-						request.getRequestDispatcher("../purchaseOrders"+sortbyExt).include(request, response);
+				if(request.getParameter("filterby") != null && Integer.parseInt(request.getParameter("filterby")) < 4 && Integer.parseInt(request.getParameter("filterby")) >  0){
+					filterbyExt = "filterby="+Integer.parseInt(request.getParameter("filterby"));
+				}
+				if(!sortbyExt.equals("") && !filterbyExt.equals("")){
+					request.getRequestDispatcher("../purchaseOrders?"+sortbyExt+"&"+filterbyExt).include(request, response);
+				}else if(!sortbyExt.equals("")){
+					request.getRequestDispatcher("../purchaseOrders?"+sortbyExt).include(request, response);
+				}else if(!filterbyExt.equals("")){
+					request.getRequestDispatcher("../purchaseOrders?"+filterbyExt).include(request, response);
+				}else{
+					request.getRequestDispatcher("../purchaseOrders").include(request, response);
+				}
 						ArrayList<purchaseHistory> pastPurchases = (ArrayList<purchaseHistory>) request
 								.getAttribute("purchaseHistory");
 				%>
 				<div class="tableHeader d-flex justify-content-center">
 					<h2>Recent Purchases</h2>
 				</div>
+				<div class="timeFilterDropdown">
+					<div class="form-group">
+						<select class="form-control" id="selectFormControl"  onchange="changeLocationFilters('filterby',this.value);">
+							<option value="0" <%if(request.getParameter("filterby") == null || Integer.parseInt(request.getParameter("filterby")) > 4 || Integer.parseInt(request.getParameter("filterby")) < 1)out.println("selected"); %>>From Beginning</option>
+							<option value="1" <%if(request.getParameter("filterby") != null && request.getParameter("filterby").equals("1"))out.println("selected"); %>>Today</option>
+							<option value="2" <%if(request.getParameter("filterby") != null && request.getParameter("filterby").equals("2"))out.println("selected"); %>>This Week</option>
+							<option value="3" <%if(request.getParameter("filterby") != null && request.getParameter("filterby").equals("3"))out.println("selected"); %>>This Month</option>
+						</select>
+					</div>
+				</div>
 				<div class="sortByDropdown">
 					<div class="form-group">
-						<select class="form-control" id="selectFormControl"  onchange="location = this.value;">
-							<option <%if(request.getParameter("sortby") == null || Integer.parseInt(request.getParameter("sortby")) > 5 || Integer.parseInt(request.getParameter("sortby")) < 1)out.println("selected"); %> disabled>Sort by...</option>
-							<option value="productmanagement.jsp?sortby=1" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("1"))out.println("selected"); %>>Customer Name</option>
-							<option value="productmanagement.jsp?sortby=2" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("2"))out.println("selected"); %>>Product</option>
-							<option value="productmanagement.jsp?sortby=3" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("3"))out.println("selected"); %>>Quantity</option>
-							<option value="productmanagement.jsp?sortby=4" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("4"))out.println("selected"); %>>Time</option>
+						<select class="form-control" id="selectFormControl"  onchange="changeLocationFilters('sortby',this.value);">
+							<option value="0" <%if(request.getParameter("sortby") == null || Integer.parseInt(request.getParameter("sortby")) > 5 || Integer.parseInt(request.getParameter("sortby")) < 1)out.println("selected"); %> disabled>Sort by...</option>
+							<option value="1" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("1"))out.println("selected"); %>>Customer Name</option>
+							<option value="2" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("2"))out.println("selected"); %>>Product</option>
+							<option value="3" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("3"))out.println("selected"); %>>Quantity</option>
+							<option value="4" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("4"))out.println("selected"); %>>Time</option>
 						</select>
 					</div>
 				</div>
