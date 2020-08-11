@@ -164,6 +164,7 @@
 					int status = 0;
 					String badge = "";
 					for(int i = 0; i < pastPurchases.size();i++){
+						status = pastPurchases.get(i).getOrderStatus();
 						if (status == 1) {
 							badge = "<span class=\"badge badge-primary\">Processing</span>";
 						} else if (status == 2) {

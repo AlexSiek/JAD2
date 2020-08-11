@@ -3,7 +3,7 @@
 <%
 //set up access details according to your connection
 String dbuser = "root";
-String dbpassword = "1qazxsw2";
+String dbpassword = "ubuntu1";
 int port = 3306;
 String connURL = "jdbc:mysql://localhost:"+port+"/j2ee?user="+dbuser+"&password="+dbpassword+"&serverTimezone=UTC";
 %>
