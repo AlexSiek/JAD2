@@ -201,4 +201,20 @@
     <servlet-name>addToCart</servlet-name>
     <url-pattern>/addingToCart</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>loggingOut</servlet-name>
+    <servlet-class>servlets.signOutServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>loggingOut</servlet-name>
+    <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>deleteCartItem</servlet-name>
+    <servlet-class>servlets.deleteCartServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>deleteCartItem</servlet-name>
+    <url-pattern>/deleteCart</url-pattern>
+  </servlet-mapping>
 </web-app>

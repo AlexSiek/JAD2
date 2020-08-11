@@ -72,7 +72,7 @@
 		<div class="row justify-content-center">
 			<div class="form-spacing col-md-6 col-10">
 				<div class="buttonWrapper" align="center">
-					<form action="../SQLFiles/logout.jsp">
+					<form action="../logout">
 						<button type="submit" class="btn btn-outline-primary">Logout</button>
 					</form>
 				</div>

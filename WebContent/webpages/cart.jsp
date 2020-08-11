@@ -50,7 +50,7 @@
 						out.println("<a href=\"listing.jsp?id=" + productId
 						+ "\" class=\"text-decoration-none\"><img class=\"img-fluid\" src=\"../images/" + imgURL + "\"></a>");
 						out.println("</div>");
-						String removeIcon = "<a href=\"../SQLFiles/deleteCartItem.jsp?cartId=" + cartId
+						String removeIcon = "<a href=\"../deleteCart?cartId=" + cartId
 						+ "\"><img src=\"../images/removeIcon.png\" class=\"trashImg img-fluid\" alt=\"removeIcon.png\"></a>";
 						out.println("<div class=\"col-8\"><h4><a href=\"listing.jsp?id=" + productId
 						+ "\" class=\"text-decoration-none text-reset\">" + productName + "</a>" + removeIcon + "</h4>");

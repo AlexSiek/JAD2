@@ -65,7 +65,7 @@ if (type == null || !type.equals("Root")) {
 		<div class="row addAdminButtonRow justify-content-center">
 			<div class="col-6">
 				<div class="btnWrapper d-flex justify-content-between">
-					<a href="../SQLFiles/logout.jsp" class="btn btn-outline-danger">Logout</a>
+					<a href="../logout" class="btn btn-outline-danger">Logout</a>
 					<a class="btn btn-outline-primary" href="addadmin.jsp">Add Admin</a>
 				</div>
 			</div>
