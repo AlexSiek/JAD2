@@ -94,13 +94,107 @@ public class buyorderService {
 				fetchedProduct.setUsername(rs.getString("user.username"));
 				fetchedProduct.setQty(rs.getInt("buyorder.qty"));
 		        fetchedProduct.setCreateAt(rs.getString("buyorder.createAt"));
-		        fetchedProduct.setId(rs.getInt("buyOrder.productid"));
+		        fetchedProduct.setId(rs.getInt("buyOrder.userid"));
 		        fetchedProduct.setProductName(rs.getString("product.productName"));
 		        fetchedProduct.setBuyPrice(rs.getInt("product.buyPrice"));
 		        fetchedPurchases.add(fetchedProduct);
 		    }
 	        conn.close();
 		    return fetchedPurchases;
+		}catch(Exception e){
+		    System.out.println("Error: "+e);
+		    return null;
+		}
+	}
+	
+	public ArrayList<purchaseHistory> getTopLowSells(int sortBy,int filterBy) {
+		dbAccess dbConnection = new dbAccess();
+		ArrayList<purchaseHistory> fetchedPurchases = new ArrayList<purchaseHistory>();
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+		    Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+		    String sortby = "";
+		    String filterby = "";
+		    switch(filterBy) {
+			case 1:
+				filterby = " WHERE b.createAt > date_sub(now(), interval 1 day)";
+				break;
+			case 2:
+				filterby = " WHERE b.createAt > date_sub(now(), interval 1 week)";
+				break;
+			case 3:
+				filterby = " WHERE b.createAt > date_sub(now(), interval 1 month)";
+				break;
+			default:
+				filterby ="";
+				break;
+			}
+			switch(sortBy) {
+			case 1:
+				sortby = " ORDER BY Total ASC;";
+				break;
+			default:
+				sortby = " ORDER BY Total DESC;";
+				break;
+			}
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT p.qty,p.id,p.productName, SUM(b.qty) Total from buyorder b INNER JOIN product p ON b.productId = p.id"+filterby + " group by b.productId "+sortby);
+			ResultSet rs = pstmt.executeQuery();
+		    while(rs.next()){
+				purchaseHistory fetchedProduct = new purchaseHistory();
+				fetchedProduct.setId(rs.getInt("p.id"));
+				fetchedProduct.setPastPurchases(rs.getInt("Total"));
+		        fetchedProduct.setProductName(rs.getString("p.productName"));
+		        fetchedProduct.setQty(rs.getInt("p.qty"));
+		        fetchedPurchases.add(fetchedProduct);
+		    }
+	        conn.close();
+	        Connection conn2 = DriverManager.getConnection(dbConnection.getConnURL());
+	        switch(sortBy) {
+			case 1:
+				sortby = " DESC;";
+				break;
+			default:
+				sortby = " ASC;";
+				break;
+			}
+		    pstmt = conn2.prepareStatement("SELECT qty,id,productName from product ORDER BY qty" + sortby);
+			rs = pstmt.executeQuery();
+			ArrayList<purchaseHistory> AllProducts = new ArrayList<purchaseHistory>();
+		    while(rs.next()){
+				purchaseHistory fetchedProduct = new purchaseHistory();
+				fetchedProduct.setId(rs.getInt("id"));
+				fetchedProduct.setPastPurchases(0);
+		        fetchedProduct.setProductName(rs.getString("productName"));
+		        fetchedProduct.setQty(rs.getInt("qty"));
+		        AllProducts.add(fetchedProduct);
+		    }
+	        conn.close();
+	        ArrayList<Integer> indexArray = new ArrayList<Integer>();
+		    for(int i = 0; i < AllProducts.size(); i++) {
+	    		boolean found = false;
+		    	for(int e = 0; e < fetchedPurchases.size(); e++) {
+		    		if(fetchedPurchases.get(e).getId() == AllProducts.get(i).getId()) {
+		    			found = true;
+		    		}
+		    	}
+	    		if(!found) {
+	    			indexArray.add(i);
+	    		}
+		    }
+		    if(sortBy != 1) {
+		    for(int i = 0; i < indexArray.size(); i++) {
+		    	fetchedPurchases.add(AllProducts.get(indexArray.get(i)));
+		    }
+		    return fetchedPurchases;
+		    }else {
+		    	for(int i = indexArray.size(); i > indexArray.size(); i--) {
+		    		AllProducts.remove(indexArray.get(i));
+		    	}
+		    	for(int i = 0; i < fetchedPurchases.size();i++) {
+		    		AllProducts.add(fetchedPurchases.get(i));
+		    	}
+		    	return AllProducts;
+		    }
 		}catch(Exception e){
 		    System.out.println("Error: "+e);
 		    return null;

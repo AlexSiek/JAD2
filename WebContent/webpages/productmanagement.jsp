@@ -14,50 +14,112 @@
 <%@ include file="../css/bootstrap/importBSnJQ.jsp"%>
 <%
 	String type = (String) session.getAttribute("type");
-	if (type == null || !type.equals("Admin")) {
-		response.sendRedirect("forbidden.jsp");
-	}
-	String currentTable = request.getParameter("table");
+if (type == null || !type.equals("Admin")) {
+	response.sendRedirect("forbidden.jsp");
+}
+String currentTable = request.getParameter("table");
 %>
 </head>
 <script>
-	function changeLocationFilters(keyword,value){
+	function changeLocationFilters(keyword, value) {
 		var currentLocation = location.href;
-		if(location.href.includes("?")){
+		if (location.href.includes("?")) {
 			var firstSplitArr = currentLocation.split("?");
 			var secondSplitArr = firstSplitArr[1].split("&");
 			var urlExtension = "";
-			for(let i = 0; i < secondSplitArr.length;i++){
+			for (let i = 0; i < secondSplitArr.length; i++) {
 				console.log(secondSplitArr[i]);
-				if(!urlExtension == "" && secondSplitArr[i] != null && secondSplitArr[i] != ""){
+				if (!urlExtension == "" && secondSplitArr[i] != null
+						&& secondSplitArr[i] != "") {
 					urlExtension += "&"
 				}
-				if(secondSplitArr[i].includes(keyword)){
-					if(value != 0){
-						if(!urlExtension.includes("?")){
-							urlExtension += "?" + keyword+"="+value
-						}else{
-							urlExtension += keyword+"="+value
+				if (secondSplitArr[i].includes(keyword)) {
+					if (value != 0) {
+						if (!urlExtension.includes("?")) {
+							urlExtension += "?" + keyword + "=" + value
+						} else {
+							urlExtension += keyword + "=" + value
 						}
 					}
-				}else{
-					if(!urlExtension.includes("?")){
+				} else {
+					if (!urlExtension.includes("?")) {
 						urlExtension += "?" + secondSplitArr[i]
-					}else if(secondSplitArr[i] != null){
+					} else if (secondSplitArr[i] != null) {
 						urlExtension += secondSplitArr[i]
 					}
 				}
 			}
-			if(value != 0){
-				if(!urlExtension.includes(keyword) && urlExtension.includes("?")){
-					urlExtension += "&" + keyword +"=" +value;
-				}else if(!urlExtension.includes(keyword)){
-					urlExtension += "?" + keyword +"=" +value;
+			if (value != 0) {
+				if (!urlExtension.includes(keyword)
+						&& urlExtension.includes("?")) {
+					urlExtension += "&" + keyword + "=" + value;
+				} else if (!urlExtension.includes(keyword)) {
+					urlExtension += "?" + keyword + "=" + value;
 				}
 			}
 			location = firstSplitArr[0] + urlExtension;
-		}else{
-			location=location.href+"?"+keyword+"="+value;
+		} else {
+			location = location.href + "?" + keyword + "=" + value;
+		}
+	}
+
+	function changeLocationTopSellerFilters(keyword, value) {
+		var currentLocation = location.href;
+		var firstSplitArr = currentLocation.split("?");
+		if (location.href.includes("?table=TopSellingList")) {
+			if (currentLocation.includes("&")) {//if got other params
+				var secondSplitArr = firstSplitArr[1].split("&");
+				secondSplitArr.splice(0, 1);
+				console.log(secondSplitArr);
+				var urlExtension = "?table=TopSellingList";
+				for (let i = 0; i < secondSplitArr.length; i++) {
+					console.log(secondSplitArr[i]);
+					if (secondSplitArr[i] != null && secondSplitArr[i] != "") {
+						urlExtension += "&"
+					}
+					console.log(secondSplitArr[i]);
+					if (secondSplitArr[i].includes(keyword)) {
+						console.log("here")
+						if (value != 0) {
+							if (!urlExtension.includes("?")) {
+								urlExtension += "?" + keyword + "=" + value
+							} else {
+								urlExtension += keyword + "=" + value
+							}
+						}
+					} else {
+						console.log("here2")
+						if (!urlExtension.includes("?")) {
+							urlExtension += "?" + secondSplitArr[i]
+						} else if (secondSplitArr[i] != null) {
+							console.log("here3")
+							urlExtension += secondSplitArr[i]
+						}
+					}
+				}
+				if (value != 0) {
+					if (!urlExtension.includes(keyword)
+							&& urlExtension.includes("?")) {
+						urlExtension += "&" + keyword + "=" + value;
+					}
+				}
+				console.log(urlExtension);
+				location = firstSplitArr[0] + urlExtension;
+			} else {
+				if (value != 0) {
+					location = firstSplitArr[0] + "?table=TopSellingList&"
+							+ keyword + "=" + value;
+				} else {
+					location = firstSplitArr[0] + "?table=TopSellingList";
+				}
+			}
+		} else {
+			if (value != 0) {
+				location = firstSplitArr[0] + "?table=TopSellingList&"
+						+ keyword + "=" + value;
+			} else {
+				location = firstSplitArr[0] + "?table=TopSellingList";
+			}
 		}
 	}
 </script>
@@ -79,45 +141,73 @@
 					//Fetched all past purchases
 				String sortbyExt = "";
 				String filterbyExt = "";
-				if(request.getParameter("sortby") != null && Integer.parseInt(request.getParameter("sortby")) < 5 && Integer.parseInt(request.getParameter("sortby")) >  0){
-					sortbyExt = "sortby="+Integer.parseInt(request.getParameter("sortby"));
+				if (request.getParameter("sortby") != null && Integer.parseInt(request.getParameter("sortby")) < 5
+						&& Integer.parseInt(request.getParameter("sortby")) > 0) {
+					sortbyExt = "sortby=" + Integer.parseInt(request.getParameter("sortby"));
 				}
-				if(request.getParameter("filterby") != null && Integer.parseInt(request.getParameter("filterby")) < 4 && Integer.parseInt(request.getParameter("filterby")) >  0){
-					filterbyExt = "filterby="+Integer.parseInt(request.getParameter("filterby"));
+				if (request.getParameter("filterby") != null && Integer.parseInt(request.getParameter("filterby")) < 4
+						&& Integer.parseInt(request.getParameter("filterby")) > 0) {
+					filterbyExt = "filterby=" + Integer.parseInt(request.getParameter("filterby"));
 				}
-				if(!sortbyExt.equals("") && !filterbyExt.equals("")){
-					request.getRequestDispatcher("../purchaseOrders?"+sortbyExt+"&"+filterbyExt).include(request, response);
-				}else if(!sortbyExt.equals("")){
-					request.getRequestDispatcher("../purchaseOrders?"+sortbyExt).include(request, response);
-				}else if(!filterbyExt.equals("")){
-					request.getRequestDispatcher("../purchaseOrders?"+filterbyExt).include(request, response);
-				}else{
+				if (!sortbyExt.equals("") && !filterbyExt.equals("")) {
+					request.getRequestDispatcher("../purchaseOrders?" + sortbyExt + "&" + filterbyExt).include(request, response);
+				} else if (!sortbyExt.equals("")) {
+					request.getRequestDispatcher("../purchaseOrders?" + sortbyExt).include(request, response);
+				} else if (!filterbyExt.equals("")) {
+					request.getRequestDispatcher("../purchaseOrders?" + filterbyExt).include(request, response);
+				} else {
 					request.getRequestDispatcher("../purchaseOrders").include(request, response);
 				}
-						ArrayList<purchaseHistory> pastPurchases = (ArrayList<purchaseHistory>) request
-								.getAttribute("purchaseHistory");
+				ArrayList<purchaseHistory> pastPurchases = (ArrayList<purchaseHistory>) request.getAttribute("purchaseHistory");
 				%>
 				<div class="tableHeader d-flex justify-content-center">
 					<h2>Recent Purchases</h2>
 				</div>
 				<div class="timeFilterDropdown">
 					<div class="form-group">
-						<select class="form-control" id="selectFormControl"  onchange="changeLocationFilters('filterby',this.value);">
-							<option value="0" <%if(request.getParameter("filterby") == null || Integer.parseInt(request.getParameter("filterby")) > 4 || Integer.parseInt(request.getParameter("filterby")) < 1)out.println("selected"); %>>From Beginning</option>
-							<option value="1" <%if(request.getParameter("filterby") != null && request.getParameter("filterby").equals("1"))out.println("selected"); %>>Today</option>
-							<option value="2" <%if(request.getParameter("filterby") != null && request.getParameter("filterby").equals("2"))out.println("selected"); %>>This Week</option>
-							<option value="3" <%if(request.getParameter("filterby") != null && request.getParameter("filterby").equals("3"))out.println("selected"); %>>This Month</option>
+						<select class="form-control" id="selectFormControl"
+							onchange="changeLocationFilters('filterby',this.value);">
+							<option value="0"
+								<%if (request.getParameter("filterby") == null || Integer.parseInt(request.getParameter("filterby")) > 4
+		|| Integer.parseInt(request.getParameter("filterby")) < 1)
+	out.println("selected");%>>From
+								Beginning</option>
+							<option value="1"
+								<%if (request.getParameter("filterby") != null && request.getParameter("filterby").equals("1"))
+	out.println("selected");%>>Today</option>
+							<option value="2"
+								<%if (request.getParameter("filterby") != null && request.getParameter("filterby").equals("2"))
+	out.println("selected");%>>This
+								Week</option>
+							<option value="3"
+								<%if (request.getParameter("filterby") != null && request.getParameter("filterby").equals("3"))
+	out.println("selected");%>>This
+								Month</option>
 						</select>
 					</div>
 				</div>
 				<div class="sortByDropdown">
 					<div class="form-group">
-						<select class="form-control" id="selectFormControl"  onchange="changeLocationFilters('sortby',this.value);">
-							<option value="0" <%if(request.getParameter("sortby") == null || Integer.parseInt(request.getParameter("sortby")) > 5 || Integer.parseInt(request.getParameter("sortby")) < 1)out.println("selected"); %> disabled>Sort by...</option>
-							<option value="1" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("1"))out.println("selected"); %>>Customer Name</option>
-							<option value="2" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("2"))out.println("selected"); %>>Product</option>
-							<option value="3" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("3"))out.println("selected"); %>>Quantity</option>
-							<option value="4" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("4"))out.println("selected"); %>>Time</option>
+						<select class="form-control" id="selectFormControl"
+							onchange="changeLocationFilters('sortby',this.value);">
+							<option value="0"
+								<%if (request.getParameter("sortby") == null || Integer.parseInt(request.getParameter("sortby")) > 5
+		|| Integer.parseInt(request.getParameter("sortby")) < 1)
+	out.println("selected");%>
+								disabled>Sort by...</option>
+							<option value="1"
+								<%if (request.getParameter("sortby") != null && request.getParameter("sortby").equals("1"))
+	out.println("selected");%>>Customer
+								Name</option>
+							<option value="2"
+								<%if (request.getParameter("sortby") != null && request.getParameter("sortby").equals("2"))
+	out.println("selected");%>>Product</option>
+							<option value="3"
+								<%if (request.getParameter("sortby") != null && request.getParameter("sortby").equals("3"))
+	out.println("selected");%>>Quantity</option>
+							<option value="4"
+								<%if (request.getParameter("sortby") != null && request.getParameter("sortby").equals("4"))
+	out.println("selected");%>>Time</option>
 						</select>
 					</div>
 				</div>
@@ -135,20 +225,20 @@
 						<tbody>
 							<%
 								String username, productName, timeStamp;
-									int count = 0, qty,userId;
-									for (int i = 0; i < pastPurchases.size(); i++) {
-										username = pastPurchases.get(i).getUsername();
-										productName = pastPurchases.get(i).getProductName();
-										qty = pastPurchases.get(i).getQty();
-										timeStamp = pastPurchases.get(i).getCreateAt();
-										userId = pastPurchases.get(i).getId();
-										count++;
-										out.println("<tr><td>" + count + "</td><td><a href=profileinquiry.jsp?id="+userId+">" + username + "</a></td><td>" + productName + "</td><td>"
-												+ qty + "</td><td>" + timeStamp + "</td>");
-									}
-									if (count == 0) {
-										out.println("<tr><td>No Orders Yet</td></tr>");
-									}
+							int count = 0, qty, userId;
+							for (int i = 0; i < pastPurchases.size(); i++) {
+								username = pastPurchases.get(i).getUsername();
+								productName = pastPurchases.get(i).getProductName();
+								qty = pastPurchases.get(i).getQty();
+								timeStamp = pastPurchases.get(i).getCreateAt();
+								userId = pastPurchases.get(i).getId();
+								count++;
+								out.println("<tr><td>" + count + "</td><td><a href=profileinquiry.jsp?id=" + userId + ">" + username
+								+ "</a></td><td>" + productName + "</td><td>" + qty + "</td><td>" + timeStamp + "</td>");
+							}
+							if (count == 0) {
+								out.println("<tr><td>No Orders Yet</td></tr>");
+							}
 							%>
 						</tbody>
 					</table>
@@ -159,25 +249,44 @@
 			%>
 			<%
 				//Fetched all past purchases
-				String sortbyExt = "";
-				if(request.getParameter("sortby") != null && Integer.parseInt(request.getParameter("sortby")) < 6 && Integer.parseInt(request.getParameter("sortby")) >  0){
-					sortbyExt = "?sortby="+Integer.parseInt(request.getParameter("sortby"));
-				}
-					request.getRequestDispatcher("../getAllProducts"+sortbyExt).include(request, response);
-					ArrayList<product> productsFetched = (ArrayList<product>) request.getAttribute("products");
+			String sortbyExt = "";
+			if (request.getParameter("sortby") != null && Integer.parseInt(request.getParameter("sortby")) < 6
+					&& Integer.parseInt(request.getParameter("sortby")) > 0) {
+				sortbyExt = "?sortby=" + Integer.parseInt(request.getParameter("sortby"));
+			}
+			request.getRequestDispatcher("../getAllProducts" + sortbyExt).include(request, response);
+			ArrayList<product> productsFetched = (ArrayList<product>) request.getAttribute("products");
 			%>
 			<div class="tableHeader d-flex justify-content-center">
 				<h2>Product Listing</h2>
 			</div>
 			<div class="sortByDropdown">
 				<div class="form-group">
-					<select class="form-control" id="selectFormControl"  onchange="location = this.value;">
-						<option <%if(request.getParameter("sortby") == null || Integer.parseInt(request.getParameter("sortby")) > 5 || Integer.parseInt(request.getParameter("sortby")) < 1)out.println("selected"); %> disabled>Sort by...</option>
-						<option value="productmanagement.jsp?table=productList&sortby=1" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("1"))out.println("selected"); %>>Product Name</option>
-						<option value="productmanagement.jsp?table=productList&sortby=2" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("2"))out.println("selected"); %>>Vendor</option>
-						<option value="productmanagement.jsp?table=productList&sortby=3" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("3"))out.println("selected"); %>>Quantity</option>
-						<option value="productmanagement.jsp?table=productList&sortby=4" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("4"))out.println("selected"); %>>Selling Price</option>
-						<option value="productmanagement.jsp?table=productList&sortby=5" <%if(request.getParameter("sortby") != null && request.getParameter("sortby").equals("5"))out.println("selected"); %>>Category Name</option>
+					<select class="form-control" id="selectFormControl"
+						onchange="location = this.value;">
+						<option
+							<%if (request.getParameter("sortby") == null || Integer.parseInt(request.getParameter("sortby")) > 5
+		|| Integer.parseInt(request.getParameter("sortby")) < 1)
+	out.println("selected");%>
+							disabled>Sort by...</option>
+						<option value="productmanagement.jsp?table=productList&sortby=1"
+							<%if (request.getParameter("sortby") != null && request.getParameter("sortby").equals("1"))
+	out.println("selected");%>>Product
+							Name</option>
+						<option value="productmanagement.jsp?table=productList&sortby=2"
+							<%if (request.getParameter("sortby") != null && request.getParameter("sortby").equals("2"))
+	out.println("selected");%>>Vendor</option>
+						<option value="productmanagement.jsp?table=productList&sortby=3"
+							<%if (request.getParameter("sortby") != null && request.getParameter("sortby").equals("3"))
+	out.println("selected");%>>Quantity</option>
+						<option value="productmanagement.jsp?table=productList&sortby=4"
+							<%if (request.getParameter("sortby") != null && request.getParameter("sortby").equals("4"))
+	out.println("selected");%>>Selling
+							Price</option>
+						<option value="productmanagement.jsp?table=productList&sortby=5"
+							<%if (request.getParameter("sortby") != null && request.getParameter("sortby").equals("5"))
+	out.println("selected");%>>Category
+							Name</option>
 					</select>
 				</div>
 			</div>
@@ -196,31 +305,30 @@
 					<tbody>
 						<%
 							String categoryName, productName;
-								double buyPrice;
-								int count = 0, qty, productId;
-								for (int i = 0; i < productsFetched.size(); i++) {
-									productName = productsFetched.get(i).getProductName();
-									categoryName = productsFetched.get(i).getCategoryName();
-									buyPrice = productsFetched.get(i).getBuyPrice();
-									qty = productsFetched.get(i).getQty();
-									productId = productsFetched.get(i).getId();
-									String tag = "";
-									if (qty < 5) {
-										tag = "<span class=\"badge badge-danger\">" + qty + "</span>";
-									} else if (qty < 10) {
-										tag = "<span class=\"badge badge-warning\">" + qty + "</span>";
-									} else {
-										tag = "<span class=\"badge badge-success\">" + qty + "</span>";
-									}
-									count++;
-									out.println("<tr><td>" + count + "</td><td>" + productName + "</td><td>" + categoryName
-											+ "</td><td>" + buyPrice + "</td>" + "</td><td>" + tag
-											+ "</td><td><a class=\"btn btn-outline-success\" href=\"editlisting.jsp?id=" + productId
-											+ "\">Edit</a></td></tr>");
-								}
-								if (count == 0) {
-									out.println("<tr><td>No Products Yet</td></tr>");
-								}
+						double buyPrice;
+						int count = 0, qty, productId;
+						for (int i = 0; i < productsFetched.size(); i++) {
+							productName = productsFetched.get(i).getProductName();
+							categoryName = productsFetched.get(i).getCategoryName();
+							buyPrice = productsFetched.get(i).getBuyPrice();
+							qty = productsFetched.get(i).getQty();
+							productId = productsFetched.get(i).getId();
+							String tag = "";
+							if (qty < 5) {
+								tag = "<span class=\"badge badge-danger\">" + qty + "</span>";
+							} else if (qty < 10) {
+								tag = "<span class=\"badge badge-warning\">" + qty + "</span>";
+							} else {
+								tag = "<span class=\"badge badge-success\">" + qty + "</span>";
+							}
+							count++;
+							out.println("<tr><td>" + count + "</td><td>" + productName + "</td><td>" + categoryName + "</td><td>" + buyPrice
+							+ "</td>" + "</td><td>" + tag + "</td><td><a class=\"btn btn-outline-success\" href=\"editlisting.jsp?id="
+							+ productId + "\">Edit</a></td></tr>");
+						}
+						if (count == 0) {
+							out.println("<tr><td>No Products Yet</td></tr>");
+						}
 						%>
 					</tbody>
 				</table>
@@ -231,8 +339,8 @@
 		%>
 		<%
 			//Fetched all past purchases
-				request.getRequestDispatcher("../getAllCategories").include(request, response);
-				ArrayList<category> categoriesFetched = (ArrayList<category>) request.getAttribute("categories");
+		request.getRequestDispatcher("../getAllCategories").include(request, response);
+		ArrayList<category> categoriesFetched = (ArrayList<category>) request.getAttribute("categories");
 		%>
 		<div class="tableHeader d-flex justify-content-center">
 			<h2>Category Listing</h2>
@@ -250,23 +358,106 @@
 				<tbody>
 					<%
 						String catName, catDesc;
-							int count = 0, id = 0;
-							for (int i = 0; i < categoriesFetched.size(); i++) {
-								count++;
-								catName = categoriesFetched.get(i).getCategoryName();
-								catDesc = categoriesFetched.get(i).getCategoryDesc();
-								id = categoriesFetched.get(i).getId();
-								out.println("<tr><td>" + count + "</td><td>" + catName + "</td><td>" + catDesc
-										+ "</td><td><a class=\"btn btn-outline-success\" href=\"editcategory.jsp?id=" + id
-										+ "\">Edit</a></td></tr>");
-							}
-							if (count == 0) {
-								out.println("<tr><td>No Categories Yet</td></tr>");
-							}
+					int count = 0, id = 0;
+					for (int i = 0; i < categoriesFetched.size(); i++) {
+						count++;
+						catName = categoriesFetched.get(i).getCategoryName();
+						catDesc = categoriesFetched.get(i).getCategoryDesc();
+						id = categoriesFetched.get(i).getId();
+						out.println("<tr><td>" + count + "</td><td>" + catName + "</td><td>" + catDesc
+						+ "</td><td><a class=\"btn btn-outline-success\" href=\"editcategory.jsp?id=" + id
+						+ "\">Edit</a></td></tr>");
+					}
+					if (count == 0) {
+						out.println("<tr><td>No Categories Yet</td></tr>");
+					}
 					%>
 				</tbody>
 			</table>
 		</div>
+	</div>
+	<%
+		} else if (currentTable.equals("TopSellingList")) {
+	%>
+	<%
+		//Fetched all past purchases
+	request.getRequestDispatcher("../getTopSelling").include(request, response);
+	ArrayList<purchaseHistory> topSelling = (ArrayList<purchaseHistory>) request.getAttribute("topSelling");
+	%>
+	<div class="tableHeader d-flex justify-content-center">
+		<h2>Top Selling Products</h2>
+	</div>
+	<div class="timeFilterDropdown">
+		<div class="form-group">
+			<select class="form-control" id="selectFormControl"
+				onchange="changeLocationTopSellerFilters('filterby',this.value);">
+				<option value="0"
+					<%if (request.getParameter("filterby") == null || Integer.parseInt(request.getParameter("filterby")) > 4
+		|| Integer.parseInt(request.getParameter("filterby")) < 1)
+	out.println("selected");%>>From
+					Beginning</option>
+				<option value="1"
+					<%if (request.getParameter("filterby") != null && request.getParameter("filterby").equals("1"))
+	out.println("selected");%>>Today</option>
+				<option value="2"
+					<%if (request.getParameter("filterby") != null && request.getParameter("filterby").equals("2"))
+	out.println("selected");%>>This
+					Week</option>
+				<option value="3"
+					<%if (request.getParameter("filterby") != null && request.getParameter("filterby").equals("3"))
+	out.println("selected");%>>This
+					Month</option>
+			</select>
+		</div>
+	</div>
+	<div class="sortByDropdown">
+		<div class="form-group">
+			<select class="form-control" id="selectFormControl"
+				onchange="changeLocationTopSellerFilters('sortby',this.value);">
+				<option value="0"
+					<%if (request.getParameter("sortby") == null || Integer.parseInt(request.getParameter("sortby")) > 5
+		|| Integer.parseInt(request.getParameter("sortby")) < 1)
+	out.println("selected");%>>Top
+					Sellers</option>
+				<option value="1"
+					<%if (request.getParameter("sortby") != null && request.getParameter("sortby").equals("1"))
+	out.println("selected");%>>Lowest
+					Sellers</option>
+			</select>
+		</div>
+	</div>
+	<div class="tableWrapper">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Name</th>
+					<th scope="col">No. Sold</th>
+					<th scope="col">Qty Left</th>
+				</tr>
+			</thead>
+			<tbody>
+				<%
+					String catName, catDesc;
+				int count = 0, id = 0;
+				for (int i = 0; i < topSelling.size(); i++) {
+					count++;
+				%>
+				<tr>
+					<td><%=count%></td>
+					<td><%=topSelling.get(i).getProductName()%></td>
+					<td><%=topSelling.get(i).getPastPurchases()%></td>
+					<td><%=topSelling.get(i).getQty()%></td>
+				</tr>
+				<%
+					}
+				if (count == 0) {
+					out.println("<tr><td>No Categories Yet</td></tr>");
+				}
+				%>
+			</tbody>
+		</table>
+	</div>
 	</div>
 	<%
 		}
@@ -284,6 +475,10 @@
 			<a href="productmanagement.jsp?table=categoryList"
 				class="btn btn-primary">Category List</a>
 		</div>
+		<div class="btnRow row">
+			<a href="productmanagement.jsp?table=TopSellingList"
+				class="btn btn-primary">Top Selling List</a>
+		</div>
 		<%
 			} else if (currentTable.equals("productList")) {
 		%>
@@ -295,6 +490,10 @@
 			<a href="productmanagement.jsp?table=categoryList"
 				class="btn btn-primary">Category List</a>
 		</div>
+		<div class="btnRow row">
+			<a href="productmanagement.jsp?table=TopSellingList"
+				class="btn btn-primary">Top Selling List</a>
+		</div>
 		<%
 			} else if (currentTable.equals("categoryList")) {
 		%>
@@ -305,6 +504,25 @@
 		<div class="btnRow row">
 			<a href="productmanagement.jsp" class="btn btn-primary">Recent
 				Purchases</a>
+		</div>
+		<div class="btnRow row">
+			<a href="productmanagement.jsp?table=TopSellingList"
+				class="btn btn-primary">Top Selling List</a>
+		</div>
+		<%
+			} else if (currentTable.equals("TopSellingList")) {
+		%>
+		<div class="btnRow row">
+			<a href="productmanagement.jsp?table=productList"
+				class="btn btn-primary">Product List</a>
+		</div>
+		<div class="btnRow row">
+			<a href="productmanagement.jsp" class="btn btn-primary">Recent
+				Purchases</a>
+		</div>
+		<div class="btnRow row">
+			<a href="productmanagement.jsp?table=categoryList"
+				class="btn btn-primary">Category List</a>
 		</div>
 		<%
 			}
