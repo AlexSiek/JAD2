@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +19,37 @@ import org.json.JSONException;
 import org.json.JSONObject;
  
 public class buyorderService {
+	
+	public int updateInDeliveryOrder(int id) {
+		dbAccess dbConnection = new dbAccess();
+		try {
+		    Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+		    Statement stmt = conn.createStatement();
+			String updtstr = "UPDATE buyOrder SET orderStatus=2  WHERE id =" + id;
+			stmt.executeUpdate(updtstr);
+			conn.close();
+			return 1;
+		} catch (Exception e) {
+			System.out.println("Error: " + e);
+			return 0;
+		}
+	}
+	
+	public int updateDeliveredOrder(int id) {
+		dbAccess dbConnection = new dbAccess();
+		try {
+		    Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+		    Statement stmt = conn.createStatement();
+			String updtstr = "UPDATE buyOrder SET orderStatus=3  WHERE id =" + id;
+			stmt.executeUpdate(updtstr);
+			conn.close();
+			return 1;
+		} catch (Exception e) {
+			System.out.println("Error: " + e);
+			return 0;
+		}
+	}
+	
 	public ArrayList<purchaseHistory> getPurchaseHistory(int id) {
 		dbAccess dbConnection = new dbAccess();
 		ArrayList<purchaseHistory> fetchedPurchases = new ArrayList<purchaseHistory>();

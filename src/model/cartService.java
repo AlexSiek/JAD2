@@ -18,18 +18,7 @@ public class cartService {
 			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
 			try {
 				Statement stmt = conn.createStatement();
-				String sqlStr = "SELECT id,qty FROM cart WHERE productId =" + productId + " AND userId=" + userId;// ensure
-																													// that
-																													// user
-																													// does
-																													// not
-																													// insert
-																													// multiple
-																													// individual
-																													// row
-																													// for
-																													// same
-																													// product
+				String sqlStr = "SELECT id,qty FROM cart WHERE productId =" + productId + " AND userId=" + userId;
 				ResultSet rs = stmt.executeQuery(sqlStr);
 				if (rs.next()) {// if there is existing item in cart, update to increase amount
 					int id = rs.getInt("id");

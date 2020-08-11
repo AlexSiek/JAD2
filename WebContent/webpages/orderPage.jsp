@@ -206,7 +206,7 @@ String currentTable = request.getParameter("table");
 							<td><%=orderFetched.get(i).getProductName()%></td>
 							<td><%=orderFetched.get(i).getQty()%></td>
 							<td><a
-								href="../SQLFiles/shippedOrder.jsp?id=<%=orderFetched.get(i).getBuyOrderId()%>"
+								href="../shippedOrder?id=<%=orderFetched.get(i).getBuyOrderId()%>"
 								class="btn btn-outline-success">Shipped</a></td>
 						</tr>
 						<%
@@ -268,7 +268,7 @@ String currentTable = request.getParameter("table");
 							<td><%=orderFetched.get(i).getProductName()%></td>
 							<td><%=orderFetched.get(i).getQty()%></td>
 							<td><a
-								href="../SQLFiles/deliveredOrder.jsp?id=<%=orderFetched.get(i).getBuyOrderId()%>"
+								href="../deliveredOrder?id=<%=orderFetched.get(i).getBuyOrderId()%>"
 								class="btn btn-outline-success">Delivered</a></td>
 						</tr>
 						<%

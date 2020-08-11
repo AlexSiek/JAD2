@@ -217,4 +217,20 @@
     <servlet-name>deleteCartItem</servlet-name>
     <url-pattern>/deleteCart</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>updateInDelivery</servlet-name>
+    <servlet-class>servlets.updateInDeliveryServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>updateInDelivery</servlet-name>
+    <url-pattern>/shippedOrder</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>updateDelivered</servlet-name>
+    <servlet-class>servlets.updateDeliveredServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>updateDelivered</servlet-name>
+    <url-pattern>/deliveredOrder</url-pattern>
+  </servlet-mapping>
 </web-app>
