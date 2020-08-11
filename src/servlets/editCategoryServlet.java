@@ -75,9 +75,9 @@ public class editCategoryServlet extends HttpServlet {
 						for (FileItem item : multiparts) {
 							if (!item.isFormField()) {
 								String name = new File(item.getName()).getName();
-								item.write(new File(this.getServletContext().getRealPath("images/products")
+								item.write(new File(this.getServletContext().getRealPath("images/category")
 										+ File.separator + name));
-								imgURL = "../images/products/" + name;
+								imgURL = "../images/category/" + name;
 								System.out.println(name);
 							} else {
 								switch (item.getFieldName()) {

@@ -149,29 +149,43 @@
 			%>
 			<div class="purchaseHistory col-md-5 col-6">
 			<div class="purchaseHeader d-flex justify-content-center" style="font-size:25px;margin:2vh 0;">Past purchases</div>
-			<%
-			int status = 0;
-			String badge = "";
-			for(int i = 0; i < pastPurchases.size();i++){
-				status = pastPurchases.get(i).getOrderStatus();
-				out.println("<a href='listing.jsp?id="+pastPurchases.get(i).getId()+"'><div class='individualPurchase row'><div class='col-5'><img src='"+pastPurchases.get(i).getImgURL()+"' alt='productImg' class='img-fluid'></div><div class='col-7'>");
-				out.println("<div style='text-decoration: none;color:black;'>"+pastPurchases.get(i).getProductName()+"</div>");
-				out.println("<div style='text-decoration: none;color:black;'>Qty: "+pastPurchases.get(i).getQty()+"</div>");
-				out.println("<div style='text-decoration: none;color:black;'>$"+(pastPurchases.get(i).getBuyPrice()*pastPurchases.get(i).getQty())+"</div>");
-				if (status == 1) {
-					badge = "<span class=\"badge badge-primary\">Processing</span>";
-				} else if (status == 2) {
-					badge = "<span class=\"badge badge-warning\">In Delivery</span>";
-				} else {
-					badge = "<span class=\"badge badge-success\">Delivered</span>";
-				}
-				out.println("<div class='badgeWrapper'>"+badge+"</div>");
-				out.println("</div></div></a>");
-			}
-			%>
-			</div>
-			<%} %>
+			<table class="table table-striped">
+					<thead>
+						<tr>
+							<th scope="col">Product Name</th>
+							<th scope="col">Cost</th>
+							<th scope="col">Qty</th>
+							<th scope="col">Status</th>
+							<th scope="col">Date</th>
+						</tr>
+					</thead>
+					<tbody>
+					<%
+					int status = 0;
+					String badge = "";
+					for(int i = 0; i < pastPurchases.size();i++){
+						if (status == 1) {
+							badge = "<span class=\"badge badge-primary\">Processing</span>";
+						} else if (status == 2) {
+							badge = "<span class=\"badge badge-warning\">In Delivery</span>";
+						} else {
+							badge = "<span class=\"badge badge-success\">Delivered</span>";
+						}
+					%>
+					<tr>
+						<td><a href="listing.jsp?id=<%=pastPurchases.get(i).getId() %>"><%=pastPurchases.get(i).getProductName() %></a></td>
+						<td><%=pastPurchases.get(i).getBuyPrice()*pastPurchases.get(i).getQty() %></td>
+						<td><%=pastPurchases.get(i).getQty() %></td>
+						<td><%=badge %></td>
+						<td><%=pastPurchases.get(i).getCreateAt()%></td>
+					</tr>
+					<%} %>
+					
+					</tbody>
+				</table>
+			
 		</div>
+		<%} %>
 	</div>
 	<%@ include file="footer.html"%>
 </body>

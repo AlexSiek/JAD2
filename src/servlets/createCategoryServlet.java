@@ -61,9 +61,9 @@ public class createCategoryServlet extends HttpServlet {
 						for (FileItem item : multiparts) {
 							if (!item.isFormField()) {
 								String name = new File(item.getName()).getName();
-								item.write(new File(this.getServletContext().getRealPath("images/")
+								item.write(new File(this.getServletContext().getRealPath("images/category")
 										+ File.separator + name));
-								imgURL = "../images/" + name;
+								imgURL = "../images/category/" + name;
 							}else {
 								switch(item.getFieldName()){
 								case "catName":

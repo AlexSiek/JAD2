@@ -72,7 +72,7 @@
 										min="100" value="<%=currentUser.getCsv() %>" required>
 								</div>
 								<div class="col">
-									<label for="creditcard">Exp</label> <input type="number"
+									<label for="creditcard">Expiry Date</label> <input type="number"
 										class="form-control" id="expDate" name="expDate"
 										aria-describedby="creditcard" placeholder="MM/YY" max="9999"
 										min="1000" value="<%=currentUser.getExpDate() %>" required>
