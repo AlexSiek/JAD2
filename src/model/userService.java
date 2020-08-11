@@ -85,13 +85,28 @@ public class userService {
 		return fetchedUser;
 	}
 	
-	public ArrayList<user> getAllUserDetail() throws JSONException {
+	public ArrayList<user> getAllUserDetail(int sortby) throws JSONException {
 		dbAccess dbConnection = new dbAccess();
 		ArrayList<user> fetchedUsers = new ArrayList<user>();
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 		    Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
-		    PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM user WHERE NOT type='Root' AND NOT type='Admin'");
+		    String sortBy = "";
+		    switch(sortby) {
+		    case 1:
+		    	sortBy = "ORDER BY username;";
+		    	break;
+		    case 2:
+		    	sortBy = "ORDER BY addressline1;";
+		    	break;
+		    case 3:
+		    	sortBy = "ORDER BY mobileNumber;";
+		    	break;
+		    default:
+		    	sortBy = ";";
+		    	break;
+		    }
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM user WHERE NOT type='Root' AND NOT type='Admin' "+sortBy);
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()) {
 				user fetchedUser = new user();

@@ -36,12 +36,20 @@ public class getAllCustomers extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		if(session.getAttribute("type") == null || !session.getAttribute("type").equals("Root")) {
+		String sortby = request.getParameter("sortby");
+		if(session.getAttribute("type") == null || (!session.getAttribute("type").equals("Root") && !session.getAttribute("type").equals("Admin"))) {
 			response.sendRedirect("webpages/forbidden.jsp");
 		}else {
 			userService userService = new userService();
-			ArrayList<user> fetchedUsers = userService.getAllUserDetail();
-			request.setAttribute("customers", fetchedUsers);
+			if(sortby != null) {
+				int sortbyCode = Integer.parseInt(sortby);
+				ArrayList<user> fetchedUsers = userService.getAllUserDetail(sortbyCode);
+				request.setAttribute("customers", fetchedUsers);
+				
+			}else {
+				ArrayList<user> fetchedUsers = userService.getAllUserDetail(0);
+				request.setAttribute("customers", fetchedUsers);
+			}
 		}
 	}
 

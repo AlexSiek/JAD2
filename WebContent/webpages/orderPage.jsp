@@ -50,7 +50,7 @@ String currentTable = request.getParameter("table");
 		<div class="row storeViewRow">
 			<div class="storeView col d-flex justify-content-around">
 				<a href="index.jsp" class="btn btn-warning storeViewBtn">View
-					Store Page</a> <a href="productmanagement.jsp"
+					Store Page</a> <a href="customermanagement.jsp" class="btn btn-warning storeViewBtn">Customer Management Page</a> <a href="productmanagement.jsp"
 					class="btn btn-warning storeViewBtn">Product Management Page</a>
 			</div>
 		</div>

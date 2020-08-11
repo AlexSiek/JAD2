@@ -74,8 +74,8 @@
 								<div class="col">
 									<label for="creditcard">Expiry Date</label> <input type="number"
 										class="form-control" id="expDate" name="expDate"
-										aria-describedby="creditcard" placeholder="MM/YY" max="9999"
-										min="1000" value="<% if (currentUser.getExpDate() == 0) {s = "";} else {s = String.valueOf(currentUser.getExpDate());}%><%=s%>" required>
+										aria-describedby="creditcard" placeholder="MM/YY"
+										value="<% if (currentUser.getExpDate() == 0) {s = "";} else {s = String.valueOf(currentUser.getExpDate());}%><%=s%>" required>
 								</div>
 							</div>
 							<small id="checkboxLabel" class="form-text text-muted">
