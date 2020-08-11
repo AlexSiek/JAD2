@@ -16,6 +16,48 @@ import java.util.ArrayList;
 
 public class userService {
 	
+	public int createNewUser (String username,String email,String password,int mobileNumber) {
+		dbAccess dbConnection = new dbAccess();	
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			String insertStr = "INSERT INTO user (username,password,email,mobileNumber,type) VALUES (?,?,?,?,'Member')";
+			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+			PreparedStatement pstmt = conn.prepareStatement(insertStr);
+			pstmt.setString(1, username);
+			pstmt.setString(2, password);
+			pstmt.setString(3, email);
+			pstmt.setInt(4, mobileNumber);
+			int count = pstmt.executeUpdate();
+			conn.close();
+			return 0;
+		} catch (java.sql.SQLIntegrityConstraintViolationException a) {
+			return -1;
+		} catch (Exception e) {
+			return -2;
+		}
+	}
+	
+	public user fetchNewCreatedUser (String email,String password) {
+		dbAccess dbConnection = new dbAccess();	
+		user returnUser = new user();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+			Statement stmt = conn.createStatement();
+			String sqlStr = "SELECT * FROM user WHERE email='" + email + "' AND password='" + password+ "'";
+			ResultSet rs = stmt.executeQuery(sqlStr);	
+			if(rs.next()) {
+				returnUser.setUsername(rs.getString("username"));
+				returnUser.setId(rs.getInt("id"));
+				returnUser.setType(rs.getString("type"));
+			}
+			conn.close();
+			return returnUser;
+		}catch (Exception e) {
+			return null;
+		}
+	}
+	
 	public user getUserLogin(String email, String password) {
 		dbAccess dbConnection = new dbAccess();
 		user newUser = new user();

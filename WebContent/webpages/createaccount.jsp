@@ -28,7 +28,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="spacing col-md-3 col-1"></div>
-			<form action="../SQLFiles/createAcc.jsp"
+			<form action="../userSignUp" method="POST"
 				class="form-tag col-md-6 col-10">
 				<div class="text-center">
 					<img src="../images/logo2.png" alt="storelogo.png"
