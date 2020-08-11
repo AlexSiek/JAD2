@@ -28,7 +28,7 @@ if (type == null || !type.equals("Root")) {
 			appendedHTML = "<p class=\"text-danger\">The Username,Email Or Mobile Number You Are Trying To Set Is Already In Use</p>";
 		}else if (err.equals("mmField")) {
 			appendedHTML = "<p class=\"text-danger\">Please Don't Leave Any Fields Missing</p>";
-		}else if (err.equals("moNum")) {
+		}else if (err.equals("moNo")) {
 			appendedHTML = "<p class=\"text-danger\">Mobile Number Is Invalid</p>";
 		}
 	}
@@ -37,7 +37,7 @@ if (type == null || !type.equals("Root")) {
 		<div class="row justify-content-center">
 			<div class="col-lg-8 col-10">
 				<form class="form-tag"
-					action="../SQLFiles/addAdmins.jsp" method="POST">
+					action="../createAdmin" method="POST">
 					<h1 class="headerText">Add Profile</h1>
 					<div class="form-group">
 						<label for="username">Username</label> <input type="text"
@@ -64,7 +64,7 @@ if (type == null || !type.equals("Root")) {
 					<div class="form-group">
 						<label for="mobileNo">Phone Number</label> <input type="number"
 							class="form-control" id="mobileNo" placeholder="+65"
-							name="mobileNumber" required>
+							name="mobileNo" required>
 					</div>
 					<%=appendedHTML%>
 					<div align="center">

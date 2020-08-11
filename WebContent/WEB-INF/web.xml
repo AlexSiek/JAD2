@@ -185,4 +185,12 @@
     <servlet-name>createNewUser</servlet-name>
     <url-pattern>/userSignUp</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>createNewAdmin</servlet-name>
+    <servlet-class>servlets.createNewAdminServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>createNewAdmin</servlet-name>
+    <url-pattern>/createAdmin</url-pattern>
+  </servlet-mapping>
 </web-app>
