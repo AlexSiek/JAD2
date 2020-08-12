@@ -257,4 +257,12 @@
     <servlet-name>deletingProduct</servlet-name>
     <url-pattern>/productDeletion</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>updateUserByRoot</servlet-name>
+    <servlet-class>servlets.updateUserByRootServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>updateUserByRoot</servlet-name>
+    <url-pattern>/updateUserWithPerms</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -51,13 +51,15 @@ if (type == null || !type.equals("Root")) {
 				appendedHTML = "<p class=\"text-danger\">Passwords Does Not Match</p>";
 			} else if (err.equals("dupEntry")) {
 				appendedHTML = "<p class=\"text-danger\">The Username,Email Or Mobile Number You Are Trying To Set Is Already In Use</p>";
+			} else if (err.equals("InvalidNumber")) {
+				appendedHTML = "<p class=\"text-danger\">Invalid Phone Number</p>";
 			}
 		}
 	%>
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-lg-8 col-10">
-				<form class="form-tag" action="../SQLFiles/updateAdmin.jsp?id=<%=id%>" method="POST">
+				<form class="form-tag" action="../updateUserWithPerms?id=<%=id%>" method="POST">
 					<h1 class="headerText">Edit Profile</h1>
 						<div class="form-group">
 							<label for="username">Username</label> <input type="text"
