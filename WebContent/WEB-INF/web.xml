@@ -265,4 +265,20 @@
     <servlet-name>updateUserByRoot</servlet-name>
     <url-pattern>/updateUserWithPerms</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>getAdminById</servlet-name>
+    <servlet-class>servlets.getAdminById</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getAdminById</servlet-name>
+    <url-pattern>/getAdminWithId</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>getProductById</servlet-name>
+    <servlet-class>servlets.getProductByIdServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getProductById</servlet-name>
+    <url-pattern>/getProductWithId</url-pattern>
+  </servlet-mapping>
 </web-app>

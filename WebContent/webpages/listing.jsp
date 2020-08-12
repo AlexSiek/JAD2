@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@page import="java.sql.*"%>
+<%@ page import="model.product"%>
+<jsp:useBean id="product" class="model.product" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,30 +22,14 @@
 	}
 	%>
 	<%
-	String vendor = "",productName = "",pdtDesc = "",imgURL = "";
-	int qty = 0,productId = 0;
-	double buyPrice = 0.00;
+	product fetchedProduct = new product();
+	int productId = 0;
 	try {
 		productId = Integer.parseInt(request.getParameter("id"));
+		request.getRequestDispatcher("../getProductWithId?productId="+productId).include(request, response);
+		fetchedProduct = (product) request.getAttribute("product");
 	} catch (Exception e) {
 		response.sendRedirect("../webpages/error.jsp");
-	}
-	Class.forName("com.mysql.jdbc.Driver");
-	try {
-		Connection connDup = DriverManager.getConnection(connURL);
-		ResultSet rs = fetchProductInfo(productId,connDup);
-		while (rs.next()) {
-			vendor = rs.getString("vendor");
-			productName = rs.getString("productName");
-			pdtDesc = rs.getString("pdtDesc");
-			imgURL = rs.getString("imgURL");
-			qty = rs.getInt("qty");
-			buyPrice = rs.getDouble("buyPrice");
-		}
-		out.println("</div>");//in case amount of products not divisble by 4
-		connDup.close();
-	} catch (Exception e) {
-		out.println(e);
 	}
 	%>
 	<div class="container">
@@ -55,27 +40,28 @@
 		</div>
 		<div class="row contentRow justify-content-center">
 			<div class="imgWrapper col-md-6 col-8">
-				<img src="<%=imgURL%>" alt="productImg" class="img-fluid">
+				<img src="<%=fetchedProduct.getImgURL()%>" alt="productImg" class="img-fluid">
 			</div>
 			<div class="descWrapper col-md-6 col-12">
 				<div class="productNameWrapper">
-					<h2><%=productName%></h2>
+					<h2><%=fetchedProduct.getProductName()%></h2>
 				</div>
 				<p>
 					Sold By:
-					<%=vendor%></p>
+					<%=fetchedProduct.getVendor()%></p>
 				<hr>
 				<div class="productDesc">
-					<p class="text-break"><%=pdtDesc%></p>
+					<p class="text-break"><%=fetchedProduct.getPdtDesc()%></p>
 				</div>
 				<hr>
 				<h3>
 					<p class="font-weight-bolder priceTag">
-						SGD<%=String.format("%.2f", buyPrice)%></p>
+						SGD<%=String.format("%.2f", fetchedProduct.getBuyPrice())%></p>
 				</h3>
 				<%
 					//badge color
 				String badge = "";
+				int qty = fetchedProduct.getQty();
 				if (qty == 0) {
 					badge = "<span class=\"badge badge-danger\">" + 0 + "</span>";
 				}else if (qty < 5) {
@@ -116,17 +102,3 @@
 	<%@ include file="footer.html"%>
 </body>
 </html>
-<%! 
-private ResultSet fetchProductInfo(int productId,Connection conn){
-	try{
-		String simpleProc = "{ call findProduct(?) }";//Routine name with                                                                 // corresponding argument
-		CallableStatement cs = conn.prepareCall(simpleProc);
-		cs.setInt(1,productId);
-		ResultSet rs=cs.executeQuery();   
-		return rs;
-	}catch(Exception e){
-		System.out.println(e);
-	}
-	return null;
-}
-%>

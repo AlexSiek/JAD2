@@ -2,7 +2,8 @@
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <%@page import="java.sql.*"%>
-<%@ include file="../dbaccess/dbDetails.jsp"%>
+<%@ page import="model.user"%>
+<jsp:useBean id="user" class="model.user" />
 <html>
 <head>
 <meta charset="ISO-8859-1">
@@ -28,23 +29,13 @@ if (type == null || !type.equals("Root")) {
 		String username ="";
 		int id = 0;
 		//user String is in header.jsp
+		user fetchedAdmin = new user();
 		try {
 			id = Integer.parseInt(request.getParameter("id"));
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(connURL);
-			ResultSet rs = fetchAdminDetails(id,conn);
-			if (rs.next()) {
-				session.setAttribute("username", rs.getString("username"));
-				username = rs.getString("username");
-				password = rs.getString("password");
-				mobileNumber = (int) rs.getInt("mobileNumber");
-				email = rs.getString("email");
-				conn.close();
-			} else {
-				conn.close();
-			}
+			request.getRequestDispatcher("../getAdminWithId?id="+id).include(request, response);
+			fetchedAdmin = (user) request.getAttribute("fetchedAdmin");
 		} catch (Exception e) {
-			out.println(e);
+			System.out.println("Error: "+e);
 		}
 		if (err != null) {
 			if (err.equals("mmPassword")) {
@@ -59,57 +50,44 @@ if (type == null || !type.equals("Root")) {
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-lg-8 col-10">
-				<form class="form-tag" action="../updateUserWithPerms?id=<%=id%>" method="POST">
+				<form class="form-tag" action="../updateUserWithPerms?id=<%=fetchedAdmin.getId()%>" method="POST">
 					<h1 class="headerText">Edit Profile</h1>
 						<div class="form-group">
 							<label for="username">Username</label> <input type="text"
-								class="form-control" id="username" value="<%=username%>"
+								class="form-control" id="username" value="<%=fetchedAdmin.getUsername()%>"
 								name="username" required>
 						</div>
 						<div class="form-group">
 							<label for="email">Email address</label> <input type="email"
 								class="form-control" id="email" aria-describedby="emailHelp"
-								placeholder="Enter email" value="<%=email%>" name="email"
+								placeholder="Enter email" value="<%=fetchedAdmin.getEmail()%>" name="email"
 								required>
 						</div>
 						<div class="form-group">
 							<label for="password1">New Password</label> <input
 								type="password" class="form-control" id="password1"
-								placeholder="Password" value="<%=password%>" name="password1"
+								placeholder="Password" value="<%=fetchedAdmin.getPassword()%>" name="password1"
 								required>
 						</div>
 						<div class="form-group">
 							<label for="password2">Confirm Password</label> <input
 								type="password" class="form-control" id="password2"
-								placeholder="Password" value="<%=password%>" name="password2"
+								placeholder="Password" value="<%=fetchedAdmin.getPassword()%>" name="password2"
 								required>
 						</div>
 						<div class="form-group">
 							<label for="mobileNo">Phone Number</label> <input type="number"
 								class="form-control" id="mobileNo" placeholder="+65"
-								value="<%=mobileNumber%>" name="mobileNumber" required>
+								value="<%=fetchedAdmin.getMobileNumber()%>" name="mobileNumber" required>
 						</div>
 						<%=appendedHTML%>
 						<div align="center">
 							<button type="submit" class="btn btn-primary">Update</button>
 						</div>
 					</form>
-						<a href="../userDeletion?id=<%=id%>" class="btn btn-danger">Delete</a>
+						<a href="../userDeletion?id=<%=fetchedAdmin.getId()%>" class="btn btn-danger">Delete</a>
 			</div>
 		</div>
 	</div>
 </body>
 </html>
-<%!
-private ResultSet fetchAdminDetails(int userId,Connection conn){
-	try{
-		PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM user WHERE id=?");
-		pstmt.setInt(1,userId);
-		ResultSet rs = pstmt.executeQuery();
-		return rs;
-	}catch(Exception e){
-		System.out.println(e);
-	}
-	return null;
-}
-%>

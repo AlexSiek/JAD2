@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -58,6 +59,33 @@ public class productService {
 			return null;
 		}
 		return products;
+	}
+	
+	public product getProductById(int id) {
+		dbAccess dbConnection = new dbAccess();
+		product returnedProduct = new product();
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+			String simpleProc = "{ call findProduct(?) }";//Routine name with                                                                 // corresponding argument
+			CallableStatement cs = conn.prepareCall(simpleProc);
+			cs.setInt(1,id);
+			ResultSet rs=cs.executeQuery();   
+			if(rs.next()) {
+				returnedProduct.setImgURL(rs.getString("imgURL"));
+				returnedProduct.setVendor(rs.getString("vendor"));
+				returnedProduct.setQty(rs.getInt("qty"));
+				returnedProduct.setBuyPrice(rs.getDouble("buyPrice"));
+				returnedProduct.setPdtDesc(rs.getString("pdtDesc"));
+				returnedProduct.setProductName(rs.getString("productName"));
+				return returnedProduct;
+			}else {
+				return null;
+			}
+		}catch(Exception e){
+			System.out.println(e);
+			return null;
+		}
 	}
 	
 	public int addProduct(int categoryId, String productName, String vendor, String pdtDesc, int qty, double price, double MSRP,String imgURL) {
