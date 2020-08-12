@@ -289,4 +289,20 @@
     <servlet-name>getProductById</servlet-name>
     <url-pattern>/getProductWithId</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>getCategoryById</servlet-name>
+    <servlet-class>servlets.getCategoryByIdServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getCategoryById</servlet-name>
+    <url-pattern>/getCategoryWithId</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>getProductInACategory</servlet-name>
+    <servlet-class>servlets.getAllProductInCatServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getProductInACategory</servlet-name>
+    <url-pattern>/getProductInCat</url-pattern>
+  </servlet-mapping>
 </web-app>

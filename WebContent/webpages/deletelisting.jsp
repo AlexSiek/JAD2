@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@page import="java.sql.*"%>
-<%@ include file="../dbaccess/dbDetails.jsp"%>
+<%@ page import="model.product"%>
+<jsp:useBean id="product" class="model.product" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,49 +12,40 @@
 <body>
 	<%
 		String type = (String) session.getAttribute("type");
-		String productName = "";
-		int productId = Integer.parseInt(request.getParameter("id"));
 		if (type == null || !type.equals("Admin")) {
 			response.sendRedirect("forbidden.jsp");
 		} else {
 			try {
-				Connection connDup = DriverManager.getConnection(connURL);
-				ResultSet rs = fetchProductName(productId,connDup);
-				while (rs.next()) {
-			productName = rs.getString("productName");
-				}
-				out.println("</div>");//in case amount of products not divisble by 4
-				connDup.close();
-			} catch (Exception e) {
-				out.println(e);
-			}
-		}
+				int productId = Integer.parseInt(request.getParameter("id"));
+				request.getRequestDispatcher("../getProductWithId?productId=" + productId).include(request, response);
+				product productFetched = (product) request.getAttribute("product");
+				if (productFetched != null) {
 	%>
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
 				<h2 class="text-center">
 					Deleting
-					<%=productName%>.<br>Are You Sure?
+					<%=productFetched.getProductName()%>.<br>Are You Sure?
 				</h2>
 				<div class="buttonWrapper d-flex justify-content-center">
-					<a href="../productDeletion?id=<%=productId %>" class="deleteBtn btn btn-outline-danger">Delete</a> <a href="listing.jsp?id=<%=productId%>" class="backBtn btn btn-outline-primary">Go Back</a>
+					<a href="../productDeletion?id=<%=productId%>"
+						class="deleteBtn btn btn-outline-danger">Delete</a> <a
+						href="listing.jsp?id=<%=productId%>"
+						class="backBtn btn btn-outline-primary">Go Back</a>
 				</div>
 			</div>
 		</div>
 	</div>
+	<%
+		} else {
+					response.sendRedirect("error.jsp");
+				}
+			} catch (Exception e) {
+				out.println(e);
+				response.sendRedirect("error.jsp");
+			}
+		}
+	%>
 </body>
 </html>
-<%!
-private ResultSet fetchProductName(int productId,Connection conn){
-	try{
-		PreparedStatement pstmt = conn.prepareStatement("SELECT productName FROM product WHERE id=?");
-		pstmt.setInt(1,productId);
-		ResultSet rs = pstmt.executeQuery();
-		return rs;
-	}catch(Exception e){
-		System.out.println(e);
-	}
-	return null;
-}
-%>
