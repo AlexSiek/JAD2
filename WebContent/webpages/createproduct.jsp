@@ -45,20 +45,10 @@
 					<select class="custom-select" id="inputGroupSelect01" name="categoryId" required>
 						<option selected value="0">Choose...</option>
 						<%
-						Class.forName("com.mysql.jdbc.Driver");
-						conn = DriverManager.getConnection(connURL);
-						try {
-							ResultSet rs = getAllCategory(conn);
-							int count = 0;
-							while (rs.next()) {
-								String category = rs.getString("categoryName");
-								int categoryID = rs.getInt("id");
-								out.println("<option value=\"" + categoryID + "\">" + category + "</option>");
-							}
-							conn.close();
-						} catch (Exception e) {
-							out.println(e);
-							conn.close();
+						request.getRequestDispatcher("../getAllCategories").include(request, response);
+						ArrayList<category> categoriesFetched2 = (ArrayList<category>) request.getAttribute("categories");
+						for(int i = 0; i < categoriesFetched2.size();i++){
+								out.println("<option value=\"" + categoriesFetched2.get(i).getId() + "\">" + categoriesFetched2.get(i).getCategoryName() + "</option>");
 						}
 						%>
 					</select>
@@ -104,17 +94,3 @@
 	
 </body>
 </html>
-<%!
-private ResultSet getAllCategory(Connection conn){
-	try{
-		Statement stmt = conn.createStatement();
-		String sqlStr = "SELECT categoryName,id FROM category";
-		ResultSet rs = stmt.executeQuery(sqlStr);
-		return rs;
-	}catch(Exception e){
-		System.out.println(e);
-	}
-	
-	return null;
-}
-%>
