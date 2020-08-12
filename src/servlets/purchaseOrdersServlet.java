@@ -38,8 +38,6 @@ public class purchaseOrdersServlet extends HttpServlet {
 		ArrayList<purchaseHistory> purchases = new ArrayList<purchaseHistory>();
 		String sortby = request.getParameter("sortby");
 		String filterby = request.getParameter("filterby");
-		System.out.println("SortBy: " + sortby);
-		System.out.println("filterby: " + filterby);
 		try {
 			if(sortby == null && filterby == null) {
 				 purchases = buyOrderService.getAllPurchaseHistory(0,0);

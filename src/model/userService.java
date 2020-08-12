@@ -58,6 +58,21 @@ public class userService {
 		}
 	}
 	
+	public int deleteUser (int id) {
+		dbAccess dbConnection = new dbAccess();	
+		try {
+			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+			Statement stmt = conn.createStatement();
+			String updtstr = "DELETE FROM user WHERE id ="+id;
+			int count = stmt.executeUpdate(updtstr);
+			conn.close();
+			return 0;
+		} catch (Exception e) {
+			System.out.println("Error: " + e);
+			return -1;
+		}
+	}
+	
 	public user fetchNewCreatedUser (String email,String password) {
 		dbAccess dbConnection = new dbAccess();	
 		user returnUser = new user();

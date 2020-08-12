@@ -233,4 +233,28 @@
     <servlet-name>updateDelivered</servlet-name>
     <url-pattern>/deliveredOrder</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>checkoutProcess</servlet-name>
+    <servlet-class>servlets.updateCheckoutServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>checkoutProcess</servlet-name>
+    <url-pattern>/checkout</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>deletingAccount</servlet-name>
+    <servlet-class>servlets.deleteUserServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>deletingAccount</servlet-name>
+    <url-pattern>/userDeletion</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>deletingProduct</servlet-name>
+    <servlet-class>servlets.deleteProductServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>deletingProduct</servlet-name>
+    <url-pattern>/productDeletion</url-pattern>
+  </servlet-mapping>
 </web-app>

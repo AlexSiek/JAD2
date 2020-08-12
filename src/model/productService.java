@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class productService {
@@ -109,5 +110,21 @@ public class productService {
 			return -1;
 		}
 		return 0;
+	}
+	
+	public int deleteProduct(int productId) {
+		dbAccess dbConnection = new dbAccess();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+			Statement stmt = conn.createStatement();
+			String updtstr = "DELETE FROM product WHERE id =" + productId;
+			stmt.executeUpdate(updtstr);
+			conn.close();
+			return 0;
+		}catch (Exception e) {
+			System.out.println(e);
+			return -1;
+		}
 	}
 }

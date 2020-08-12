@@ -38,7 +38,7 @@
 					<%=productName%>.<br>Are You Sure?
 				</h2>
 				<div class="buttonWrapper d-flex justify-content-center">
-					<a href="../SQLFiles/deleteProduct.jsp?id=<%=productId %>" class="deleteBtn btn btn-outline-danger">Delete</a> <a href="listing.jsp?id=<%=productId%>" class="backBtn btn btn-outline-primary">Go Back</a>
+					<a href="../productDeletion?id=<%=productId %>" class="deleteBtn btn btn-outline-danger">Delete</a> <a href="listing.jsp?id=<%=productId%>" class="backBtn btn btn-outline-primary">Go Back</a>
 				</div>
 			</div>
 		</div>

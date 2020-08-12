@@ -100,7 +100,7 @@ public class cartDetailsServlet extends HttpServlet {
 						cartService checkoutCartService = new cartService();
 						int successCheckout = checkoutCartService.checkoutCart((int) session.getAttribute("id"), addressLine1, addressLine2, postalCode, creditCardNumberLong, csv, expDate);
 						if(successCheckout == 0) {
-							response.sendRedirect("webpages/successcheckout.jsp");
+							response.sendRedirect("checkout");
 						}else if(successCheckout == -1) {
 							response.sendRedirect("webpages/error.jsp");
 						}else {

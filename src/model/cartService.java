@@ -11,6 +11,66 @@ import java.util.Map;
 
 public class cartService {
 
+	public int checkoutStockCheck(int id) {
+		dbAccess dbConnection = new dbAccess();
+		int cartQty,qty,notEnoughId;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+			Statement stmt = conn.createStatement();
+			String sqlStr = "SELECT product.id,product.qty,cart.id,cart.qty FROM cart INNER JOIN product ON cart.productId=product.Id AND cart.userId =" + id;
+			ResultSet rs = stmt.executeQuery(sqlStr);
+			while (rs.next()) {//checks if enough quanity for orders
+				qty = rs.getInt("product.qty");
+				cartQty = rs.getInt("cart.qty");
+				if (cartQty > qty) {
+					return 1;
+				}
+			}
+			return 0;
+		}catch(Exception e) {
+			System.out.println(e);
+			return -1;
+		}
+	}
+	
+	public int checkoutToBuyOrder(int id) {
+		dbAccess dbConnection = new dbAccess();
+		int productId, qty, cartId, cartQty, newQty;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+			Statement stmt = conn.createStatement();
+			String sqlStr = "SELECT product.id,product.qty,cart.id,cart.qty FROM cart INNER JOIN product ON cart.productId=product.Id AND cart.userId =" + id;
+			ResultSet rs = stmt.executeQuery(sqlStr);
+			String updtstr,intStr;
+			while (rs.next()) {//checks if enough quanity for orders
+				productId = rs.getInt("product.id");
+				qty = rs.getInt("product.qty");
+				cartId = rs.getInt("cart.id");
+				cartQty = rs.getInt("cart.qty");
+				newQty = qty - cartQty;//new amount qty, used to update product table
+
+				updtstr = "UPDATE product SET qty=" + newQty + " WHERE id='" + productId + "'";//updating products table
+				stmt.executeUpdate(updtstr);
+				
+				intStr = "INSERT INTO buyorder (productId,userId,qty,orderStatus) VALUES (?,?,?,1)";//inserting order into buyorder Table
+				PreparedStatement pstmt = conn.prepareStatement(intStr);
+				pstmt.setInt(1, productId);
+				pstmt.setInt(2, id);
+				pstmt.setInt(3, cartQty);
+				pstmt.executeUpdate();
+
+				updtstr = "DELETE FROM cart WHERE id =" + cartId;//Deleting Cart Row
+				stmt.executeUpdate(updtstr);
+			}
+			return 0;
+		}catch(Exception e) {
+			System.out.println(e);
+			return -1;
+		}
+	}
+	
 	public int addToCart(int userId, int qty, int productId) {
 		dbAccess dbConnection = new dbAccess();
 		try {

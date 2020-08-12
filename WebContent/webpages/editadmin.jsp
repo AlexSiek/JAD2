@@ -92,7 +92,7 @@ if (type == null || !type.equals("Root")) {
 							<button type="submit" class="btn btn-primary">Update</button>
 						</div>
 					</form>
-						<a href="../SQLFiles/deleteAcc.jsp?id=<%=id %>" class="btn btn-danger">Delete</a>
+						<a href="../userDeletion?id=<%=id%>" class="btn btn-danger">Delete</a>
 			</div>
 		</div>
 	</div>
