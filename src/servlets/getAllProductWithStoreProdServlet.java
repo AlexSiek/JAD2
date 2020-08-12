@@ -8,24 +8,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import model.category;
-import model.categoryService;
-import model.user;
-import model.userService;
+import model.product;
+import model.productService;
 
 /**
- * Servlet implementation class getAllCategory
+ * Servlet implementation class getAllProductWithStoreProdServlet
  */
-@WebServlet("/getAllCategory")
-public class getAllCategory extends HttpServlet {
+@WebServlet("/getAllProductWithStoreProdServlet")
+public class getAllProductWithStoreProdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public getAllCategory() {
+    public getAllProductWithStoreProdServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,9 +31,12 @@ public class getAllCategory extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			categoryService categoryService = new categoryService();
-			ArrayList<category> fetchedCategory = categoryService.getAllCategory();
-			request.setAttribute("categories", fetchedCategory);	}
+		// TODO Auto-generated method stub
+		productService productService = new productService();
+		ArrayList<product> products = new ArrayList<product>();
+		products = productService.getAllProductsWithStoredProd();
+		request.setAttribute("products", products);
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

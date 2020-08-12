@@ -234,6 +234,14 @@
     <url-pattern>/deliveredOrder</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>getAllProductStoredProd</servlet-name>
+    <servlet-class>servlets.getAllProductWithStoreProdServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getAllProductStoredProd</servlet-name>
+    <url-pattern>/getAllProductNormal</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>checkoutProcess</servlet-name>
     <servlet-class>servlets.updateCheckoutServlet</servlet-class>
   </servlet>

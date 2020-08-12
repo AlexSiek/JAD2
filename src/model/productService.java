@@ -61,6 +61,36 @@ public class productService {
 		return products;
 	}
 	
+	public ArrayList<product> getAllProductsWithStoredProd() {
+		dbAccess dbConnection = new dbAccess();
+		ArrayList<product> products = new ArrayList<product>();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+			String simpleProc = "{ call findAllProduct() }";//Routine name with                                                                 // corresponding argument
+			CallableStatement cs = conn.prepareCall(simpleProc);
+			ResultSet rs = cs.executeQuery();
+			while(rs.next()) {
+				product tempProduct = new product();
+				tempProduct.setProductName(rs.getString("product.productName"));
+				tempProduct.setPdtDesc(rs.getString("product.pdtDesc"));
+				tempProduct.setVendor(rs.getString("product.vendor"));
+				tempProduct.setImgURL(rs.getString("product.imgURL"));
+				tempProduct.setBuyPrice(rs.getDouble("product.buyPrice"));
+				tempProduct.setMSPR(rs.getDouble("product.MSRP"));
+				tempProduct.setId(rs.getInt("product.id"));
+				tempProduct.setCategoryId(rs.getInt("product.categoryId"));
+				tempProduct.setQty(rs.getInt("product.qty"));
+				products.add(tempProduct);
+			}
+			conn.close();
+		} catch (Exception e) {
+			System.out.println(e);
+			return null;
+		}
+		return products;
+	}
+	
 	public product getProductById(int id) {
 		dbAccess dbConnection = new dbAccess();
 		product returnedProduct = new product();

@@ -27,7 +27,9 @@
 %>
 <body>
 	<%@ include file="header.jsp"%>
-	<%if(type == null || !type.equals("Admin")){
+	<%
+	Connection conn = DriverManager.getConnection(connURL);
+	if(type == null || !type.equals("Admin")){
 		response.sendRedirect("forbidden.jsp");
 	} 
 	%>

@@ -12,6 +12,7 @@
 <body>
 	<%@ include file="header.jsp"%>
 	<%
+	Connection conn = DriverManager.getConnection(connURL);
 	String categoryName = "";
 	String categoryDesc = "";
 	String categoryImg = "";

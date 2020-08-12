@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="model.product"%>
-<jsp:useBean id="product" class="model.product" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +10,7 @@
 <body>
 	<%@ include file="header.jsp"%>
 	<%
+	Connection conn = DriverManager.getConnection(connURL);
 		//check for successful updates
 	String success = request.getParameter("success");
 	String appendedHTML = "";

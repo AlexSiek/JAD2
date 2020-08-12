@@ -1,12 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="model.cart,model.product"%>
-<%@ page import="java.util.ArrayList"%>
 <%@ page import="javax.ws.rs.core.Response"%>
-<%@ page import="model.user"%>
-<jsp:useBean id="user" class="model.user" />
-<jsp:useBean id="cart" class="model.cart" />
-<jsp:useBean id="product" class="model.product" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +11,7 @@
 <body>
 	<%@ include file="header.jsp"%>
 	<%
+	Connection conn = DriverManager.getConnection(connURL);
 		//Fetching get request from servlet
 	request.getRequestDispatcher("../cartDetails").include(request, response);
 	ArrayList<cart> fetchedCarts = (ArrayList<cart>) request.getAttribute("carts");

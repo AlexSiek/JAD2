@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.*"%>
+<%@ page import="model.category,model.product,model.user,model.cart,model.buyorder"%>
+<%@ page import="java.util.ArrayList"%>
+<jsp:useBean id="categories" class="model.category" />
+<jsp:useBean id="product" class="model.product" />
+<jsp:useBean id="user" class="model.user" />
+<jsp:useBean id="cart" class="model.cart" />
+<jsp:useBean id="buyorder" class="model.buyorder" />
 <%@ include file="../dbaccess/dbDetails.jsp"%>
 <link rel="stylesheet" href="../css/header.css">
 <%@ include file="../css/bootstrap/importBSnJQ.jsp"%>
@@ -49,22 +56,17 @@ if (username != null) {
 						aria-expanded="false"> Category</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<%
-								Class.forName("com.mysql.jdbc.Driver");
-								Connection conn = DriverManager.getConnection(connURL);
-							try {
-								ResultSet rs = fetchAllCategories(conn);
-								int count = 0;
-								while (rs.next()) {
-									String category = rs.getString("categoryName");
-									int categoryID = rs.getInt("id");
-									out.println("<a class=\"nav-link\" href=\"category.jsp?category=" + categoryID + "\">" + category + "</a>");
+							request.getRequestDispatcher("../getAllCategories").include(request, response);
+							ArrayList<category> categoriesFetched = (ArrayList<category>) request.getAttribute("categories");
+							if(categoriesFetched != null){
+								for(int i = 0; i < categoriesFetched.size(); i++){
+									%>
+									<a class="nav-link" href="category.jsp?category=<%=categoriesFetched.get(i).getId()%>"><%=categoriesFetched.get(i).getCategoryName()%></a>
+									<%
 								}
-								conn.close();
-							} catch (Exception e) {
-								out.println(e);
-								conn.close();
 							}
-							%>
+							
+						%>
 						</div></li>
 					<li class="nav-item"><%=navLink%></li>
 				</ul>
@@ -78,17 +80,3 @@ if (username != null) {
 		</button>
 	</nav>
 </header>
-<%!
-private ResultSet fetchAllCategories(Connection conn){
-	try{
-
-		Statement stmt = conn.createStatement();
-		String sqlStr = "SELECT * FROM category";
-		ResultSet rs = stmt.executeQuery(sqlStr);
-		return rs;
-	}catch(Exception e){
-		System.out.println(e);
-	}
-	return null;
-}
-%>
