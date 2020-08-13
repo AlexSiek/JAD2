@@ -94,6 +94,32 @@ public class userService {
 		}
 	}
 	
+	public ArrayList<user> fetchAllAdmins () {
+		dbAccess dbConnection = new dbAccess();	
+		ArrayList<user> returnUser = new ArrayList<user>();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+			Statement stmt = conn.createStatement();
+			String sqlStr = "SELECT * FROM user WHERE type='Admin'";
+			ResultSet rs = stmt.executeQuery(sqlStr);	
+			if(rs.next()) {
+				user tempUser = new user();
+				tempUser.setUsername(rs.getString("username"));
+				tempUser.setId(rs.getInt("id"));
+				tempUser.setType(rs.getString("type"));
+				tempUser.setPassword(rs.getString("password"));
+				tempUser.setEmail(rs.getString("email"));
+				tempUser.setMobileNumber(rs.getInt("mobileNumber"));
+				returnUser.add(tempUser);
+			}
+			conn.close();
+			return returnUser;
+		}catch (Exception e) {
+			return null;
+		}
+	}
+	
 	public user getUserLogin(String email, String password) {
 		dbAccess dbConnection = new dbAccess();
 		user newUser = new user();

@@ -24,52 +24,31 @@
 </div>
 </div>
 		<%
-			Class.forName("com.mysql.jdbc.Driver");
-			if(searchQuery != null){
-				try {
-					conn = DriverManager.getConnection(connURL);
-					ResultSet rs = fetchSearchQuery(searchQuery,conn);
-					int count = 0;
-					while(rs.next()) {
-						++count;
-						if(count == 1){// to insert bootstrap rows
-							out.println("<div class=\"row\">");
-						}else if(count == 5){
-							out.println("</div>");
-							out.println("<div class=\"row\">");
-							count = 1;
-						}
-						String imageURL = rs.getString("imgURL");
-						int id = rs.getInt("id");
-						String productName = rs.getString("productName");
-						double price = rs.getDouble("buyPrice");
-						String imageTag = "<img src=\""+ imageURL +"\" alt=\""+ imageURL +"\" class=\"productPicture img-fluid\">";
-						String nameSpanTag = "<p class=\"text-body\">"+productName+"</p>";
-						String priceTag = "<span class=\"badge badge-pill badge-info\">SGD"+String.format("%.2f", price)+"</span>";
-						String hrefTag = "<div class=\"productWrapper\"><a href=\"listing.jsp?id="+id+"\">"+imageTag+"<div class=\"productDetails\">"+nameSpanTag+priceTag+"</div></a></div>";
-						out.println("<div class=\"gridSeperater col-md-3 col-6\">"+hrefTag+"</div>");
-					}
-					out.println("</div>");//in case amount of products not divisble by 4
-					conn.close();
-				}catch(Exception e){
-					out.println(e);
+		request.getRequestDispatcher("../getProductSearch?query="+searchQuery).include(request, response);
+		ArrayList<product> fetchedProducts = (ArrayList<product>) request.getAttribute("products");
+		if(fetchedProducts == null){
+			response.sendRedirect("error.jsp");
+		}else{
+			int count = 0;
+			for(int i = 0; i < fetchedProducts.size();i++){
+				++count;
+				if(count == 1){// to insert bootstrap rows
+					out.println("<div class=\"row\">");
+				}else if(count == 5){
+					out.println("</div>");
+					out.println("<div class=\"row\">");
+					count = 1;
 				}
+				String imageTag = "<img src=\""+ fetchedProducts.get(i).getImgURL() +"\" alt=\""+ fetchedProducts.get(i).getImgURL() +"\" class=\"productPicture img-fluid\">";
+				String nameSpanTag = "<p class=\"text-body\">"+fetchedProducts.get(i).getProductName()+"</p>";
+				String priceTag = "<span class=\"badge badge-pill badge-info\">SGD"+String.format("%.2f", fetchedProducts.get(i).getBuyPrice())+"</span>";
+				String hrefTag = "<div class=\"productWrapper\"><a href=\"listing.jsp?id="+fetchedProducts.get(i).getId()+"\">"+imageTag+"<div class=\"productDetails\">"+nameSpanTag+priceTag+"</div></a></div>";
+				out.println("<div class=\"gridSeperater col-md-3 col-6\">"+hrefTag+"</div>");
 			}
+			out.println("</div>");//in case amount of products not divisble by 4
+		}
 		%>
 	</div>
 	<%@ include file="footer.html"%>
 </body>
 </html>
-<%! 
-private ResultSet fetchSearchQuery(String query, Connection conn){
-	try{
-		Statement stmt = conn.createStatement();
-		String sqlStr = "SELECT * FROM product WHERE productName LIKE '%"+query+"%'";
-		ResultSet rs = stmt.executeQuery(sqlStr);
-		return rs;
-	}catch(Exception e){
-		System.out.println(e);
-	}
-	return null;
-}
-%>

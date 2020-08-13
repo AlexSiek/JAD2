@@ -37,26 +37,23 @@ if (type == null || !type.equals("Root")) {
 					</thead>
 					<tbody>
 						<%
-							Class.forName("com.mysql.jdbc.Driver");
-						try {
-							Connection conn = DriverManager.getConnection(connURL);
-							ResultSet rs = fetchAllAdmins(conn);
-							int count = 0;
-							while (rs.next()) {
-								count++;
-								out.println("<tr> <th scope=\"row\">" + count + "</th>");
-								out.println("<td>" + rs.getString("username") + "</td>");
-								out.println("<td>" + rs.getString("email") + "</td>");
-								out.println("<td>" + rs.getString("password") + "</td>");
-								out.println("<td>" + rs.getInt("mobileNumber") + "</td>");
-								out.println(
-								"<td><a class=\"btn btn-outline-primary\" href=\"editadmin.jsp?id=" + rs.getInt("id") + "\">Edit</a></td>");
-								out.println("</tr>");
-							}
-							conn.close();
-						} catch (Exception e) {
-							out.println(e);
+						request.getRequestDispatcher("../getAdmins").include(request, response);
+						ArrayList<user> fetchedAdmins = (ArrayList<user>) request.getAttribute("fetchedAdmins");
+						int count = 0;
+						for(int i = 0; i < fetchedAdmins.size();i++){
+							count++;
+							%>
+							<tr>
+								<th scope="row"><%=count %></th>
+								<td><%=fetchedAdmins.get(i).getUsername() %></td>
+								<td><%=fetchedAdmins.get(i).getEmail() %></td>
+								<td><%=fetchedAdmins.get(i).getPassword() %></td>
+								<td><%=fetchedAdmins.get(i).getMobileNumber() %></td>
+								<td><a class="btn btn-outline-primary" href="editadmin.jsp?id=<%=fetchedAdmins.get(i).getId()%>">Edit</a></td>
+							</tr>
+							<%
 						}
+						
 						%>
 					</tbody>
 				</table>
@@ -88,7 +85,7 @@ if (type == null || !type.equals("Root")) {
 						<%
 						request.getRequestDispatcher("../getAllCustomers").include(request, response);
 						ArrayList<user> usersFetched = (ArrayList<user>) request.getAttribute("customers");
-						int count = 0;
+						count = 0;
 						for(int i = 0; i < usersFetched.size();i++){
 							count++;
 							out.println("<tr> <th scope=\"row\">" + count + "</th>");
@@ -108,16 +105,3 @@ if (type == null || !type.equals("Root")) {
 	</div>
 </body>
 </html>
-<%! 
-private ResultSet fetchAllAdmins(Connection conn){
-	try{
-		Statement stmt = conn.createStatement();
-		String sqlStr =  "SELECT * FROM user WHERE type='Admin'";
-		ResultSet rs = stmt.executeQuery(sqlStr);
-		return rs;
-	}catch(Exception e){
-		System.out.println(e);
-	}
-	return null;
-}
-%>

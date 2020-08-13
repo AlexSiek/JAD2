@@ -1,11 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@page import="java.sql.*"%>
 <%@ page import="model.purchaseHistory"%>
-<%@ page import="java.util.ArrayList"%>
-<%@ page import="model.user"%>
-<jsp:useBean id="user" class="model.user" />
-<jsp:useBean id="cart" class="model.purchaseHistory" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,22 +19,6 @@
 	String password = "", email = "";
 	int mobileNumber = 0;
 	//user String is in header.jsp
-	try {
-		Class.forName("com.mysql.jdbc.Driver");
-		conn = DriverManager.getConnection(connURL);
-		ResultSet rs = fetchUserProfile(username, conn);
-		if (rs.next()) {
-			session.setAttribute("username", rs.getString("username"));
-			password = (String) rs.getString("password");
-			mobileNumber = (int) rs.getInt("mobileNumber");
-			email = (String) rs.getString("email");
-			conn.close();
-		} else {
-			conn.close();
-		}
-	} catch (Exception e) {
-		out.println(e);
-	}
 	if (success == null) {// checks for success or fail codes
 		if (err != null) {
 			if (err.equals("mmPassword")) {
@@ -63,6 +42,7 @@
 	} else {
 		updated = "<h1 class=\"text-success\" align=\"center\">Successfully Updated</h1>";
 	}
+	
 	%>
 	<%
 	request.getRequestDispatcher("../getUserBySessionId").include(request, response);
@@ -191,14 +171,3 @@
 	<%@ include file="footer.html"%>
 </body>
 </html>
-<%!private ResultSet fetchUserProfile(String username, Connection conn) {
-	try {
-		PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM user WHERE username=?");
-		pstmt.setString(1, username);
-		ResultSet rs = pstmt.executeQuery();
-		return rs;
-	} catch (Exception e) {
-		System.out.println(e);
-	}
-	return null;
-}%>

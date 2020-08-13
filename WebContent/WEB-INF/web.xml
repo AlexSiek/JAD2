@@ -305,4 +305,20 @@
     <servlet-name>getProductInACategory</servlet-name>
     <url-pattern>/getProductInCat</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>getProductBySearch</servlet-name>
+    <servlet-class>servlets.getAllProductBySearchServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getProductBySearch</servlet-name>
+    <url-pattern>/getProductSearch</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>getAllAdmins</servlet-name>
+    <servlet-class>servlets.getAllAdminServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getAllAdmins</servlet-name>
+    <url-pattern>/getAdmins</url-pattern>
+  </servlet-mapping>
 </web-app>
