@@ -321,4 +321,12 @@
     <servlet-name>getAllAdmins</servlet-name>
     <url-pattern>/getAdmins</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>getAllBuyOrders</servlet-name>
+    <servlet-class>servlets.getAllBuyOrderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getAllBuyOrders</servlet-name>
+    <url-pattern>/getAllOrders</url-pattern>
+  </servlet-mapping>
 </web-app>

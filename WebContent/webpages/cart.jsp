@@ -27,52 +27,47 @@
 				<%
 					double totalPrice = 0.00;
 				int amountOfProduct = 0;
-				Class.forName("com.mysql.jdbc.Driver");
 				boolean notEnoughStock = false;
-				try {
-					Connection connDup = DriverManager.getConnection(connURL);
-					ResultSet rs = fetchUserCart(userId, connDup);//Fetches everything in user cart
-
-					while (rs.next()) {
-						int productId = rs.getInt("product.id");
-						String productName = rs.getString("product.productName");
-						double buyPrice = rs.getDouble("buyPrice");
-						int qty = rs.getInt("product.qty");
-						String imgURL = rs.getString("product.imgURL");
-						int cartId = rs.getInt("cart.id");//used to delete cart items
-						int cartQty = rs.getInt("cart.qty");
-						totalPrice += cartQty * buyPrice;
-						amountOfProduct++;
-						if (cartQty > qty) {
-							notEnoughStock = true;
-						}
-						out.println("<div class=\"indiCartItem row\"><div class=\"col-4\">");
-						out.println("<a href=\"listing.jsp?id=" + productId
-						+ "\" class=\"text-decoration-none\"><img class=\"img-fluid\" src=\"../images/" + imgURL + "\"></a>");
-						out.println("</div>");
-						String removeIcon = "<a href=\"../deleteCart?cartId=" + cartId
-						+ "\"><img src=\"../images/removeIcon.png\" class=\"trashImg img-fluid\" alt=\"removeIcon.png\"></a>";
-						out.println("<div class=\"col-8\"><h4><a href=\"listing.jsp?id=" + productId
-						+ "\" class=\"text-decoration-none text-reset\">" + productName + "</a>" + removeIcon + "</h4>");
-						out.println(
-						"<span class=\"text-warning font-weight-bold\">" + String.format("%.2f", buyPrice) + " SGD</span><br>");
-						if (qty < 5) {
-							out.println("Stock: <span class=\"badge badge-danger\">" + qty + "</span>");
-						} else if (qty < 15) {
-							out.println("Stock: <span class=\"badge badge-warning\">" + qty + "</span>");
-						} else {
-							out.println("Stock: <span class=\"badge badge-success\">" + qty + "</span>");
-						}
-						out.println("<br>Requested Qty: " + cartQty + "<br>");
-						out.println("<p class=\"text-right font-weight-bold text-primary\">Subtotal: "
-						+ String.format("%.2f", cartQty * buyPrice) + " SGD</p>");
-						out.println("</div>");
-						out.println("</div><hr>");//closes row
+				request.getRequestDispatcher("../cartDetails").include(request, response);
+				ArrayList<cart> fetchedCarts = (ArrayList<cart>) request.getAttribute("carts");
+				ArrayList<product> fetchedProducts = (ArrayList<product>) request.getAttribute("products");
+				for(int i = 0; i < fetchedCarts.size();i++){
+					int productId = fetchedProducts.get(i).getId();
+					String productName = fetchedProducts.get(i).getProductName();
+					double buyPrice = fetchedProducts.get(i).getBuyPrice();
+					int qty = fetchedProducts.get(i).getQty();
+					String imgURL = fetchedProducts.get(i).getImgURL();
+					int cartId = fetchedCarts.get(i).getId();//used to delete cart items
+					int cartQty = fetchedCarts.get(i).getQty();
+					totalPrice += cartQty * buyPrice;
+					amountOfProduct++;
+					if (cartQty > qty) {
+						notEnoughStock = true;
 					}
-					connDup.close();
-				} catch (Exception e) {
-					out.println(e);
+					out.println("<div class=\"indiCartItem row\"><div class=\"col-4\">");
+					out.println("<a href=\"listing.jsp?id=" + productId
+					+ "\" class=\"text-decoration-none\"><img class=\"img-fluid\" src=\"../images/" + imgURL + "\"></a>");
+					out.println("</div>");
+					String removeIcon = "<a href=\"../deleteCart?cartId=" + cartId
+					+ "\"><img src=\"../images/removeIcon.png\" class=\"trashImg img-fluid\" alt=\"removeIcon.png\"></a>";
+					out.println("<div class=\"col-8\"><h4><a href=\"listing.jsp?id=" + productId
+					+ "\" class=\"text-decoration-none text-reset\">" + productName + "</a>" + removeIcon + "</h4>");
+					out.println(
+					"<span class=\"text-warning font-weight-bold\">" + String.format("%.2f", buyPrice) + " SGD</span><br>");
+					if (qty < 5) {
+						out.println("Stock: <span class=\"badge badge-danger\">" + qty + "</span>");
+					} else if (qty < 15) {
+						out.println("Stock: <span class=\"badge badge-warning\">" + qty + "</span>");
+					} else {
+						out.println("Stock: <span class=\"badge badge-success\">" + qty + "</span>");
+					}
+					out.println("<br>Requested Qty: " + cartQty + "<br>");
+					out.println("<p class=\"text-right font-weight-bold text-primary\">Subtotal: "
+					+ String.format("%.2f", cartQty * buyPrice) + " SGD</p>");
+					out.println("</div>");
+					out.println("</div><hr>");//closes row
 				}
+				
 				%>
 				<%
 					if (amountOfProduct == 0) {

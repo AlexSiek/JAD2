@@ -20,6 +20,33 @@ import org.json.JSONObject;
  
 public class buyorderService {
 	
+	public ArrayList<purchaseHistory> getAllBuyOrder(){
+		dbAccess dbConnection = new dbAccess();
+		ArrayList<purchaseHistory> fetchedOrders = new ArrayList<purchaseHistory>();
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+		    Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
+			Statement stmt = conn.createStatement();
+			String sqlStr = "SELECT * FROM buyOrder b INNER JOIN product p WHERE b.productId = p.id";
+			ResultSet rs = stmt.executeQuery(sqlStr);
+		    while(rs.next()){
+		    	purchaseHistory fetchedOrder = new purchaseHistory();
+		    	fetchedOrder.setOrderStatus(rs.getInt("b.orderStatus"));
+		    	fetchedOrder.setId(rs.getInt("p.id"));
+		    	fetchedOrder.setProductName(rs.getString("p.productName"));
+		    	fetchedOrder.setMSPR(rs.getDouble("p.MSRP"));
+		    	fetchedOrder.setBuyPrice(rs.getDouble("p.buyPrice"));
+		    	fetchedOrder.setQty(rs.getInt("b.qty"));
+		        fetchedOrders.add(fetchedOrder);
+		    }
+	        conn.close();
+		    return fetchedOrders;
+		}catch(Exception e){
+		    System.out.println("Error: "+e);
+		    return null;
+		}
+	}
+	
 	public int updateInDeliveryOrder(int id) {
 		dbAccess dbConnection = new dbAccess();
 		try {

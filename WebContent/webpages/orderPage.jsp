@@ -29,22 +29,19 @@ String currentTable = request.getParameter("table");
 	int orderStatus;
 	int productId;
 	double profit = 0.00;
-	Connection conn = DriverManager.getConnection(connURL);
-	ResultSet rs = getOrders(conn);
-	while (rs.next()) {
-		orderStatus = rs.getInt("orderStatus");
-		productId = rs.getInt("productId");
-		if (orderStatus == 1) {
+	request.getRequestDispatcher("../getAllOrders").include(request, response);
+	ArrayList<purchaseHistory> fetchedOrders = (ArrayList<purchaseHistory>) request.getAttribute("fetchOrders");
+	for(int i = 0; i < fetchedOrders.size();i++){
+		if(fetchedOrders.get(i).getOrderStatus() == 1){
 			pendingOrders++;
-		} else if (orderStatus == 2) {
+		}else if(fetchedOrders.get(i).getOrderStatus() == 2){
 			inDelivery++;
-		} else {
+		}else{
 			delivered++;
 		}
-		Connection secondConn = DriverManager.getConnection(connURL);
-		profit += getProfitFromProduct(productId, secondConn, connURL);
+		profit += ((fetchedOrders.get(i).getBuyPrice() - fetchedOrders.get(i).getMSPR()) * fetchedOrders.get(i).getQty());
 	}
-	conn.close();
+	
 	%>
 	<div class="container-fluid">
 		<div class="row storeViewRow">
@@ -348,34 +345,3 @@ String currentTable = request.getParameter("table");
 	%>
 </body>
 </html>
-<%!private ResultSet getOrders(Connection conn) {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Statement stmt = conn.createStatement();
-			String sqlStr = "SELECT * FROM buyOrder";
-			ResultSet rs = stmt.executeQuery(sqlStr);
-			return rs;
-		} catch (Exception e) {
-			System.err.println("Error :" + e);
-		}
-		return null;
-	}
-
-	private double getProfitFromProduct(int productId, Connection secondConn, String connURL) {//Fetches specific product to get the profit from order
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			String sqlStr = "SELECT buyPrice,MSRP FROM product WHERE id =" + productId;
-			Statement stmt = secondConn.createStatement();
-			ResultSet rs = stmt.executeQuery(sqlStr);
-			if (rs.next()) {
-				double MSRP = rs.getDouble("MSRP");
-				double price = rs.getDouble("buyPrice");
-				double profit = price - MSRP;
-				secondConn.close();
-				return profit;
-			}
-		} catch (Exception e) {
-			System.err.println("Error :" + e);
-		}
-		return 0;
-	}%>
