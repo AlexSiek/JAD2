@@ -105,13 +105,13 @@ public class editProductServlet extends HttpServlet {
 						}
 						if (productName.equals("") || vendor.equals("") || vendor.equals("") || pdtDesc.equals("") || imgURL.equals("")
 								|| categoryId == 0 || productId == 0) {
-							response.sendRedirect("webpages/createproduct.jsp?err=mField");
+							response.sendRedirect("webpages/editlisting.jsp?id="+productId+"&err=mField");
 						} else if (qty <= 0) {
-							response.sendRedirect("webpages/createproduct.jsp?err=invalidQty");
+							response.sendRedirect("webpages/editlisting.jsp?id="+productId+"&err=invalidQty");
 						} else if (price <= 0) {
-							response.sendRedirect("webpages/createproduct.jsp?err=invalidPrice");
+							response.sendRedirect("webpages/editlisting.jsp?id="+productId+"&err=invalidPrice");
 						} else if (MSRP <= 0) {
-							response.sendRedirect("webpages/createproduct.jsp?err=invalidMSRP");
+							response.sendRedirect("webpages/editlisting.jsp?id="+productId+"&err=invalidMSRP");
 						} else {
 							productService productService = new productService();
 							int code = productService.updateProduct(productId, categoryId, productName, vendor, pdtDesc,

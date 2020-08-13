@@ -140,6 +140,7 @@ public class productService {
 				returnedProduct.setPdtDesc(rs.getString("pdtDesc"));
 				returnedProduct.setProductName(rs.getString("productName"));
 				returnedProduct.setMSPR(rs.getDouble("MSRP"));
+				returnedProduct.setId(rs.getInt("id"));
 				return returnedProduct;
 			}else {
 				return null;
