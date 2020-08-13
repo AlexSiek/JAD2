@@ -175,7 +175,7 @@ public class cartService {
 	}
 
 	public int checkoutCart(int id, String addressline1, String addressline2, int postalCode, long creditCardNumber,
-			int csv, int expDate) {
+			String csv, String expDate) {
 		dbAccess dbConnection = new dbAccess();
 		int productId, qty, cartId, cartQty, newQty;
 		int notEnoughId = 0;// used to store productId of product without enough qty
@@ -206,18 +206,9 @@ public class cartService {
 					sqlStr = "SELECT product.id,product.qty,cart.id,cart.qty FROM cart INNER JOIN product ON cart.productId=product.Id AND cart.userId ="
 							+ id;
 					ResultSet rs2 = stmt.executeQuery(sqlStr);
-					Connection connDup2 = DriverManager.getConnection(dbConnection.getConnURL());// creating a second
-																									// connection as
-																									// first connection
-																									// is used for
-																									// result set which
-																									// will close if
-																									// another
-																									// connection would
-																									// use it
+					Connection connDup2 = DriverManager.getConnection(dbConnection.getConnURL());
 					Statement stmt2 = conn.createStatement();
-					String updtstr, intStr;// updtstr for updating cart and product table intStr for inserting buyOrder
-											// table;
+					String updtstr, intStr;
 					while (rs2.next()) {
 						productId = rs2.getInt("product.id");
 						qty = rs2.getInt("product.qty");
@@ -225,16 +216,9 @@ public class cartService {
 						cartQty = rs2.getInt("cart.qty");
 						newQty = qty - cartQty;// new amount qty, used to update product table
 
-						updtstr = "UPDATE product SET qty=" + newQty + " WHERE id='" + productId + "'";// updating
-																										// products
-																										// table
+						updtstr = "UPDATE product SET qty=" + newQty + " WHERE id='" + productId + "'";
 						stmt2.executeUpdate(updtstr);
-
-						intStr = "INSERT INTO buyorder (productId,userId,qty,orderStatus,addressline1,addressline2,postalCode,creditCardNumber,csv,expDate) VALUES (?,?,?,?,?,?,?,?,?,?)";// inserting
-																																															// order
-																																															// into
-																																															// buyorder
-																																															// Table
+						intStr = "INSERT INTO buyorder (productId,userId,qty,orderStatus,addressline1,addressline2,postalCode,creditCardNumber,csv,expDate) VALUES (?,?,?,?,?,?,?,?,?,?)";
 						PreparedStatement pstmt = connDup2.prepareStatement(intStr);
 						pstmt.setInt(1, productId);
 						pstmt.setInt(2, id);
@@ -244,8 +228,8 @@ public class cartService {
 						pstmt.setString(6, addressline2);
 						pstmt.setInt(7, postalCode);
 						pstmt.setLong(8, creditCardNumber);
-						pstmt.setInt(9, csv);
-						pstmt.setInt(10, expDate);
+						pstmt.setString(9, csv);
+						pstmt.setString(10, expDate);
 						pstmt.executeUpdate();
 
 						updtstr = "DELETE FROM cart WHERE id =" + cartId;// Deleting Cart Row

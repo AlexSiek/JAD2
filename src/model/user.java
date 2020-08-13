@@ -11,8 +11,8 @@ public class user {
 	private String addressline2;
 	private int postalCode;
 	private long creditCardNumber;
-	private int csv;
-	private int expDate;
+	private String csv;
+	private String expDate;
 	public int getId() {
 		return id;
 	}
@@ -73,16 +73,16 @@ public class user {
 	public void setCreditCardNumber(long creditCardNumber) {
 		this.creditCardNumber = creditCardNumber;
 	}
-	public int getCsv() {
+	public String getCsv() {
 		return csv;
 	}
-	public void setCsv(int csv) {
+	public void setCsv(String csv) {
 		this.csv = csv;
 	}
-	public int getExpDate() {
+	public String getExpDate() {
 		return expDate;
 	}
-	public void setExpDate(int expDate) {
+	public void setExpDate(String expDate) {
 		this.expDate = expDate;
 	}
 }

@@ -175,8 +175,8 @@ public class userService {
 		        fetchedUser.setMobileNumber(rs.getInt("mobileNumber"));
 		        fetchedUser.setPostalCode(rs.getInt("postalCode"));
 		        fetchedUser.setCreditCardNumber(rs.getLong("creditCardNumber"));
-		        fetchedUser.setCsv(rs.getInt("csv"));
-		        fetchedUser.setExpDate(rs.getInt("expDate"));
+		        fetchedUser.setCsv(rs.getString("csv"));
+		        fetchedUser.setExpDate(rs.getString("expDate"));
 		        conn.close();
 		    }else{
 		        conn.close();
@@ -224,8 +224,8 @@ public class userService {
 		        fetchedUser.setMobileNumber(rs.getInt("mobileNumber"));
 		        fetchedUser.setPostalCode(rs.getInt("postalCode"));
 		        fetchedUser.setCreditCardNumber(rs.getLong("creditCardNumber"));
-		        fetchedUser.setCsv(rs.getInt("csv"));
-		        fetchedUser.setExpDate(rs.getInt("expDate"));
+		        fetchedUser.setCsv(rs.getString("csv"));
+		        fetchedUser.setExpDate(rs.getString("expDate"));
 		        fetchedUsers.add(fetchedUser);
 			}
 			conn.close();
@@ -285,7 +285,7 @@ public class userService {
 		}
 	}
 	
-	public int updateUserCard(Long creditCardNumber,int csv,int id,int expDate) throws JSONException {
+	public int updateUserCard(Long creditCardNumber,String csv,int id,String expDate) throws JSONException {
 		dbAccess dbConnection = new dbAccess();
 		String code = "";
 		try {
@@ -293,8 +293,8 @@ public class userService {
 			Connection conn = DriverManager.getConnection(dbConnection.getConnURL());
 			PreparedStatement ps  = conn.prepareStatement("UPDATE user SET creditCardNumber=?,csv=? ,expDate=? WHERE id=?");
 			ps.setLong(1,creditCardNumber);
-			ps.setInt(2,csv);
-			ps.setInt(3,expDate);
+			ps.setString(2,csv);
+			ps.setString(3,expDate);
 			ps.setInt(4,id);
 			try{
 				ps.executeUpdate();

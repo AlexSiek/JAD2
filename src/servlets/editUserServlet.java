@@ -98,7 +98,7 @@ public class editUserServlet extends HttpServlet {
 							
 							
 							if(expMonth <= 12) {
-								userService.updateUserCard(creditCardNum, csv, id, expDate);
+								userService.updateUserCard(creditCardNum, request.getParameter("csv"), id, request.getParameter("expDate"));
 							}else {
 								response.sendRedirect("webpages/profile.jsp?err=invalidExpDate");
 							}

@@ -62,14 +62,13 @@
 								<div class="col">
 									<label for="creditcard">CSV</label> <input type="number"
 										class="form-control" id="csv" name="csv"
-										aria-describedby="creditcard" placeholder="999" max="999"
-										min="100" value="<% if (currentUser.getCsv() == 0) {s = "";} else {s = String.valueOf(currentUser.getCsv());}%><%=s%>" required>
+										aria-describedby="creditcard" placeholder="999" max="999" value="<% if (currentUser.getCsv() == null) {s = "";} else {s = currentUser.getCsv();}%><%=s%>" required>
 								</div>
 								<div class="col">
 									<label for="creditcard">Expiry Date</label> <input type="number"
 										class="form-control" id="expDate" name="expDate"
 										aria-describedby="creditcard" placeholder="MM/YY"
-										value="<% if (currentUser.getExpDate() == 0) {s = "";} else {s = String.valueOf(currentUser.getExpDate());}%><%=s%>" required>
+										value="<% if (currentUser.getExpDate() == null) {s = "";} else {s = currentUser.getExpDate();}%><%=s%>" required>
 								</div>
 							</div>
 							<small id="checkboxLabel" class="form-text text-muted">

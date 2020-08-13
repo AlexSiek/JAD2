@@ -81,7 +81,7 @@ public class cartDetailsServlet extends HttpServlet {
 				System.out.print(creditCardNumber.length());
 				System.out.print(String.valueOf(csv).length());
 				System.out.print(expMonth);
-				if (expMonth <= 12 && creditCardNumber.length() == 16 && String.valueOf(csv).length() == 3) {// Verify expDate is valid
+				if (expMonth <= 12 && creditCardNumber.length() == 16 && request.getParameter("csv").length() == 3) {// Verify expDate is valid
 					Long creditCardNumberLong = Long.parseLong(creditCardNumber);
 					if (addressLine1 != null && addressLine2 != null && String.valueOf(postalCode).length() == 6) {
 
@@ -93,12 +93,12 @@ public class cartDetailsServlet extends HttpServlet {
 
 						if (rememberCard != null) {// if card checkbox is ticked
 							userService userService = new userService();
-							userService.updateUserCard(creditCardNumberLong, csv, (int) session.getAttribute("id"),
-									expDate);
+							userService.updateUserCard(creditCardNumberLong, request.getParameter("csv"), (int) session.getAttribute("id"),
+									request.getParameter("expDate"));
 						}
 						
 						cartService checkoutCartService = new cartService();
-						int successCheckout = checkoutCartService.checkoutCart((int) session.getAttribute("id"), addressLine1, addressLine2, postalCode, creditCardNumberLong, csv, expDate);
+						int successCheckout = checkoutCartService.checkoutCart((int) session.getAttribute("id"), addressLine1, addressLine2, postalCode, creditCardNumberLong, request.getParameter("csv"),request.getParameter("expDate"));
 						if(successCheckout == 0) {
 							response.sendRedirect("checkout");
 						}else if(successCheckout == -1) {
