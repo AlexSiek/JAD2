@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1" errorPage="error.jsp"%>
 <%@ page import="model.purchaseHistory,model.product,model.category"%>
 <%@ page import="java.util.ArrayList"%>
 <jsp:useBean id="purchases" class="model.purchaseHistory" />

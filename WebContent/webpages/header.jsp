@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@page import="java.sql.*"%>
+	pageEncoding="ISO-8859-1" errorPage="error.jsp"%>
 <%@ page import="model.category,model.product,model.user,model.cart,model.buyorder"%>
 <%@ page import="java.util.ArrayList"%>
 <jsp:useBean id="categories" class="model.category" />
@@ -8,7 +7,6 @@
 <jsp:useBean id="user" class="model.user" />
 <jsp:useBean id="cart" class="model.cart" />
 <jsp:useBean id="buyorder" class="model.buyorder" />
-<%@ include file="../dbaccess/dbDetails.jsp"%>
 <link rel="stylesheet" href="../css/header.css">
 <%@ include file="../css/bootstrap/importBSnJQ.jsp"%>
 <%//Reading session

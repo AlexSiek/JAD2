@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1" errorPage="error.jsp"%>
 <%@ page import="model.purchaseHistory"%>
 <%@ page import="java.util.ArrayList"%>
 <jsp:useBean id="purchaseHistory" class="model.purchaseHistory" />
@@ -21,7 +21,6 @@
 		<div class="row titleRow">Top Weekly Sellers</div>
 		<div class="row">
 			<%
-			Connection conn = DriverManager.getConnection(connURL);
 				request.getRequestDispatcher("../topPurchases").include(request, response);
 			ArrayList<purchaseHistory> fetchedTopProducts = (ArrayList<purchaseHistory>) request.getAttribute("topProducts");
 			int limit = 4;

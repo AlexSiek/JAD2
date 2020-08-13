@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@page import="java.sql.*"%>
+	pageEncoding="ISO-8859-1" errorPage="error.jsp"%>
 <%@ page import="model.category"%>
 <jsp:useBean id="categories" class="model.category" />
-<%@ include file="../dbaccess/dbDetails.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>

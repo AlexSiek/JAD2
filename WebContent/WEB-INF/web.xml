@@ -329,4 +329,7 @@
     <servlet-name>getAllBuyOrders</servlet-name>
     <url-pattern>/getAllOrders</url-pattern>
   </servlet-mapping>
+  <error-page>
+    <location>/webpages/error.jsp</location>
+</error-page>
 </web-app>

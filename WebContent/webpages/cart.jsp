@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1" errorPage="error.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -122,15 +122,3 @@
 	<%@ include file="footer.html"%>
 </body>
 </html>
-<%!private ResultSet fetchUserCart(int userId, Connection conn) {
-	try {
-		PreparedStatement pstmt = conn.prepareStatement(
-				"SELECT product.id,product.productName,product.qty,product.buyPrice,product.imgURL,cart.id,cart.qty FROM cart INNER JOIN product ON cart.productId=product.Id AND cart.userId = ?");
-		pstmt.setInt(1, userId);
-		ResultSet rs = pstmt.executeQuery();
-		return rs;
-	} catch (Exception e) {
-		System.out.println(e);
-	}
-	return null;
-}%>

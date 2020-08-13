@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1" errorPage="error.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +10,6 @@
 <body>
 	<%@ include file="header.jsp"%>
 	<%
-	Connection conn = DriverManager.getConnection(connURL);
 		//check for successful updates
 	String success = request.getParameter("success");
 	String appendedHTML = "";

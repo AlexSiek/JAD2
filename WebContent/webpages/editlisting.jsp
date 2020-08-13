@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1" errorPage="error.jsp"%>
 <%@page import="java.sql.*"%>
 <!DOCTYPE html>
 <%
@@ -29,7 +29,6 @@
 <body>
 	<%@ include file="header.jsp"%>
 	<%
-	Connection conn = DriverManager.getConnection(connURL);
 		if (type == null || !type.equals("Admin")) {
 			response.sendRedirect("forbidden.jsp");
 		}

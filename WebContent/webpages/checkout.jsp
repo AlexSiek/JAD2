@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1" errorPage="error.jsp"%>
 <%@ page import="javax.ws.rs.core.Response"%>
 <!DOCTYPE html>
 <html>
@@ -11,7 +11,6 @@
 <body>
 	<%@ include file="header.jsp"%>
 	<%
-	Connection conn = DriverManager.getConnection(connURL);
 		//Fetching get request from servlet
 	request.getRequestDispatcher("../cartDetails").include(request, response);
 	ArrayList<cart> fetchedCarts = (ArrayList<cart>) request.getAttribute("carts");

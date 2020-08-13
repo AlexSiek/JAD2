@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1" errorPage="error.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,8 +11,6 @@
 <body>
 	<%@ include file="header.jsp"%>
 	<%
-	
-	Connection conn = DriverManager.getConnection(connURL);
 	int categoryid = 0;
 	try {
 		categoryid = Integer.parseInt(request.getParameter("category"));

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1" errorPage="error.jsp"%>
 <%@page import="java.sql.*"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +12,6 @@
 <body>
 	<%@ include file="header.jsp"%>
 	<%
-	Connection conn = DriverManager.getConnection(connURL);
 	String searchQuery = request.getParameter("searchQuery");
 	%>
 	<div class="productArea container">

@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1" errorPage="error.jsp"%>
 <%@page import="java.sql.*"%>
 <%@ page import="model.purchaseHistory"%>
 <%@ page import="java.util.ArrayList"%>
 <jsp:useBean id="orders" class="model.purchaseHistory" />
-<%@ include file="../dbaccess/dbDetails.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
