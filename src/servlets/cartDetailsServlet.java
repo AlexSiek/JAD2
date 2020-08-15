@@ -94,7 +94,7 @@ public class cartDetailsServlet extends HttpServlet {
 						if (rememberCard != null) {// if card checkbox is ticked
 							userService userService = new userService();
 							userService.updateUserCard(creditCardNumberLong, request.getParameter("csv"), (int) session.getAttribute("id"),
-									request.getParameter("expDate"));
+									request.getParameter("expDate"))	;
 						}
 						
 						cartService checkoutCartService = new cartService();

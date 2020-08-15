@@ -36,14 +36,14 @@ if (type == null || !type.equals("Admin")) {
 				<div class="timeFilterDropdown">
 					<div class="form-group">
 						<select class="form-control" id="selectFormControl"
-							onchange="changeLocationFilters('filterby',this.value);">
-							<option value="0"
+							onchange="location = this.value">
+							<option value="http://localhost:8080/JADCA2/webpages/customermanagement.jsp?filterby=0"
 								<%if (request.getParameter("filterby") == null || Integer.parseInt(request.getParameter("filterby")) > 5 || Integer.parseInt(request.getParameter("filterby")) < 1) out.println("selected");%>disabled>Sort by...</option>
-							<option value="1"
+							<option value="http://localhost:8080/JADCA2/webpages/customermanagement.jsp?filterby=1"
 								<%if (request.getParameter("filterby") != null && request.getParameter("filterby").equals("1")) out.println("selected");%>>Name</option>
-							<option value="2"
+							<option value="http://localhost:8080/JADCA2/webpages/customermanagement.jsp?filterby=2"
 								<%if (request.getParameter("filterby") != null && request.getParameter("filterby").equals("2")) out.println("selected");%>>Address</option>
-							<option value="3"<%if (request.getParameter("filterby") != null && request.getParameter("filterby").equals("3")) out.println("selected");%>>Mobile Number</option>
+							<option value="http://localhost:8080/JADCA2/webpages/customermanagement.jsp?filterby=3"<%if (request.getParameter("filterby") != null && request.getParameter("filterby").equals("3")) out.println("selected");%>>Mobile Number</option>
 						</select>
 					</div>
 				</div>
