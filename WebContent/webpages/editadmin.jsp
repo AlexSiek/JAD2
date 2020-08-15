@@ -34,6 +34,9 @@ if (type == null || !type.equals("Root")) {
 			id = Integer.parseInt(request.getParameter("id"));
 			request.getRequestDispatcher("../getAdminWithId?id="+id).include(request, response);
 			fetchedAdmin = (user) request.getAttribute("fetchedAdmin");
+			if(fetchedAdmin.getType().equals("Root")){
+				response.sendRedirect("error.jsp");
+			}
 		} catch (Exception e) {
 			System.out.println("Error: "+e);
 		}

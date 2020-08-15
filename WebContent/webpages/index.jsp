@@ -21,6 +21,9 @@
 		<div class="row titleRow">Top Weekly Sellers</div>
 		<div class="row">
 			<%
+			if(type.equals("Root")){
+				response.sendRedirect("viewadmins.jsp");
+			}
 				request.getRequestDispatcher("../topPurchases").include(request, response);
 			ArrayList<purchaseHistory> fetchedTopProducts = (ArrayList<purchaseHistory>) request.getAttribute("topProducts");
 			int limit = 4;
