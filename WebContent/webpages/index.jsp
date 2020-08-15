@@ -21,7 +21,7 @@
 		<div class="row titleRow">Top Weekly Sellers</div>
 		<div class="row">
 			<%
-			if(type.equals("Root")){
+			if(type != null && type.equals("Root")){
 				response.sendRedirect("viewadmins.jsp");
 			}
 				request.getRequestDispatcher("../topPurchases").include(request, response);
